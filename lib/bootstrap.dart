@@ -4,9 +4,7 @@ import 'dart:developer';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:matchfee/home/home.dart';
 import 'package:matchfee/matches/matches.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -53,29 +51,12 @@ Future<void> _setupHydratedBloc(Widget child) async {
   );
 
   return HydratedBlocOverrides.runZoned(
-    () async {
-      final client = Client();
-
-      return runApp(
-        RepositoryProvider<HomeRepository>(
-          create: (context) => HomeRepository(client: client),
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider<MatchesCubit>(
-                create: (context) => MatchesCubit(),
-              ),
-              BlocProvider<HomeBloc>(
-                create: (context) => HomeBloc(
-                  homeRepository: context.read<HomeRepository>(),
-                  matchesCubit: context.read<MatchesCubit>(),
-                ),
-              ),
-            ],
-            child: child,
-          ),
-        ),
-      );
-    },
+    () async => runApp(
+      BlocProvider<MatchesCubit>(
+        create: (_) => MatchesCubit(),
+        child: child,
+      ),
+    ),
     storage: storage,
   );
 }

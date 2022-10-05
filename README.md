@@ -45,12 +45,23 @@ $ flutter test --coverage --test-randomize-ordering-seed random
 
 To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
 
+Install lcov
+
+```sh
+$ brew install lcov
+```
+
 ```sh
 # Generate Coverage Report
 $ genhtml coverage/lcov.info -o coverage/
 
 # Open Coverage Report
 $ open coverage/index.html
+```
+
+Everything together:
+```sh
+$ flutter test --coverage --test-randomize-ordering-seed random && genhtml coverage/lcov.info -o coverage/ && open coverage/index.html
 ```
 
 ---

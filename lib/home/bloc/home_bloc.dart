@@ -28,11 +28,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   // We initialize the app with two photos in the stack
   Future<void> _init() async {
     try {
-      final photos = await _homeRepository.getCoffeeImages(2);
+      final photos = await _homeRepository.getCoffeeImages(3);
 
       add(HomeStartEvent(photos));
     } catch (e) {
-      // emit error
+      // TODO(carlito): emit error
     }
   }
 
@@ -51,15 +51,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState?> emit,
   ) async {
     if (photoStack.length > 1) {
-      photoStack.removeAt(0);
       if (event.liked == true) {
         final path = await _homeRepository.saveImageToDevice(event.image);
         _matchesCubit.addMatch(path);
       }
 
       final photos = await _homeRepository.getCoffeeImages(1);
-      photoStack.addAll(photos);
+      photoStack
+        ..addAll(photos)
+        ..removeAt(0);
 
+      emit(const HomeLoading());
       emit(HomeLoaded(photoStack));
     } else {
       emit(HomeError(Exception('Could not load more images')));

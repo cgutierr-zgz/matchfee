@@ -30,22 +30,26 @@ class BottomHomeRow extends StatelessWidget {
             BottomItem(
               icon: Icons.close_rounded,
               color: Colors.red,
-              onPressed: () => context.read<HomeBloc>().add(
-                    LikeHomeEvent(
-                      image: state.images.first,
-                      liked: false,
-                    ),
-                  ),
+              onPressed: () {
+                context.read<HomeBloc>().add(
+                      LikeHomeEvent(
+                        image: state.images.first,
+                        liked: false,
+                      ),
+                    );
+              },
             ),
             BottomItem(
               icon: Icons.favorite_rounded,
               color: Colors.green,
-              onPressed: () => context.read<HomeBloc>().add(
-                    LikeHomeEvent(
-                      image: state.images.first,
-                      liked: true,
-                    ),
-                  ),
+              onPressed: () {
+                context.read<HomeBloc>().add(
+                      LikeHomeEvent(
+                        image: state.images.first,
+                        liked: true,
+                      ),
+                    );
+              },
             ),
             BottomItem.small(
               icon: Icons.star_rounded,

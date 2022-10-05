@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -30,8 +29,6 @@ class BottomItem extends StatefulWidget {
 class _BottomItemState extends State<BottomItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
-  late Timer timer;
-  late final ValueNotifier<bool> isEnabled;
 
   @override
   void initState() {
@@ -40,7 +37,6 @@ class _BottomItemState extends State<BottomItem>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    isEnabled = ValueNotifier<bool>(true);
   }
 
   void playAnimation() => animationController.forward(from: 0);
@@ -65,17 +61,10 @@ class _BottomItemState extends State<BottomItem>
       child: MaterialButton(
         height: widget.size,
         // TODO(c): add this on tapdown to make it more responsive
-        onPressed: isEnabled.value
-            ? () {
-                isEnabled.value = false;
-                playAnimation();
-                widget.onPressed?.call();
-                timer = Timer(
-                  const Duration(milliseconds: 250),
-                  () => isEnabled.value = true,
-                );
-              }
-            : null,
+        onPressed: () {
+          playAnimation();
+          widget.onPressed?.call();
+        },
         padding: EdgeInsets.zero,
         shape: const CircleBorder(),
         child: Icon(
