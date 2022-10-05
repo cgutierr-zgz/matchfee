@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:matchfee/match/cubit/match_cubit.dart';
+import 'package:matchfee/match/match.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AppBlocObserver extends BlocObserver {
@@ -52,9 +52,14 @@ Future<void> _setupHydratedBloc(Widget child) async {
 
   return HydratedBlocOverrides.runZoned(
     () async => runApp(
-      BlocProvider<MatchCubit>(
-        create: (context) => MatchCubit(),
-        child: child,
+      RepositoryProvider<MatchRepository>(
+        create: (context) => const MatchRepository(),
+        child: BlocProvider<MatchBloc>(
+          create: (context) => MatchBloc(
+            matchRepository: context.read<MatchRepository>(),
+          ),
+          child: child,
+        ),
       ),
     ),
     storage: storage,

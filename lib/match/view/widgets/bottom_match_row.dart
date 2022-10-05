@@ -13,27 +13,23 @@ class BottomMatchRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Spacer(),
-        BottomItem(
+        BottomItem.small(
           icon: Icons.undo_rounded,
-          size: 50,
           color: Colors.yellow,
           onPressed: () {},
         ),
         BottomItem(
           icon: Icons.close_rounded,
-          size: 70,
           color: Colors.red,
           onPressed: () {},
         ),
         BottomItem(
           icon: Icons.favorite_rounded,
-          size: 70,
           color: Colors.green,
           onPressed: () {},
         ),
-        BottomItem(
+        BottomItem.small(
           icon: Icons.star_rounded,
-          size: 50,
           color: Colors.blue,
           onPressed: () {},
         ),

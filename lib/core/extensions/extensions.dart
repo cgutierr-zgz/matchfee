@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 export 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// {@template l10n_extension}
-/// Grants access to the [AppLocalizations] instance.
+/// Grants access to the [AppLocalizations] instance based on the given context.
 ///
 /// Usage:
 /// ```dart
@@ -17,7 +17,7 @@ extension AppLocalizationsX on BuildContext {
 }
 
 /// {@template theme_extension}
-/// Grants access to theme based on current context
+/// Grants access to [ThemeData] based on given context
 ///
 /// Usage:
 /// ```dart
@@ -31,7 +31,7 @@ extension ThemeDataX on BuildContext {
 
 /// {@template joined_widgets}
 /// Adds a specific type of [Widget] in between a list of Widgets
-/// It defaults to [SizedBox] with a width and height of 24
+/// It defaults to [SizedBox(height: 24, width: 24)]
 /// This can be usefull to add some height in between Widgets
 /// without the need of writing it multiple times
 ///
@@ -45,7 +45,7 @@ extension ThemeDataX on BuildContext {
 /// {@endtemplate}
 extension JoinedWidgetsX on List<Widget> {
   /// {@macro joined_widgets}
-  List<Widget> joinWith(Widget? separator) {
+  List<Widget> joinWith([Widget? separator]) {
     return length > 1
         ? (take(length - 1)
             .map(
@@ -59,14 +59,28 @@ extension JoinedWidgetsX on List<Widget> {
   }
 }
 
-/// Adds a padding widget on top of current widget
-/// Padding default is horizontal padding with 20
+/// {@template padded_widget}
+/// Adds a [Padding] [Widget] on top of the current [Widget]
+/// Default [Padding] is [EdgeInsets.symmetric(horizontal: 20)]
+///
+/// Example:
+/// ```dart
+/// Text("I'm getting padded'").padded(),
+/// Text("I'm also getting paddeed, but more!!").padded(
+///   EdgeInsets.symmetric(horizontal: 200), // :o
+/// );
+/// ```
+/// {@endtemplate}
 extension PaddedWidgetX on Widget {
+  void a() {
+    const Text("I'm also getting paddeed, but more!!").padded(
+      const EdgeInsets.symmetric(horizontal: 200),
+    );
+  }
+
+  /// {@macro padded_widget}
   Widget padded([EdgeInsets? padding]) => Padding(
-        padding: padding ??
-            const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
+        padding: padding ?? const EdgeInsets.symmetric(horizontal: 20),
         child: this,
       );
 }

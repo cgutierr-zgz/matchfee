@@ -4,10 +4,16 @@ class BottomItem extends StatelessWidget {
   const BottomItem({
     super.key,
     required this.icon,
-    required this.size,
     required this.color,
     this.onPressed,
-  }) : assert(size >= 50, 'Size must be greater than 50');
+  }) : size = 70;
+
+  const BottomItem.small({
+    super.key,
+    required this.icon,
+    required this.color,
+    this.onPressed,
+  }) : size = 50;
 
   final IconData icon;
   final double size;
