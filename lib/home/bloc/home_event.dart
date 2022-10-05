@@ -21,7 +21,7 @@ class HomeErrorEvent extends HomeEvent {
 class HomeStartEvent extends HomeEvent {
   const HomeStartEvent(this.images);
 
-  final List<String>? images;
+  final List<String> images;
 
   @override
   List<Object?> get props => [images];

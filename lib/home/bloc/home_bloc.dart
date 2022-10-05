@@ -40,9 +40,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeStartEvent event,
     Emitter<HomeState?> emit,
   ) {
-    if (event.images == null) emit(HomeError(Exception('No images')));
+    if (event.images.isEmpty) emit(HomeError(Exception('No images')));
 
-    photoStack = event.images!;
+    photoStack = event.images;
     emit(HomeLoaded(photoStack));
   }
 
