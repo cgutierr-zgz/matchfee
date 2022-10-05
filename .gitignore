@@ -125,3 +125,6 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
+
+# l10n.
+untranslated.txt

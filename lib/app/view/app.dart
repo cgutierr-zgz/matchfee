@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:matchfee/counter/counter.dart';
-import 'package:matchfee/l10n/l10n.dart';
+import 'package:matchfee/core/core.dart';
+import 'package:matchfee/match/match.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -10,6 +10,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        fontFamily: 'Lato',
         appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
         colorScheme: ColorScheme.fromSwatch(
           accentColor: const Color(0xFF13B9FF),
@@ -22,7 +23,7 @@ class App extends StatelessWidget {
         DefaultWidgetsLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const MatchPage(),
     );
   }
 }
