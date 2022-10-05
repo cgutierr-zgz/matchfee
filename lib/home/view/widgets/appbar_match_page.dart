@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matchfee/core/core.dart';
+import 'package:matchfee/matches/matches.dart';
 
 class AppBarMatchPage extends StatelessWidget implements PreferredSizeWidget {
   const AppBarMatchPage({super.key});
@@ -10,7 +11,7 @@ class AppBarMatchPage extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    
+
     return AppBar(
       backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
@@ -23,10 +24,10 @@ class AppBarMatchPage extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       centerTitle: true,
-      title: const AppBarTitle(),
+      title: const _AppBarTitle(),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () => context.push(const MatchesPage()),
           icon: const Icon(
             Icons.chat_bubble,
             color: Colors.grey,
@@ -37,29 +38,28 @@ class AppBarMatchPage extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-class AppBarTitle extends StatelessWidget {
-  const AppBarTitle({super.key});
+class _AppBarTitle extends StatelessWidget {
+  const _AppBarTitle();
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset('assets/images/logo.png', height: 30, width: 30),
-        const Text.rich(
+        Text.rich(
           TextSpan(
             text: 'Match',
             style: TextStyle(
-              color: Colors.grey,
+              color: Colors.grey.shade500,
               fontSize: 30,
             ),
-            children: [
+            children: const [
               TextSpan(
                 text: 'Fee',
                 style: TextStyle(
                   // TODO(c): find a good color for the (fee)
-                  color: Colors.red, //brown.shade400,
+                  color: Color(0xff6f4e37), //brown.shade400,
                   fontSize: 30,
                 ),
               ),

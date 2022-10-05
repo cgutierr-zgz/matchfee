@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:matchfee/core/core.dart';
-import 'package:matchfee/match/match.dart';
+import 'package:matchfee/home/home.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -23,7 +23,7 @@ class App extends StatelessWidget {
         DefaultWidgetsLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const MatchPage(),
+      home: const HomePage(),
     );
   }
 }

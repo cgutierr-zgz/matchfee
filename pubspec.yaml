@@ -12,9 +12,11 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_animate: ^1.0.0
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
+  http: ^0.13.5
   hydrated_bloc: ^8.1.0
   intl: ^0.17.0
   path_provider: ^2.0.11

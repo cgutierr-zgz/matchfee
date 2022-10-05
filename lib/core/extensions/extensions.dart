@@ -4,29 +4,40 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 export 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// {@template l10n_extension}
-/// Grants access to the [AppLocalizations] instance based on the given context.
-///
-/// Usage:
-/// ```dart
-/// final l10n = context.l10n;
-/// ```
+/// [BuildContextExtensionsX] is a list of extensions for [BuildContext].
 /// {@endtemplate}
-extension AppLocalizationsX on BuildContext {
+extension BuildContextExtensionsX on BuildContext {
+  /// Grants access to the [AppLocalizations] instance based on the context.
+  ///
+  /// Usage:
+  /// ```dart
+  /// final l10n = context.l10n;
+  /// ```
+  ///
   /// {@macro l10n_extension}
   AppLocalizations get l10n => AppLocalizations.of(this);
-}
 
-/// {@template theme_extension}
-/// Grants access to [ThemeData] based on given context
-///
-/// Usage:
-/// ```dart
-/// final theme = context.theme;
-/// ```
-/// {@endtemplate}
-extension ThemeDataX on BuildContext {
-  /// {@macro theme_extension}
+  /// Grants access to [ThemeData] based on given context
+  ///
+  /// Usage:
+  /// ```dart
+  /// final theme = context.theme;
+  /// ```
+  ///
+  /// {@macro l10n_extension}
   ThemeData get theme => Theme.of(this);
+
+  /// Pushes a new route onto the navigator stack.
+  ///
+  /// Usage:
+  /// ```dart
+  /// context.push(Page());
+  /// ```
+  ///
+  /// {@macro l10n_extension}
+  void push(Widget widget) => Navigator.of(this).push(
+        MaterialPageRoute<void>(builder: (context) => widget),
+      );
 }
 
 /// {@template joined_widgets}
