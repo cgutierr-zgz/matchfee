@@ -291,11 +291,13 @@
 				DEVELOPMENT_TEAM = 5MTVHWJ457;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Matchfee;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.matchfee;
+				PRODUCT_BUNDLE_IDENTIFIER = es.carlosgutimo.matchfee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -420,11 +422,13 @@
 				DEVELOPMENT_TEAM = 5MTVHWJ457;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Matchfee;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.matchfee;
+				PRODUCT_BUNDLE_IDENTIFIER = es.carlosgutimo.matchfee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -443,11 +447,13 @@
 				DEVELOPMENT_TEAM = 5MTVHWJ457;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Matchfee;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.matchfee;
+				PRODUCT_BUNDLE_IDENTIFIER = es.carlosgutimo.matchfee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
