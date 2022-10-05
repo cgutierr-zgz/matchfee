@@ -14,17 +14,84 @@ class RecentMatchesRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 100,
+        height: 125,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: images.length,
           itemBuilder: (context, index) {
-            return CoffeeAvatar(imagePath: images[index]).padded(
-              const EdgeInsets.symmetric(horizontal: 10),
-            );
+            final child = CoffeeAvatar(imagePath: images[index]);
+            const padding = EdgeInsets.symmetric(horizontal: 10);
+
+            return index == 0 && images.length > 2
+                ? _MultipleMatchesOverlay(
+                    matches: images.length,
+                    child: child,
+                  ).padded(padding)
+                : child.padded(padding);
           },
         ),
       ),
+    );
+  }
+}
+
+class _MultipleMatchesOverlay extends StatelessWidget {
+  const _MultipleMatchesOverlay({
+    required this.child,
+    required this.matches,
+  });
+
+  final Widget child;
+  final int matches;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 75,
+          width: 75,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              // TODO: Reuse color
+              color: const Color(0xffe6ae42),
+              width: 4,
+            ),
+          ),
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.bottomCenter,
+            children: [
+              child,
+              const Positioned(
+                bottom: -12,
+                child: Icon(
+                  Icons.favorite,
+                  // TODO: Reuse color
+                  color: Color(0xffe6ae42),
+                  shadows: [
+                    BoxShadow(
+                      color: Colors.white,
+                      spreadRadius: -2,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          child: Text(
+            '$matches+ Likes',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
     );
   }
 }

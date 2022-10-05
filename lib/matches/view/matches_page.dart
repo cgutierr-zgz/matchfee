@@ -8,61 +8,36 @@ class MatchesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-
     return Scaffold(
       body: BlocBuilder<MatchesCubit, List<String>?>(
-        builder: (context, state) {
-          if (state == null) {
-            // TODO(c): Show no matches yet :( or something like that
-            return const Center(child: CircularProgressIndicator());
-          }
-
+        builder: (context, images) {
           return CustomScrollView(
-            physics: const ClampingScrollPhysics(),
             slivers: [
-              SliverAppBar(
-                foregroundColor: Colors.black,
-                backgroundColor: theme.scaffoldBackgroundColor,
-                elevation: 0,
-                centerTitle: true,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.forum_rounded,
-                      color: Color(0xff6f4e37),
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        text: 'Match',
-                        style: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontSize: 30,
-                        ),
-                        children: const [
-                          TextSpan(
-                            text: 'ees',
-                            style: TextStyle(
-                              // TODO(c): find a good color for the (fee)
-                              color: Color(0xff6f4e37), //brown.shade400,
-                              fontSize: 30,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ].joinWith(const SizedBox(width: 10)),
-                ),
-              ),
-              const InfoTitle(text: 'NEW MATCHES'),
-              RecentMatchesRow(images: state),
-              const InfoTitle(text: 'MESSAGES'),
-              OpenChats(images: state),
+              const MatchesAppBar(),
+              if (images == null) _error else ..._body(images),
             ],
           );
         },
       ),
     );
   }
+
+  static Widget get _error => SliverToBoxAdapter(
+        child: Column(
+          children: [
+            const ErrorImage(size: 250).padded(),
+            const Text(
+              'Seems like you have no matchees yet... :(',
+              textAlign: TextAlign.center,
+            ).padded(const EdgeInsets.symmetric(horizontal: 100))
+          ],
+        ),
+      );
+
+  List<Widget> _body(List<String> images) => [
+        const InfoTitle(text: 'NEW MATCHEES'),
+        RecentMatchesRow(images: images),
+        const InfoTitle(text: 'MESSAGES'),
+        OpenChats(images: images),
+      ];
 }
