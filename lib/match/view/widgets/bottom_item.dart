@@ -25,6 +25,7 @@ class BottomItem extends StatelessWidget {
     return Container(
       height: size,
       width: size,
+      alignment: Alignment.center,
       decoration: const BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,
@@ -38,10 +39,11 @@ class BottomItem extends StatelessWidget {
       ),
       child: MaterialButton(
         onPressed: onPressed,
+        padding: EdgeInsets.zero,
         shape: const CircleBorder(),
         child: Icon(
           icon,
-          size: size - 30,
+          size: size - 20,
           color: color,
         ),
       ),
