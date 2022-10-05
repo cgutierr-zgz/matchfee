@@ -38,6 +38,7 @@ class BottomItem extends StatelessWidget {
         ],
       ),
       child: MaterialButton(
+        height: size,
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         shape: const CircleBorder(),
