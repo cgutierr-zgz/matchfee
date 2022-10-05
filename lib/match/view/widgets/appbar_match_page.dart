@@ -9,8 +9,10 @@ class AppBarMatchPage extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
       leading: IconButton(
         onPressed: () {},
@@ -40,6 +42,7 @@ class AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -49,7 +52,7 @@ class AppBarTitle extends StatelessWidget {
             text: 'Match',
             style: TextStyle(
               color: Colors.grey,
-              fontSize: 20,
+              fontSize: 30,
             ),
             children: [
               TextSpan(
@@ -57,7 +60,7 @@ class AppBarTitle extends StatelessWidget {
                 style: TextStyle(
                   // TODO(c): find a good color for the (fee)
                   color: Colors.red, //brown.shade400,
-                  fontSize: 20,
+                  fontSize: 30,
                 ),
               ),
             ],
