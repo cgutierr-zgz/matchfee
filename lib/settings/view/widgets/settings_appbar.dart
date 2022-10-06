@@ -13,6 +13,7 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       backgroundColor: theme.scaffoldBackgroundColor,
+      centerTitle: true,
       title: Text.rich(
         TextSpan(
           text: 'Conff',
