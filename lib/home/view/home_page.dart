@@ -38,7 +38,7 @@ class HomeView extends StatelessWidget {
         child: const CoffeeCards().padded(),
       ),
       bottomNavigationBar: SafeArea(
-        child: const BottomRowHome().padded(),
+        child: const BottomRowHome().padded(const EdgeInsets.all(20)),
       ),
     );
   }

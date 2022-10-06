@@ -14,8 +14,8 @@ class BottomRowHome extends StatelessWidget {
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(),
             BottomItem.small(
               icon: Icons.undo_rounded,
               color: Colors.yellow,
@@ -64,7 +64,6 @@ class BottomRowHome extends StatelessWidget {
                       )
                   : null,
             ),
-            const Spacer(),
           ].joinWith(const SizedBox(width: 20)),
         );
       },

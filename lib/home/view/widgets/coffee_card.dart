@@ -173,10 +173,12 @@ class _CardView extends StatelessWidget {
   final int index;
   final HomeState state;
 
-  static const size = 500.0;
+  //static const size = 500.0;
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 0.6;
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -193,12 +195,12 @@ class _CardView extends StatelessWidget {
               index == 0
                   ? (state as HomeLoaded).images.first
                   : (state as HomeLoaded).images[index],
-              height: size,
+              height: height,
               width: double.maxFinite,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Image.asset(
-                  height: size,
+                  height: height,
                   width: double.maxFinite,
                   'assets/images/error.png',
                 );
@@ -217,17 +219,17 @@ class _CardView extends StatelessWidget {
 class _LoadingWidget extends StatelessWidget {
   const _LoadingWidget();
 
-  static const size = 500.0;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final height = MediaQuery.of(context).size.height * 0.6;
 
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
         Image.asset(
-          height: size,
+          height: height,
           width: double.maxFinite,
           'assets/images/loading.png',
         ),
