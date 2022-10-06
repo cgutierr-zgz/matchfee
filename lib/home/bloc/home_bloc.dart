@@ -26,11 +26,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late final MatchesCubit _matchesCubit;
 
   List<String> photoStack = [];
+  String? photoToDelete;
 
   // We initialize the app with two photos in the stack
   Future<void> _init() async {
     try {
-      final photos = await _homeRepository.getCoffeeImages(3);
+      final photos = await _homeRepository.getCoffeeImages(4);
 
       add(HomeStartEvent(photos));
     } catch (e) {
@@ -53,9 +54,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     if (photoStack.length > 1) {
+      // We save the photo locally
       if (event.liked == true) {
         final path = await _homeRepository.saveImageToDevice(event.image);
         _matchesCubit.addMatch(path);
+        // If its not a like we save it to the stack
+      } else {
+        photoToDelete = photoStack[0];
       }
 
       final photos = await _homeRepository.getCoffeeImages(1);
@@ -75,9 +80,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     if (photoStack.length > 1) {
-      final photos = await _homeRepository.getCoffeeImages(1);
-      photoStack.addAll(photos);
+      // We add the previous photo to the frond and then we
+      // delete the last photo so we dont have a super long stack of photos
+      // in the background, looks bad
+      photoStack
+        ..insert(0, photoToDelete!)
+        ..removeLast();
+      photoToDelete = null;
 
+      emit(const HomeLoading());
       emit(HomeLoaded(photoStack));
     } else {
       add(HomeErrorEvent(Exception('Could not load more images')));

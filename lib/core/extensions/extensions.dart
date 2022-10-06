@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:matchfee/core/core.dart';
 
 export 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -37,6 +37,29 @@ extension BuildContextExtensionsX on BuildContext {
   /// {@macro l10n_extension}
   void push(Widget widget) => Navigator.of(this).push(
         MaterialPageRoute<void>(builder: (context) => widget),
+      );
+
+  /// Shows a snackbar with the given message.
+  ///
+  /// Usage:
+  /// ```dart
+  /// context.showSnackbar('Very good message');
+  /// ```
+  ///
+  /// {@macro l10n_extension}
+  void showSnackbar(
+    String message, {
+    bool error = false,
+    IconData? prefixIcon,
+  }) =>
+      ScaffoldMessenger.of(this).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          content: error
+              ? CustomSnackbar.error(message: message)
+              : CustomSnackbar(message: message, prefixIcon: prefixIcon),
+        ),
       );
 }
 

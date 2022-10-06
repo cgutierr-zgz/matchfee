@@ -48,14 +48,15 @@ class _BottomItemState extends State<BottomItem>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
       height: widget.size,
       width: widget.size,
       alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: widget.onPressed == null ? Colors.grey.shade300 : Colors.white,
         shape: BoxShape.circle,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             blurRadius: 10,
@@ -65,16 +66,18 @@ class _BottomItemState extends State<BottomItem>
       ),
       child: MaterialButton(
         height: widget.size,
-        onPressed: () {
-          playAnimation();
-          widget.onPressed?.call();
-        },
+        onPressed: widget.onPressed == null
+            ? null
+            : () {
+                playAnimation();
+                widget.onPressed!.call();
+              },
         padding: EdgeInsets.zero,
         shape: const CircleBorder(),
         child: Icon(
           widget.icon,
           size: widget.size - 20,
-          color: widget.color,
+          color: widget.onPressed == null ? Colors.grey.shade100 : widget.color,
         ),
       ),
     )

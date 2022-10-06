@@ -19,11 +19,12 @@ class BottomRowHome extends StatelessWidget {
             BottomItem.small(
               icon: Icons.undo_rounded,
               color: Colors.yellow,
-              onPressed: isLoaded
-                  ? () => context.read<HomeBloc>().add(
-                        const PreviousHomeEvent(),
-                      )
-                  : null,
+              onPressed:
+                  isLoaded && context.read<HomeBloc>().photoToDelete != null
+                      ? () => context.read<HomeBloc>().add(
+                            const PreviousHomeEvent(),
+                          )
+                      : null,
             ),
             BottomItem(
               icon: Icons.close_rounded,
@@ -56,7 +57,12 @@ class BottomRowHome extends StatelessWidget {
             BottomItem.small(
               icon: Icons.star_rounded,
               color: Colors.blue,
-              onPressed: isLoaded ? () {} : null,
+              onPressed: isLoaded
+                  ? () => context.showSnackbar(
+                        'I love u too',
+                        prefixIcon: Icons.favorite_rounded,
+                      )
+                  : null,
             ),
             const Spacer(),
           ].joinWith(const SizedBox(width: 20)),

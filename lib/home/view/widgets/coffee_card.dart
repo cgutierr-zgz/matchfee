@@ -127,15 +127,7 @@ class _CardView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (state is HomeLoading)
-            const SizedBox(
-              height: size,
-              width: double.maxFinite,
-              child: Center(
-                // TODO(c): Loading widget
-                child: Text('Loading...'),
-              ),
-            ),
+          if (state is HomeLoading) const _LoadingWidget(),
           if (state is HomeLoaded)
             Image.network(
               index == 0
@@ -153,18 +145,37 @@ class _CardView extends StatelessWidget {
               },
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
-                return const SizedBox(
-                  height: size,
-                  width: double.maxFinite,
-                  child: Center(
-                    // TODO(c): Loading widget
-                    child: Text('Loading...'),
-                  ),
-                );
+                return const _LoadingWidget();
               },
             ),
         ].joinWith(const SizedBox(height: 10)),
       ),
+    );
+  }
+}
+
+class _LoadingWidget extends StatelessWidget {
+  const _LoadingWidget();
+
+  static const size = 500.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Image.asset(
+          height: size,
+          width: double.maxFinite,
+          'assets/images/loading.png',
+        ),
+        Text(
+          'Loading...',
+          style: theme.textTheme.titleLarge,
+        ).padded(const EdgeInsets.only(bottom: 50))
+      ],
     );
   }
 }
