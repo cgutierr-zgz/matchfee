@@ -81,8 +81,9 @@ _Carlos 💙... 🦄_
 ## Things I would have like to do
 
 1. Add more tests:
-There are some things that I've never had the chance to do almost any tests in the companies, or I still don't know how to test those things, so I've decided to leave them out for now, but I would like to add them in the future.
+I've never had the chance to do almost any tests in the companies I've worked for, so there's things I still don't know how to test yet.
 There's notes on the tests with the parts I don't really know how to test, mainly related to storage.
+Also, there's tests marked as `skipped` since they just don't work the same way in Github Actions as they do locally.
 I know that's a drawback for the company but I'd love to learn about it and improve as much as possible, hopefully I'll be able to do it in VGV :)
 
 2. Add more animations:
