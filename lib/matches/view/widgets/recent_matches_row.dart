@@ -10,6 +10,8 @@ class RecentMatchesRow extends StatelessWidget {
 
   final List<String> images;
 
+  static const _padding = EdgeInsets.symmetric(horizontal: 10);
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -20,14 +22,13 @@ class RecentMatchesRow extends StatelessWidget {
           itemCount: images.length,
           itemBuilder: (context, index) {
             final child = CoffeeAvatar(imagePath: images[index]);
-            const padding = EdgeInsets.symmetric(horizontal: 10);
 
             return index == 0 && images.length > 2
                 ? _MultipleMatchesOverlay(
                     matches: images.length,
                     child: child,
-                  ).padded(padding)
-                : child.padded(padding);
+                  ).padded(_padding)
+                : child.padded(_padding);
           },
         ),
       ),
@@ -55,11 +56,7 @@ class _MultipleMatchesOverlay extends StatelessWidget {
           width: 75,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(
-              // TODO: Reuse color
-              color: const Color(0xffe6ae42),
-              width: 4,
-            ),
+            border: Border.all(color: AppTheme.goldColor, width: 4),
           ),
           child: Stack(
             clipBehavior: Clip.none,
@@ -70,8 +67,7 @@ class _MultipleMatchesOverlay extends StatelessWidget {
                 bottom: -12,
                 child: Icon(
                   Icons.favorite,
-                  // TODO: Reuse color
-                  color: Color(0xffe6ae42),
+                  color: AppTheme.goldColor,
                   shadows: [
                     BoxShadow(
                       color: Colors.white,

@@ -13,11 +13,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }) : super(const HomeLoading()) {
     _homeRepository = homeRepository;
     _matchesCubit = matchesCubit;
+
     _init();
     //on<HomeEvent>(_onAppStarted);
     on<HomeStartEvent>(_onAppStarted);
-    on<LikeHomeEvent>(_onLikeHome);
+    on<NextHomeEvent>(_onLikeHome);
     on<PreviousHomeEvent>(_onPreviousHome);
+    on<HomeErrorEvent>(_onError);
   }
 
   late final HomeRepository _homeRepository;
@@ -32,13 +34,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       add(HomeStartEvent(photos));
     } catch (e) {
-      // TODO(carlito): emit error
+      add(HomeErrorEvent(Exception('Could not load more images')));
     }
   }
 
   void _onAppStarted(
     HomeStartEvent event,
-    Emitter<HomeState?> emit,
+    Emitter<HomeState> emit,
   ) {
     if (event.images.isEmpty) emit(HomeError(Exception('No images')));
 
@@ -47,8 +49,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _onLikeHome(
-    LikeHomeEvent event,
-    Emitter<HomeState?> emit,
+    NextHomeEvent event,
+    Emitter<HomeState> emit,
   ) async {
     if (photoStack.length > 1) {
       if (event.liked == true) {
@@ -64,13 +66,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(const HomeLoading());
       emit(HomeLoaded(photoStack));
     } else {
-      emit(HomeError(Exception('Could not load more images')));
+      add(HomeErrorEvent(Exception('Could not load more images')));
     }
   }
 
   Future<void> _onPreviousHome(
     PreviousHomeEvent event,
-    Emitter<HomeState?> emit,
+    Emitter<HomeState> emit,
   ) async {
     if (photoStack.length > 1) {
       final photos = await _homeRepository.getCoffeeImages(1);
@@ -78,7 +80,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       emit(HomeLoaded(photoStack));
     } else {
-      emit(HomeError(Exception('Could not load more images')));
+      add(HomeErrorEvent(Exception('Could not load more images')));
     }
   }
+
+  Future<void> _onError(
+    HomeErrorEvent event,
+    Emitter<HomeState> emit,
+  ) async =>
+      emit(HomeError(event.error));
 }

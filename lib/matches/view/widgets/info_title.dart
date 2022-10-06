@@ -11,11 +11,13 @@ class InfoTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+
     return SliverToBoxAdapter(
       child: Text(
         text,
-        style: const TextStyle(
-          color: Color(0xff6f4e37),
+        style: TextStyle(
+          color: theme.colorScheme.secondary,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),

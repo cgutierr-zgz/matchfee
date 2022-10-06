@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:matchfee/core/core.dart';
 import 'package:matchfee/matches/matches.dart';
 
-class AppBarMatchPage extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarMatchPage({super.key});
+class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
+  const AppBarHome({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -17,21 +17,14 @@ class AppBarMatchPage extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: IconButton(
         onPressed: () {},
-        // TODO(carlos): add appbar icon theme + theme in general
-        icon: const Icon(
-          Icons.settings,
-          color: Colors.grey,
-        ),
+        icon: const Icon(Icons.settings),
       ),
       centerTitle: true,
       title: const _AppBarTitle(),
       actions: [
         IconButton(
           onPressed: () => context.push(const MatchesPage()),
-          icon: const Icon(
-            Icons.chat_bubble,
-            color: Colors.grey,
-          ),
+          icon: const Icon(Icons.chat_bubble),
         ),
       ],
     );
@@ -43,6 +36,7 @@ class _AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -54,12 +48,11 @@ class _AppBarTitle extends StatelessWidget {
               color: Colors.grey.shade500,
               fontSize: 30,
             ),
-            children: const [
+            children: [
               TextSpan(
                 text: 'Fee',
                 style: TextStyle(
-                  // TODO(c): find a good color for the (fee)
-                  color: Color(0xff6f4e37), //brown.shade400,
+                  color: theme.colorScheme.secondary,
                   fontSize: 30,
                 ),
               ),

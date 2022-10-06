@@ -28,8 +28,8 @@ class HomeStartEvent extends HomeEvent {
 }
 
 /// Event to trigger once we like a coffee
-class LikeHomeEvent extends HomeEvent {
-  const LikeHomeEvent({
+class NextHomeEvent extends HomeEvent {
+  const NextHomeEvent({
     required this.image,
     required this.liked,
   });

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -39,6 +38,12 @@ class _BottomItemState extends State<BottomItem>
     );
   }
 
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   void playAnimation() => animationController.forward(from: 0);
 
   @override
@@ -60,7 +65,6 @@ class _BottomItemState extends State<BottomItem>
       ),
       child: MaterialButton(
         height: widget.size,
-        // TODO(c): add this on tapdown to make it more responsive
         onPressed: () {
           playAnimation();
           widget.onPressed?.call();

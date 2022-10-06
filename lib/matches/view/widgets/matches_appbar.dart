@@ -9,15 +9,14 @@ class MatchesAppBar extends StatelessWidget {
     final theme = context.theme;
 
     return SliverAppBar(
-      foregroundColor: Colors.black, // !
+      foregroundColor: Colors.black,
       backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
       centerTitle: true,
-      title: const Icon(
+      title: Icon(
         Icons.forum_rounded,
         size: 50,
-        // TODO(c): find a good color for the (fee)
-        color: Color(0xff6f4e37), //brown.shade400,
+        color: theme.colorScheme.secondary,
       ),
     );
   }
