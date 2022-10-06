@@ -8,13 +8,15 @@ class MatchesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       body: BlocBuilder<MatchesCubit, List<SavedCoffee>>(
         builder: (context, state) {
           return CustomScrollView(
             slivers: [
               const MatchesAppBar(),
-              if (state.isEmpty) _error else ..._body(state),
+              if (state.isEmpty) _error(l10n) else ..._body(state, l10n),
             ],
           );
         },
@@ -22,23 +24,23 @@ class MatchesPage extends StatelessWidget {
     );
   }
 
-  static Widget get _error => SliverToBoxAdapter(
+  static Widget _error(AppLocalizations l10n) => SliverToBoxAdapter(
         child: Column(
           children: [
             const ErrorImage(size: 250).padded(),
-            const Text(
-              'Seems like you have no matchees yet... :(',
+            Text(
+              l10n.noMatcheesYet,
               textAlign: TextAlign.center,
             ).padded(const EdgeInsets.symmetric(horizontal: 100))
           ],
         ),
       );
 
-  List<Widget> _body(List<SavedCoffee> coffees) => [
-        const InfoTitle(text: 'NEW MATCHEES'),
+  List<Widget> _body(List<SavedCoffee> coffees, AppLocalizations l10n) => [
+        InfoTitle(text: l10n.newMatchees.toUpperCase()),
         RecentMatchesRow(coffees: coffees),
         if (coffees.length > 1) ...[
-          const InfoTitle(text: 'OPEN CHATS'),
+          InfoTitle(text: l10n.openChats.toUpperCase()),
           OpenChats(coffees: coffees),
         ],
       ];

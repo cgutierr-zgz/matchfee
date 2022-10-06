@@ -47,6 +47,8 @@ class _MultipleMatchesOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
@@ -83,8 +85,9 @@ class _MultipleMatchesOverlay extends StatelessWidget {
         Positioned(
           bottom: 0,
           child: Text(
-            '$matches+ Likes',
+            '$matches+ ${l10n.likesText}',
             style: const TextStyle(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
         ),
       ],

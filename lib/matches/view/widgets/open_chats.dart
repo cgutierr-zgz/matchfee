@@ -18,7 +18,7 @@ class OpenChats extends StatelessWidget {
         (context, index) {
           // Don't mind this, just a random condition
           // so that the UI looks a bit more interesting
-          if (index.isEven && index % 3 == 0 && index % 5 == 0) {
+          if (index.isEven && index % 4 == 0 && index % 5 == 0) {
             return const SizedBox.shrink();
           }
 
@@ -48,14 +48,17 @@ class _ChatText extends StatelessWidget {
   final List<SavedCoffee> coffees;
   final int index;
 
-  String get _titleText => 'Coffe nº ${coffees.length - index + 1}';
-  String get _chatText =>
-      '''I love you to the moon and back ${coffees.length - index + 1} ${index + 1 <= 1 ? 'time' : 'times'}''';
+  String _titleText(AppLocalizations l10n) =>
+      '${l10n.coffeeText} nº ${coffees.length - index + 1}';
+
+  String _chatText(AppLocalizations l10n) =>
+      l10n.toTheMoonAndBack(coffees.length - index + 1);
 
   static const padding = SizedBox(width: 5);
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = context.theme;
 
     return Expanded(
@@ -68,7 +71,7 @@ class _ChatText extends StatelessWidget {
                 const Icon(Icons.star_rounded, color: Colors.blue),
               Expanded(
                 child: Text(
-                  _titleText,
+                  _titleText(l10n),
                   style: theme.textTheme.headline5,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -82,7 +85,7 @@ class _ChatText extends StatelessWidget {
                 const Icon(Icons.reply, color: Colors.grey),
               Expanded(
                 child: Text(
-                  _chatText,
+                  _chatText(l10n),
                   style: theme.textTheme.bodySmall,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

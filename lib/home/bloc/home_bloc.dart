@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:matchfee/home/home.dart';
 import 'package:matchfee/matches/matches.dart';
@@ -57,10 +56,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // We save the photo locally
       if (event.type == NextEventType.like ||
           event.type == NextEventType.superLike) {
-        final path = await _homeRepository.saveImageToDevice(
-          event.image,
-          superLike: event.type == NextEventType.superLike,
-        );
+        final path = await _homeRepository.saveImageToDevice(event.image);
         _matchesCubit.addMatch(
           path,
           isSuperLike: event.type == NextEventType.superLike,

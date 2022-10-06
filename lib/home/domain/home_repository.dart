@@ -48,18 +48,13 @@ class HomeRepository {
   }
 
   /// Saves the image data to the device
-  Future<String> saveImageToDevice(
-    String url, {
-    required bool superLike,
-  }) async {
+  Future<String> saveImageToDevice(String url) async {
     final imageData = await getImageData(url);
 
     try {
       final imageName = url.split('/').last;
       final directory = await getApplicationDocumentsDirectory();
-      final output = File(
-        '${directory.path}/${superLike ? 'SUPERLIKE' : ''}$imageName',
-      );
+      final output = File('${directory.path}/$imageName');
 
       final file = await output.writeAsBytes(imageData);
 

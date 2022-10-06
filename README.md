@@ -14,6 +14,7 @@ Drinking Coffee & Finding Love
 
 - [App Features and Guide](#app-features-and-guide)
 - [Things I would have like to do](#things-i-would-have-like-to-do)
+- [Packages I've used and why](#packages-ive-used-and-why)
 - [Getting Started](#getting-started)
 - [Running Tests](#running-tests)
 - [Working with Translations ](#working-with-translations)
@@ -66,17 +67,42 @@ Enjoy 💙
 
 ## Things I would have like to do
 
-// TODO: Fill this out
+1. Add more tests:
+There are some things that I've never had the chance to test or I still don't know how to test.
+I know that's a drawback but I'd love to learn about it, hopefully I'll be able to do it in VGV :)
 
-- [ ] Add more tests
-- [ ] Add more comments
-- [ ] Add a profile page with random data for the coffees
-- [ ] Add more animations
-- [ ] Add a option for dark mode
-- [ ] Add a very good mode 😉
-- [ ] Add more coffee pictures
-- [ ] Add more coffee pictures
-- [ ] Add more coffee pictures
+2. Add more animations:
+I've added some animations, but I would have like to add more so it looks more polished.
+Didn't wanted it to be an overkill, but I would have like to add more.
+
+3. Improve the swiping animation:
+I've added a simple animation when the user swipes left or right, but I would have like to add a more complex one.
+
+4. Random profile information:
+I would have like to add some random profile information, like name, age, etc.
+
+5. Dark mode:
+Dark mode was easy to implement, I've done it a lot of times, but again, sounded like an overkill for this test.
+
+6. Improve the storage of the images:
+I've used the `path_provider` and `hydrated_bloc` packages to store the images, but I would have like to use a better approach, like a database, or something like that, but I didn't wanted to overcomplicate the test.
+
+---
+
+## Packages I've Used And Why
+
+1. [flutter_bloc](https://pub.dev/packages/flutter_bloc)
+I've used the flutter implementation of bloc beacuse I'm familiar with it, I've already used it a lot of times, well, basically in all my projects, so I know how to use it and how to implement it.
+
+2. [hydrated_bloc](https://pub.dev/packages/hydrated_bloc)
+I made a small cubit which handles the favorites, and it's hydrated, so it saves the data locally, just like magic ✨
+
+3. [path_provider](https://pub.dev/packages/path_provider)
+Used to get the path where the data is being stored, so I can write there and read from there.
+
+4. [http](https://pub.dev/packages/http)
+Used to make the requests to the Coffee API to get the random image.
+I'm more used to [dio](https://pub.dev/packages/dio), but http was more than enough for this test.
 
 ---
 

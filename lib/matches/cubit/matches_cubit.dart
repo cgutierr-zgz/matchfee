@@ -1,12 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 @immutable
-class SavedCoffee extends Equatable {
+class SavedCoffee {
   const SavedCoffee({
     required this.imagePath,
     required this.superLike,
@@ -14,16 +13,6 @@ class SavedCoffee extends Equatable {
 
   final String imagePath;
   final bool superLike;
-
-  SavedCoffee copyWith({
-    String? imagePath,
-    bool? superLike,
-  }) {
-    return SavedCoffee(
-      imagePath: imagePath ?? this.imagePath,
-      superLike: superLike ?? this.superLike,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -43,12 +32,6 @@ class SavedCoffee extends Equatable {
 
   factory SavedCoffee.fromJson(String source) =>
       SavedCoffee.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  bool get stringify => true;
-
-  @override
-  List<Object> get props => [imagePath, superLike];
 }
 
 class MatchesCubit extends HydratedCubit<List<SavedCoffee>> {

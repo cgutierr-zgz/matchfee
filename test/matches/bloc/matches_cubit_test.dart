@@ -6,6 +6,14 @@ import 'package:matchfee/matches/matches.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
+  const coffeeSample = SavedCoffee(
+    imagePath: 'image1.png',
+    superLike: true,
+  );
+  const coffeeSample2 = SavedCoffee(
+    imagePath: 'image2.png',
+    superLike: false,
+  );
   group('MatchesCubit', () {
     late MatchesCubit matchesCubit;
 
@@ -17,42 +25,57 @@ void main() {
       expect(matchesCubit.state, equals([]));
     });
 
-    blocTest<MatchesCubit, List<String>>(
+    blocTest<MatchesCubit, List<SavedCoffee>>(
       'Adds a new matchee',
       build: buildMatchesCubit,
-      act: (cubit) => cubit.addMatch('image1.png'),
+      act: (cubit) => cubit.addMatch(
+        coffeeSample.imagePath,
+        isSuperLike: coffeeSample.superLike,
+      ),
       expect: () => [
-        equals(['image1.png'])
+        equals([coffeeSample])
       ],
     );
 
-    blocTest<MatchesCubit, List<String>>(
+    blocTest<MatchesCubit, List<SavedCoffee>>(
       'Adds multiple matchees',
       build: buildMatchesCubit,
       act: (cubit) {
         cubit
-          ..addMatch('image1.png')
-          ..addMatch('image2.png');
+          ..addMatch(
+            coffeeSample.imagePath,
+            isSuperLike: coffeeSample.superLike,
+          )
+          ..addMatch(
+            coffeeSample2.imagePath,
+            isSuperLike: coffeeSample2.superLike,
+          );
       },
       expect: () => [
-        equals(['image2.png', 'image1.png']),
-        equals(['image2.png', 'image1.png'])
+        equals([coffeeSample2, coffeeSample]),
+        equals([coffeeSample2, coffeeSample])
       ],
     );
 
-    blocTest<MatchesCubit, List<String>>(
+    blocTest<MatchesCubit, List<SavedCoffee>>(
       'Removes a matchee',
       build: buildMatchesCubit,
       act: (cubit) {
         cubit
-          ..addMatch('image1.png')
-          ..addMatch('image2.png')
+          ..addMatch(
+            coffeeSample.imagePath,
+            isSuperLike: coffeeSample.superLike,
+          )
+          ..addMatch(
+            coffeeSample2.imagePath,
+            isSuperLike: coffeeSample2.superLike,
+          )
           ..deleteMatch('image1.png')
           ..deleteMatch('image2.png');
       },
       expect: () => [
-        equals(['image2.png', 'image1.png']),
-        equals(['image2.png']),
+        equals([coffeeSample2, coffeeSample]),
+        equals([coffeeSample2]),
         equals([]),
         equals([]),
       ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -28,6 +30,8 @@ class BottomItem extends StatefulWidget {
 class _BottomItemState extends State<BottomItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
+  late ValueNotifier<bool> isEnabled;
+  late Timer? timer;
 
   @override
   void initState() {
@@ -36,15 +40,30 @@ class _BottomItemState extends State<BottomItem>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
+    isEnabled = ValueNotifier<bool>(true);
   }
 
   @override
   void dispose() {
-    animationController.dispose();
+    timer?.cancel();
+    animationController
+      ..stop()
+      ..dispose();
     super.dispose();
   }
 
   void playAnimation() => animationController.forward(from: 0);
+
+  // Small debounce to prevent multiple taps
+  void onPressed() {
+    isEnabled.value = false;
+    playAnimation();
+    widget.onPressed!.call();
+    timer = Timer(
+      const Duration(milliseconds: 250),
+      () => isEnabled.value = true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,21 +83,23 @@ class _BottomItemState extends State<BottomItem>
           ),
         ],
       ),
-      child: MaterialButton(
-        height: widget.size,
-        onPressed: widget.onPressed == null
-            ? null
-            : () {
-                playAnimation();
-                widget.onPressed!.call();
-              },
-        padding: EdgeInsets.zero,
-        shape: const CircleBorder(),
-        child: Icon(
-          widget.icon,
-          size: widget.size - 20,
-          color: widget.onPressed == null ? Colors.grey.shade100 : widget.color,
-        ),
+      child: ValueListenableBuilder(
+        valueListenable: isEnabled,
+        builder: (context, value, child) {
+          return MaterialButton(
+            height: widget.size,
+            onPressed: widget.onPressed == null || !value ? null : onPressed,
+            padding: EdgeInsets.zero,
+            shape: const CircleBorder(),
+            child: Icon(
+              widget.icon,
+              size: widget.size - 20,
+              color: widget.onPressed == null
+                  ? Colors.grey.shade100
+                  : widget.color,
+            ),
+          );
+        },
       ),
     )
         .animate(

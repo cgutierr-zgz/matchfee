@@ -17,7 +17,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
       leading: IconButton(
-          onPressed: () => context.push(const SettingsPage()),
+        onPressed: () => context.push(const SettingsPage()),
         icon: const Icon(Icons.settings),
       ),
       centerTitle: true,

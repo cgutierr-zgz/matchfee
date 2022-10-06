@@ -113,12 +113,6 @@ extension JoinedWidgetsX on List<Widget> {
 /// ```
 /// {@endtemplate}
 extension PaddedWidgetX on Widget {
-  void a() {
-    const Text("I'm also getting paddeed, but more!!").padded(
-      const EdgeInsets.symmetric(horizontal: 200),
-    );
-  }
-
   /// {@macro padded_widget}
   Widget padded([EdgeInsets? padding]) => Padding(
         padding: padding ?? const EdgeInsets.symmetric(horizontal: 20),

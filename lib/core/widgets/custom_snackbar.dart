@@ -23,6 +23,8 @@ class CustomSnackbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -51,16 +53,16 @@ class CustomSnackbar extends StatelessWidget {
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   onPressed: () {
                     onPressed?.call();
-                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
                   },
-                  child: const Text('Accept'),
+                  child: Text(l10n.acceptButton),
                 ),
                 const Spacer(),
                 TextButton(
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   onPressed: () =>
-                      ScaffoldMessenger.of(context).clearSnackBars(),
-                  child: const Text('Cancel'),
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar(),
+                  child: Text(l10n.cancelButton),
                 )
               ],
             )

@@ -26,7 +26,9 @@ class _CarlosState extends State<Carlos> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    animationController.dispose();
+    animationController
+      ..stop()
+      ..dispose();
     super.dispose();
   }
 
@@ -44,11 +46,7 @@ class _CarlosState extends State<Carlos> with TickerProviderStateMixin {
               // Just so you notice it and click it, hehe :)
               .animate(
                 controller: animationController,
-                onComplete: isHired
-                    ? null
-                    : (controller) => controller
-                        .reverse()
-                        .then((value) => controller.forward()),
+                onComplete: (_) => animationController.repeat(),
               )
               .scale(duration: const Duration(seconds: 1), begin: 1, end: 0.85)
         ],

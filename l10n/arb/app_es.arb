@@ -1,7 +1,46 @@
 {
-    "@@locale": "es",
-    "counterAppBarTitle": "Contador",
-    "@counterAppBarTitle": {
-        "description": "Texto mostrado en la AppBar de la página del contador"
-    }
+	"@@locale": "es",
+	"acceptButton": "Aceptar",
+	"@acceptButton": {
+		"description": "Texto para el botón de aceptar"
+	},
+	"cancelButton": "Cancel",
+	"@cancelButton": {
+		"description": "Texto para el botón de cancelar"
+	},
+	"loadingText": "Cargando",
+	"@loadingText": {
+		"description": "Texto para mostrar que algo está cargando"
+	},
+	"coffeeText": "Café",
+	"@coffeeText": {
+		"description": "Texto general para el café"
+	},
+	"iLoveYouTooText": "Yo también te quiero",
+	"@iLoveYouTooText": {
+		"description": "Texto que se usa cuando se le dice a alguien que le quieres de vuelta"
+	},
+	"toTheMoonAndBack": "Te quiero hasta la luna y de vuelta {index} veces",
+	"@toTheMoonAndBack": {
+		"description": "Un texto que se muestra en los chats como ejemplo",
+		"placeholders": {
+			"index": {}
+		}
+	},
+	"likesText": "Me gusta",
+	"@likesText": {
+		"description": "Texto para mostrar los me gusta"
+	},
+	"noMatcheesYet": "Parece que no tienes me gusta aún",
+	"@noMatcheesYet": {
+		"description": "Texto que se muestra cuando no hay me gusta"
+	},
+	"newMatchees": "Nuevos Me gusta",
+	"@newMatchees": {
+		"description": "Texto para mostrar los nuevos me gusta"
+	},
+	"openChats": "Chats Abiertos",
+	"@openChats": {
+		"description": "Texto para mostrar los chats abiertos"
+	}
 }

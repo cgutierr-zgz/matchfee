@@ -46,39 +46,22 @@ class FontCoffeeCard extends StatefulWidget {
 
 class _FontCoffeeCardState extends State<FontCoffeeCard>
     with TickerProviderStateMixin {
-  late final AnimationController animationController;
   late Offset position;
   late bool isDragging;
 
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
     position = Offset.zero;
     isDragging = false;
   }
 
   @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeBloc, HomeState>(
-      listener: (context, state) {
-        if (state is HomeLoaded) {
-          // TODO(c): Fix this onSlide();
-        }
-      },
+    return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final isLoaded = state is HomeLoaded;
         return GestureDetector(
-          onTap: onSlide,
           onPanStart: isLoaded ? onPanStart : null,
           onPanEnd: isLoaded ? (details) => onPanEnd(details, state) : null,
           onPanUpdate: isLoaded ? onPanUpdate : null,
@@ -91,31 +74,11 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
                 position.dy,
               ),
             child: _CardView(state: state),
-            /* 
-            TODO(c): Fix this
-                .animate(
-                  controller: animationController,
-                  adapter: ValueAdapter(),
-                )
-                .slide(
-                  begin: Offset.zero,
-                  end: const Offset(2, 0),
-                )
-                .rotate(
-                  begin: 0,
-                  end: 0.05,
-                  alignment: Alignment.center,
-                ),
-                */
           ),
         );
       },
     );
   }
-
-  Future<void> onSlide() async => animationController
-      .forward(from: 0)
-      .then((value) => animationController.reset());
 
   void resetPosition() {
     Future<void>.delayed(const Duration(milliseconds: 200))
@@ -212,6 +175,7 @@ class _LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = context.theme;
     final height = MediaQuery.of(context).size.height * 0.6;
 
@@ -224,7 +188,7 @@ class _LoadingWidget extends StatelessWidget {
           'assets/images/loading.png',
         ),
         Text(
-          'Loading...',
+          '${l10n.loadingText}...',
           style: theme.textTheme.titleLarge,
         ).padded(const EdgeInsets.only(bottom: 50))
       ],

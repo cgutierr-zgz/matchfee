@@ -1,23 +1,33 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:matchfee/matches/matches.dart';
+import 'package:matchfee/home/home.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
-  group('MatchesPage', () {
-    testWidgets('renders MatchesAppBar', (tester) async {
+  group('MatchesAppBar', () {
+    testWidgets('buttons are visible and interactable', (tester) async {
       await tester.pumpApp(
-        BlocProvider.value(
-          value: buildMatchesCubit(),
-          child: const MatchesPage(),
+        BlocProvider(
+          create: (_) => buildMatchesCubit(),
+          child: const HomeAppBar(),
         ),
       );
-      expect(find.byType(MatchesAppBar), findsOneWidget);
+      expect(find.byType(IconButton), findsNWidgets(2));
+
+      // Navigates to the settings page
+      //await tester.tap(find.byIcon(Icons.settings));
+      //await tester.tap(find.byIcon(Icons.chat_bubble));
+      // TODO(c): pump and settle -> settings page
+      // TODO(c): pump and settle -> matches page
+      //    await tester.pumpAndSettle();
+      //    expect(find.byType(SettingsPage), findsOneWidget);
+      //    expect(find.byType(MatchesPage), findsOneWidget);
     });
   });
 
-  group('CounterView', () {
+/*  group('CounterView', () {
     late MatchesCubit matchesCubit;
 
     setUp(() {
@@ -36,7 +46,6 @@ void main() {
       );
       expect(find.text('state'), findsOneWidget);
     });
-/*
     testWidgets('calls increment when increment button is tapped',
         (tester) async {
       when(() => counterCubit.state).thenReturn(0);
@@ -64,6 +73,6 @@ void main() {
       await tester.tap(find.byIcon(Icons.remove));
       verify(() => counterCubit.decrement()).called(1);
     });
-    */
   });
+    */
 }

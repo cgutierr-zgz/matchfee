@@ -8,6 +8,8 @@ class BottomRowHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final isLoaded = state is HomeLoaded;
@@ -50,7 +52,7 @@ class BottomRowHome extends StatelessWidget {
               onPressed: isLoaded
                   ? () {
                       context.showSnackbar(
-                        'I love u too',
+                        l10n.iLoveYouTooText,
                         prefixIcon: Icons.favorite_rounded,
                       );
                       context.read<HomeBloc>().add(
