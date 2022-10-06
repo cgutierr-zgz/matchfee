@@ -17,15 +17,27 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
       leading: IconButton(
-        onPressed: () => context.push(const SettingsPage()),
-        icon: const Icon(Icons.settings),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<dynamic>(
+              builder: (_) => const SettingsPage(),
+            ),
+          );
+        },
+        icon: const Icon(Icons.settings_rounded),
       ),
       centerTitle: true,
       title: const _AppBarTitle(),
       actions: [
         IconButton(
-          onPressed: () => context.push(const MatchesPage()),
-          icon: const Icon(Icons.chat_bubble),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<dynamic>(
+                builder: (_) => const MatchesPage(),
+              ),
+            );
+          },
+          icon: const Icon(Icons.chat_bubble_rounded),
         ),
       ],
     );

@@ -32,6 +32,20 @@ class SavedCoffee {
 
   factory SavedCoffee.fromJson(String source) =>
       SavedCoffee.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() =>
+      'SavedCoffee(imagePath: $imagePath, superLike: $superLike)';
+
+  @override
+  bool operator ==(covariant SavedCoffee other) {
+    if (identical(this, other)) return true;
+
+    return other.imagePath == imagePath && other.superLike == superLike;
+  }
+
+  @override
+  int get hashCode => imagePath.hashCode ^ superLike.hashCode;
 }
 
 class MatchesCubit extends HydratedCubit<List<SavedCoffee>> {

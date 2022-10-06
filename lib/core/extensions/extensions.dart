@@ -27,18 +27,6 @@ extension BuildContextExtensionsX on BuildContext {
   /// {@macro l10n_extension}
   ThemeData get theme => Theme.of(this);
 
-  /// Pushes a new route onto the navigator stack.
-  ///
-  /// Usage:
-  /// ```dart
-  /// context.push(Page());
-  /// ```
-  ///
-  /// {@macro l10n_extension}
-  void push(Widget widget) => Navigator.of(this).push(
-        MaterialPageRoute<void>(builder: (context) => widget),
-      );
-
   /// Shows a snackbar with the given message.
   ///
   /// Usage:

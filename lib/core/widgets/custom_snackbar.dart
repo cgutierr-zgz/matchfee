@@ -53,7 +53,7 @@ class CustomSnackbar extends StatelessWidget {
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   onPressed: () {
                     onPressed?.call();
-                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   },
                   child: Text(l10n.acceptButton),
                 ),
@@ -61,7 +61,7 @@ class CustomSnackbar extends StatelessWidget {
                 TextButton(
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   onPressed: () =>
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar(),
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar(),
                   child: Text(l10n.cancelButton),
                 )
               ],

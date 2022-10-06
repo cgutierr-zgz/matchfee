@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:matchfee/app/view/app.dart';
 import 'package:matchfee/core/core.dart';
 
 import '../../helpers/helpers.dart';
@@ -52,7 +53,7 @@ void main() {
     });
   });
 
-  group('Context extensions', () {
+  group('theme extension', () {
     testWidgets(
       'theme of context',
       (tester) async {
@@ -102,6 +103,7 @@ void main() {
         expect(find.text(helloSnackBar), findsOneWidget);
       },
     );
+
     testWidgets(
       '''Tests the error snackbar and clicks the action button''',
       (tester) async {
@@ -135,21 +137,22 @@ void main() {
         await tester.pump();
         expect(find.text(helloSnackBar), findsOneWidget);
         expect(find.text('Accept'), findsOneWidget);
-        await tester.tap(
-          find.byType(TextButton).first,
-          warnIfMissed: false, // Added to remove unnecesary warning
-        );
-        await tester.tap(
+        expect(find.byType(TextButton), findsNWidgets(2));
+
+        // dismiss the snackbar
+        await tester.press(
           find.byType(TextButton).last,
           warnIfMissed: false, // Added to remove unnecesary warning
         );
 
+        await tester.pumpAndSettle(const Duration(seconds: 3));
+
         /*
         * I don't know how to test dismissed snackbars, even after click
-        await tester.pump(const Duration(seconds: 3));
-        expect(find.text(helloSnackBar), findsNothing);
+          on the action button, the snackbar is still there
         */
       },
     );
+
   });
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class BottomItem extends StatefulWidget {
   const BottomItem({
@@ -27,37 +26,25 @@ class BottomItem extends StatefulWidget {
   State<BottomItem> createState() => _BottomItemState();
 }
 
-class _BottomItemState extends State<BottomItem>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController animationController;
+class _BottomItemState extends State<BottomItem> {
   late ValueNotifier<bool> isEnabled;
-  late Timer? timer;
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
     isEnabled = ValueNotifier<bool>(true);
   }
 
   @override
   void dispose() {
     timer?.cancel();
-    animationController
-      ..stop()
-      ..dispose();
     super.dispose();
   }
-
-  void playAnimation() => animationController.forward(from: 0);
 
   // Small debounce to prevent multiple taps
   void onPressed() {
     isEnabled.value = false;
-    playAnimation();
     widget.onPressed!.call();
     timer = Timer(
       const Duration(milliseconds: 250),
@@ -101,11 +88,6 @@ class _BottomItemState extends State<BottomItem>
           );
         },
       ),
-    )
-        .animate(
-          controller: animationController,
-          adapter: ValueAdapter(1),
-        )
-        .scale(begin: 0.8, end: 1);
+    );
   }
 }

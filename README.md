@@ -59,17 +59,22 @@ And another pun 😅
 
 This isn't really a feature of the app, but it's just a page that shows a small information text.
 
+There's a hidden easteregg on this page tho 😏
+
 If there's data stored, you'll be able to wipe it out, and start fresh.
 
-Enjoy 💙
+Hope you enjoy it,
+
+
+_Carlos 💙... 🦄_
 
 ---
 
 ## Things I would have like to do
 
 1. Add more tests:
-There are some things that I've never had the chance to test or I still don't know how to test.
-I know that's a drawback but I'd love to learn about it, hopefully I'll be able to do it in VGV :)
+There are some things that I've never had the chance to do almost any tests in the companies I've worked, or I still don't know how to test those things, so I've decided to leave them out for now, but I would like to add them in the future.
+I know that's a drawback for the company but I'd love to learn about it and improve as much as possible, hopefully I'll be able to do it in VGV :)
 
 2. Add more animations:
 I've added some animations, but I would have like to add more so it looks more polished.
