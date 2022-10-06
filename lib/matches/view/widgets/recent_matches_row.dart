@@ -5,10 +5,10 @@ import 'package:matchfee/matches/matches.dart';
 class RecentMatchesRow extends StatelessWidget {
   const RecentMatchesRow({
     super.key,
-    required this.images,
+    required this.coffees,
   });
 
-  final List<String> images;
+  final List<SavedCoffee> coffees;
 
   static const _padding = EdgeInsets.symmetric(horizontal: 10);
 
@@ -19,13 +19,13 @@ class RecentMatchesRow extends StatelessWidget {
         height: 125,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: images.length,
+          itemCount: coffees.length,
           itemBuilder: (context, index) {
-            final child = CoffeeAvatar(imagePath: images[index]);
+            final child = CoffeeAvatar(imagePath: coffees[index].imagePath);
 
-            return index == 0 && images.length > 2
+            return index == 0 && coffees.length > 2
                 ? _MultipleMatchesOverlay(
-                    matches: images.length,
+                    matches: coffees.length,
                     child: child,
                   ).padded(_padding)
                 : child.padded(_padding);

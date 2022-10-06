@@ -55,6 +55,7 @@ class _CoffeeAvatarState extends State<CoffeeAvatar> {
         clipBehavior: Clip.hardEdge,
         decoration: const BoxDecoration(shape: BoxShape.circle),
         child: Stack(
+          clipBehavior: Clip.none,
           alignment: Alignment.center,
           children: [
             Image.asset(

@@ -51,6 +51,7 @@ extension BuildContextExtensionsX on BuildContext {
     String message, {
     bool error = false,
     IconData? prefixIcon,
+    void Function()? onPressed,
   }) =>
       ScaffoldMessenger.of(this)
         ..clearSnackBars()
@@ -59,8 +60,12 @@ extension BuildContextExtensionsX on BuildContext {
             backgroundColor: Colors.transparent,
             elevation: 0,
             content: error
-                ? CustomSnackbar.error(message: message)
-                : CustomSnackbar(message: message, prefixIcon: prefixIcon),
+                ? CustomSnackbar.error(message: message, onPressed: onPressed)
+                : CustomSnackbar(
+                    message: message,
+                    prefixIcon: prefixIcon,
+                    onPressed: onPressed,
+                  ),
           ),
         );
 }

@@ -55,9 +55,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     if (photoStack.length > 1) {
       // We save the photo locally
-      if (event.liked == true) {
-        final path = await _homeRepository.saveImageToDevice(event.image);
-        _matchesCubit.addMatch(path);
+      if (event.type == NextEventType.like ||
+          event.type == NextEventType.superLike) {
+        final path = await _homeRepository.saveImageToDevice(
+          event.image,
+          superLike: event.type == NextEventType.superLike,
+        );
+        _matchesCubit.addMatch(
+          path,
+          isSuperLike: event.type == NextEventType.superLike,
+        );
         // If its not a like we save it to the stack
       } else {
         photoToDelete = photoStack[0];

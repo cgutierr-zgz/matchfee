@@ -9,12 +9,12 @@ class MatchesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<MatchesCubit, List<String>>(
-        builder: (context, images) {
+      body: BlocBuilder<MatchesCubit, List<SavedCoffee>>(
+        builder: (context, state) {
           return CustomScrollView(
             slivers: [
               const MatchesAppBar(),
-              if (images.isEmpty) _error else ..._body(images),
+              if (state.isEmpty) _error else ..._body(state),
             ],
           );
         },
@@ -34,12 +34,12 @@ class MatchesPage extends StatelessWidget {
         ),
       );
 
-  List<Widget> _body(List<String> images) => [
+  List<Widget> _body(List<SavedCoffee> coffees) => [
         const InfoTitle(text: 'NEW MATCHEES'),
-        RecentMatchesRow(images: images),
-        if (images.length > 1) ...[
-          const InfoTitle(text: 'ALL MATCHEES'),
-          OpenChats(images: images),
+        RecentMatchesRow(coffees: coffees),
+        if (coffees.length > 1) ...[
+          const InfoTitle(text: 'OPEN CHATS'),
+          OpenChats(coffees: coffees),
         ],
       ];
 }

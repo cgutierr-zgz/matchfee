@@ -5,16 +5,16 @@ import 'package:matchfee/matches/matches.dart';
 class OpenChats extends StatelessWidget {
   const OpenChats({
     super.key,
-    required this.images,
+    required this.coffees,
   });
 
-  final List<String> images;
+  final List<SavedCoffee> coffees;
 
   @override
   Widget build(BuildContext context) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        childCount: images.length,
+        childCount: coffees.length,
         (context, index) {
           // Don't mind this, just a random condition
           // so that the UI looks a bit more interesting
@@ -24,8 +24,8 @@ class OpenChats extends StatelessWidget {
 
           return Row(
             children: [
-              CoffeeAvatar(imagePath: images[index]),
-              _ChatText(images: images, index: index),
+              CoffeeAvatar(imagePath: coffees[index].imagePath),
+              _ChatText(coffees: coffees, index: index),
             ].joinWith(const SizedBox(width: 10)),
           ).padded(
             const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -41,16 +41,18 @@ class OpenChats extends StatelessWidget {
 /// don't mind the data <3
 class _ChatText extends StatelessWidget {
   const _ChatText({
-    required this.images,
+    required this.coffees,
     required this.index,
   });
 
-  final List<String> images;
+  final List<SavedCoffee> coffees;
   final int index;
 
-  String get _titleText => 'Coffe nº ${images.length - index + 1}';
+  String get _titleText => 'Coffe nº ${coffees.length - index + 1}';
   String get _chatText =>
-      '''I love you to the moon and back ${images.length - index + 1} ${index + 1 <= 1 ? 'time' : 'times'}''';
+      '''I love you to the moon and back ${coffees.length - index + 1} ${index + 1 <= 1 ? 'time' : 'times'}''';
+
+  static const padding = SizedBox(width: 5);
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +62,19 @@ class _ChatText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            _titleText,
-            style: theme.textTheme.headline5,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          Row(
+            children: [
+              if (coffees[index].superLike)
+                const Icon(Icons.star_rounded, color: Colors.blue),
+              Expanded(
+                child: Text(
+                  _titleText,
+                  style: theme.textTheme.headline5,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ].joinWith(padding),
           ),
           Row(
             children: [
@@ -78,7 +88,7 @@ class _ChatText extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ).padded(const EdgeInsets.only(right: 50)),
               ),
-            ].joinWith(const SizedBox(width: 5)),
+            ].joinWith(padding),
           )
         ],
       ),

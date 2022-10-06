@@ -27,18 +27,27 @@ class HomeStartEvent extends HomeEvent {
   List<Object?> get props => [images];
 }
 
+enum NextEventType { like, dislike, superLike }
+
 /// Event to trigger once we like a coffee
 class NextHomeEvent extends HomeEvent {
-  const NextHomeEvent({
+  const NextHomeEvent.like({
     required this.image,
-    required this.liked,
-  });
+  }) : type = NextEventType.like;
+
+  const NextHomeEvent.superLike({
+    required this.image,
+  }) : type = NextEventType.superLike;
+
+  const NextHomeEvent.dislike({
+    required this.image,
+  }) : type = NextEventType.dislike;
 
   final String image;
-  final bool liked;
+  final NextEventType type;
 
   @override
-  List<Object?> get props => [image, liked];
+  List<Object?> get props => [image, type];
 }
 
 /// Event to trigger when we want to go to the previous coffee

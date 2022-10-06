@@ -30,38 +30,33 @@ class BottomRowHome extends StatelessWidget {
               icon: Icons.close_rounded,
               color: Colors.red,
               onPressed: isLoaded
-                  ? () {
-                      context.read<HomeBloc>().add(
-                            NextHomeEvent(
-                              image: state.images.first,
-                              liked: false,
-                            ),
-                          );
-                    }
+                  ? () => context
+                      .read<HomeBloc>()
+                      .add(NextHomeEvent.dislike(image: state.images.first))
                   : null,
             ),
             BottomItem(
               icon: Icons.favorite_rounded,
               color: Colors.green,
               onPressed: isLoaded
-                  ? () {
-                      context.read<HomeBloc>().add(
-                            NextHomeEvent(
-                              image: state.images.first,
-                              liked: true,
-                            ),
-                          );
-                    }
+                  ? () => context
+                      .read<HomeBloc>()
+                      .add(NextHomeEvent.like(image: state.images.first))
                   : null,
             ),
             BottomItem.small(
               icon: Icons.star_rounded,
               color: Colors.blue,
               onPressed: isLoaded
-                  ? () => context.showSnackbar(
+                  ? () {
+                      context.showSnackbar(
                         'I love u too',
                         prefixIcon: Icons.favorite_rounded,
-                      )
+                      );
+                      context.read<HomeBloc>().add(
+                            NextHomeEvent.superLike(image: state.images.first),
+                          );
+                    }
                   : null,
             ),
           ].joinWith(const SizedBox(width: 20)),

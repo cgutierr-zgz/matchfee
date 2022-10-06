@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matchfee/core/core.dart';
 import 'package:matchfee/matches/matches.dart';
+import 'package:matchfee/settings/settings.dart';
 
 class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
   const AppBarHome({super.key});
@@ -16,7 +17,7 @@ class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
       leading: IconButton(
-        onPressed: () {},
+          onPressed: () => context.push(const SettingsPage()),
         icon: const Icon(Icons.settings),
       ),
       centerTitle: true,

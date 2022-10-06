@@ -135,26 +135,17 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
 
   void onPanEnd(DragEndDetails details, HomeLoaded state) {
     if (position.dx > 100) {
-      //  context.read<HomeBloc>().add(const HomeEvent.like());
       // send it to the right
       position = const Offset(500, 0);
-      context.read<HomeBloc>().add(
-            NextHomeEvent(
-              image: state.images.first,
-              liked: true,
-            ),
-          );
+      context
+          .read<HomeBloc>()
+          .add(NextHomeEvent.like(image: state.images.first));
       resetPosition();
     } else if (position.dx < -100) {
-      //  context.read<HomeBloc>().add(const HomeEvent.dislike());
-
       // send it to the left
       position = const Offset(-500, 0);
       context.read<HomeBloc>().add(
-            NextHomeEvent(
-              image: state.images.first,
-              liked: false,
-            ),
+            NextHomeEvent.dislike(image: state.images.first),
           );
       resetPosition();
     } else {
@@ -218,7 +209,6 @@ class _CardView extends StatelessWidget {
 
 class _LoadingWidget extends StatelessWidget {
   const _LoadingWidget();
-
 
   @override
   Widget build(BuildContext context) {
