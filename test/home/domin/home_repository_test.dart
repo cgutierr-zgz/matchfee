@@ -4,11 +4,11 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:matchfee/home/home.dart';
 
+import '../../helpers/helpers.dart';
 
 void main() {
   group('Home repository', () {
-    test('getCoffeeImages should return a list of strings (coffee images)',
-        () async {
+    test('getCoffeeImages should return a list of strings', () async {
       final repository = HomeRepository(
         client: Client(),
       );
@@ -16,22 +16,19 @@ void main() {
       final result = await repository.getCoffeeImages(1);
 
       expect(result, isA<List<String>>());
+      expect(result.length, 1);
     });
-    test(
-        'getCoffeeImages should return a list of strings (coffee images), without error',
-        () async {
-      final repository = HomeRepository(
-        client: MockClient(
-          (request) async {
-            return Response('{"file":  "test"}', 200);
-          },
-        ),
-      );
 
-      final result = await repository.getCoffeeImages(1);
+    test('getCoffeeImages should return a list of strings, without error',
+        () async {
+      final repository = HomeRepository(client: mockClient);
+
+      final result = await repository.getCoffeeImages(5);
 
       expect(result, isA<List<String>>());
+      expect(result.length, 5);
     });
+
     test('getImageData the bytes of the image', () async {
       final bytes = Uint8List(10);
       final repository = HomeRepository(
@@ -49,37 +46,29 @@ void main() {
       expect(result, isA<Uint8List>());
     });
 
+    /*
+  * This two functions are not really well tested
+  * Since I don't know how to mock this storage
+  * to receive and store the data
+  */
     test('saveImageToDevice should save the image', () async {
-      final repository = HomeRepository(
-        client: MockClient(
-          (request) async {
-            return Response('Henlo, i dont need client here', 200);
-          },
-        ),
-      );
+      final repository = HomeRepository(client: mockClient);
 
       expect(
         () => repository.saveImageToDevice(
           'https://coffee.alexflipnote.dev/9nbUu7WyiFc_coffee.jpg',
         ),
-        // Since I don't know how to mock this storage... sorry
         throwsA(isA<Exception>()),
       );
     });
+
     test('getImageFromDevice should save the image', () async {
-      final repository = HomeRepository(
-        client: MockClient(
-          (request) async {
-            return Response('Henlo, i dont need client here', 200);
-          },
-        ),
-      );
+      final repository = HomeRepository(client: mockClient);
 
       expect(
         () => repository.getImageFromDevice(
           'carlito/doc/mypath.1.png',
         ),
-        // Since I don't know how to mock this storage... sorry
         throwsA(isA<Exception>()),
       );
     });

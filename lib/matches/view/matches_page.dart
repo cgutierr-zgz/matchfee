@@ -24,10 +24,10 @@ class MatchesPage extends StatelessWidget {
     );
   }
 
-  static Widget _error(AppLocalizations l10n) => SliverToBoxAdapter(
+  Widget _error(AppLocalizations l10n) => SliverToBoxAdapter(
         child: Column(
           children: [
-            const ErrorImage(size: 250).padded(),
+            const ErrorImage.square(size: 250).padded(),
             Text(
               l10n.noMatcheesYet,
               textAlign: TextAlign.center,

@@ -15,7 +15,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _matchesCubit = matchesCubit;
 
     _init();
-    //on<HomeEvent>(_onAppStarted);
     on<HomeStartEvent>(_onAppStarted);
     on<NextHomeEvent>(_onLikeHome);
     on<PreviousHomeEvent>(_onPreviousHome);
@@ -28,9 +27,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<String> photoStack = [];
   String? photoToDelete;
 
-  // We initialize the app with two photos in the stack
   Future<void> _init() async {
     try {
+      // We initialize the app with some photos in the stack
       final photos = await _homeRepository.getCoffeeImages(4);
 
       add(HomeStartEvent(photos));
@@ -54,16 +53,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     if (photoStack.length > 1) {
-      // We save the photo locally
       if (event.type == NextEventType.like ||
           event.type == NextEventType.superLike) {
+        // We save the photo locally if its not a dislike
         final path = await _homeRepository.saveImageToDevice(event.image);
         _matchesCubit.addMatch(
           path,
           isSuperLike: event.type == NextEventType.superLike,
         );
-        // If its not a like we save it to the stack
       } else {
+        // If its not a like we save it to the stack, so we can go back once
         photoToDelete = photoStack[0];
       }
 

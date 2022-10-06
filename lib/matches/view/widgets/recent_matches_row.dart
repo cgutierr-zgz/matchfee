@@ -60,27 +60,7 @@ class _MultipleMatchesOverlay extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: AppTheme.goldColor, width: 4),
           ),
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
-              child,
-              const Positioned(
-                bottom: -12,
-                child: Icon(
-                  Icons.favorite,
-                  color: AppTheme.goldColor,
-                  shadows: [
-                    BoxShadow(
-                      color: Colors.white,
-                      spreadRadius: -2,
-                      blurRadius: 10,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          child: _heartOutline(child),
         ),
         Positioned(
           bottom: 0,
@@ -93,4 +73,26 @@ class _MultipleMatchesOverlay extends StatelessWidget {
       ],
     );
   }
+
+  Widget _heartOutline(Widget child) => Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.bottomCenter,
+        children: [
+          child,
+          const Positioned(
+            bottom: -12,
+            child: Icon(
+              Icons.favorite_rounded,
+              color: AppTheme.goldColor,
+              shadows: [
+                BoxShadow(
+                  color: Colors.white,
+                  spreadRadius: -2,
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
 }

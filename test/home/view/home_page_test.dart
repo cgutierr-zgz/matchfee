@@ -8,15 +8,17 @@ import 'package:matchfee/settings/view/settings_page.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('MatchesAppBar', () {
-    testWidgets('buttons are visible and interactable', (tester) async {
+  group('HomePage', () {
+    testWidgets('Bottom Navbar buttons are visible and the card shows up',
+        (tester) async {
       await tester.pumpApp(const App());
 
       expect(find.byType(HomePage), findsOneWidget);
       expect(find.byType(CoffeeCards), findsOneWidget);
       expect(find.byType(BottomItem), findsNWidgets(4));
     });
-    testWidgets('navigates to the matches page', (tester) async {
+
+    testWidgets('Navigates to the matches page', (tester) async {
       await tester.pumpApp(const App());
 
       expect(find.byIcon(Icons.chat_bubble_rounded), findsOneWidget);
@@ -25,7 +27,8 @@ void main() {
 
       expect(find.byType(MatchesPage), findsOneWidget);
     });
-    testWidgets('navigates to the settings page', (tester) async {
+
+    testWidgets('Navigates to the settings page', (tester) async {
       await tester.pumpApp(const App());
 
       expect(find.byIcon(Icons.settings_rounded), findsOneWidget);

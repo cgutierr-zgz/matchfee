@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// Themes of the app
 abstract class AppTheme {
+  /// Default gold color of the app
   static const Color goldColor = Color(0xffe6ae42);
 
+  /// Light theme of the app
   static ThemeData get lightTheme => ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         brightness: Brightness.light,
@@ -16,4 +19,7 @@ abstract class AppTheme {
           elevation: 0,
         ),
       );
+
+  /// Dark theme of the app
+  /// ...
 }

@@ -6,7 +6,7 @@ import '../../../helpers/helpers.dart';
 
 void main() {
   group('Coffee Avatar', () {
-    testWidgets('renders coffe avatar icon', (tester) async {
+    testWidgets('Renders coffe avatar', (tester) async {
       await tester.pumpApp(
         const CoffeeAvatar(
           imagePath: 'image1.png',
@@ -17,7 +17,8 @@ void main() {
       await tester.tap(find.byIcon(Icons.delete));
 
       /*
-      * Dont know how to test the AnimatedOpacity widget
+      * Dont know how to test the Opacity of a widget
+      * Here the trash icon is rendered with an opacity of 1 after the tap
       */
     });
   });

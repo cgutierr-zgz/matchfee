@@ -16,7 +16,6 @@ void main() {
         SavedCoffee(imagePath: '6', superLike: false),
         SavedCoffee(imagePath: '7', superLike: true),
       ];
-      const text = 'Hi Im carlito';
       await tester.pumpApp(
         const Scaffold(
           body: CustomScrollView(
@@ -29,9 +28,12 @@ void main() {
         ),
       );
 
-      // Finds 6 because we have this condition:
-      // if (index.isEven && index % 4 == 0 && index % 5 == 0) {
-      expect(find.byType(CoffeeAvatar), findsNWidgets(6));
+      // ❗️Important:
+      // Finds 5 because we have this condition:
+      // if (index.isEven && index % 3 == 0) {
+      expect(find.byType(CoffeeAvatar), findsNWidgets(5));
+      // And the same applies for the star
+      expect(find.byIcon(Icons.star_rounded), findsNWidgets(1));
       // CoffeeAvatar is the only single widget inside each OpenChat Row
     });
   });

@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:matchfee/core/core.dart';
 
+/// {@template custom_snackbar}
+/// A custom snackbar with two constructors:
+/// [CustomSnackbar] and [CustomSnackbar.error].
+///
+/// Example:
+/// ```dart
+/// CustomSnackbar(
+///   message: 'My message',
+///   prefixIcon: Icons.abc,
+///   onPressed: () {},
+/// );
+///
+/// CustomSnackbar.error(
+///   message: 'My Error',
+///   onPressed: () {},
+///   // prefixIcon is set by default to Icons.error
+/// );
+/// ```
+/// {@endtemplate}
+
 class CustomSnackbar extends StatelessWidget {
+  /// {@macro custom_snackbar}
   const CustomSnackbar({
     super.key,
     required this.message,
@@ -9,6 +30,7 @@ class CustomSnackbar extends StatelessWidget {
     this.onPressed,
   }) : backgroundColor = Colors.blueAccent;
 
+  /// {@macro custom_snackbar}
   const CustomSnackbar.error({
     super.key,
     required this.message,
@@ -23,8 +45,6 @@ class CustomSnackbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -46,28 +66,32 @@ class CustomSnackbar extends StatelessWidget {
               ),
             ].joinWith(const SizedBox(width: 6)),
           ),
-          if (onPressed != null)
-            Row(
-              children: [
-                TextButton(
-                  style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                  onPressed: () {
-                    onPressed?.call();
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  },
-                  child: Text(l10n.acceptButton),
-                ),
-                const Spacer(),
-                TextButton(
-                  style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                  onPressed: () =>
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-                  child: Text(l10n.cancelButton),
-                )
-              ],
-            )
+          if (onPressed != null) _actions(context)
         ],
       ),
+    );
+  }
+
+  Widget _actions(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Row(
+      children: [
+        TextButton(
+          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+          onPressed: () {
+            onPressed?.call();
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+          child: Text(l10n.acceptButton),
+        ),
+        const Spacer(),
+        TextButton(
+          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+          onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+          child: Text(l10n.cancelButton),
+        )
+      ],
     );
   }
 }

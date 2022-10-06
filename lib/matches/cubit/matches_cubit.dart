@@ -1,7 +1,5 @@
-
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:matchfee/matches/matches.dart';
-
 
 class MatchesCubit extends HydratedCubit<List<SavedCoffee>> {
   MatchesCubit() : super([]);
@@ -22,7 +20,7 @@ class MatchesCubit extends HydratedCubit<List<SavedCoffee>> {
   }
 
   // Delete the given match from the list of matches
-  void wipeData() => emit([]);
+  void wipeData() => emit([]); // Would be nice to also delete files from disk
 
   @override
   List<SavedCoffee> fromJson(Map<String, dynamic> json) {

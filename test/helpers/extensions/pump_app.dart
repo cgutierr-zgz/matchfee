@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart';
 import 'package:matchfee/core/core.dart';
+import 'package:matchfee/home/home.dart';
+import 'package:matchfee/matches/matches.dart';
 
-import '../mocks/hydrated_storage.dart';
+import '../mocks/mocks.dart';
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(Widget widget) {
@@ -17,9 +20,22 @@ extension PumpApp on WidgetTester {
           DefaultWidgetsLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
-        home: BlocProvider(
-          create: (context) => buildMatchesCubit(),
-          child: widget,
+        home: RepositoryProvider<HomeRepository>(
+          create: (context) => HomeRepository(client: Client()),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => buildMatchesCubit(),
+              ),
+              BlocProvider<HomeBloc>(
+                create: (context) => HomeBloc(
+                  homeRepository: context.read<HomeRepository>(),
+                  matchesCubit: context.read<MatchesCubit>(),
+                ),
+              ),
+            ],
+            child: widget,
+          ),
         ),
       ),
     );

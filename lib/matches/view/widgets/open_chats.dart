@@ -18,7 +18,7 @@ class OpenChats extends StatelessWidget {
         (context, index) {
           // Don't mind this, just a random condition
           // so that the UI looks a bit more interesting
-          if (index.isEven && index % 4 == 0 && index % 5 == 0) {
+          if (index.isEven && index % 3 == 0) {
             return const SizedBox.shrink();
           }
 

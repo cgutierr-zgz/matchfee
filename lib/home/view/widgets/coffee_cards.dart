@@ -127,8 +127,6 @@ class _CardView extends StatelessWidget {
   final int index;
   final HomeState state;
 
-  //static const size = 500.0;
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 0.6;
@@ -153,10 +151,9 @@ class _CardView extends StatelessWidget {
               width: double.maxFinite,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
+                return ErrorImage(
                   height: height,
                   width: double.maxFinite,
-                  'assets/images/error.png',
                 );
               },
               loadingBuilder: (context, child, loadingProgress) {

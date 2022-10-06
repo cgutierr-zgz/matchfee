@@ -6,7 +6,7 @@ import '../../../helpers/helpers.dart';
 
 void main() {
   group('Info tile', () {
-    testWidgets('renders the text correctly', (tester) async {
+    testWidgets('Renders the given text correctly', (tester) async {
       const text = 'Hi Im carlito';
       await tester.pumpApp(
         const Scaffold(

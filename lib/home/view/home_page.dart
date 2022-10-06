@@ -10,28 +10,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<HomeRepository>(
-      create: (_) => HomeRepository(client: Client()),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<HomeBloc>(
-            create: (context) => HomeBloc(
-              homeRepository: context.read<HomeRepository>(),
-              matchesCubit: context.read<MatchesCubit>(),
-            ),
-          ),
-        ],
-        child: const HomeView(),
-      ),
-    );
-  }
-}
-
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HomeAppBar(),
       body: Center(

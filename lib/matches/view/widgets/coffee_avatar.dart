@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchfee/core/core.dart';
+import 'package:matchfee/home/home.dart';
 import 'package:matchfee/matches/matches.dart';
 
 class CoffeeAvatar extends StatefulWidget {
@@ -58,19 +59,30 @@ class _CoffeeAvatarState extends State<CoffeeAvatar> {
           clipBehavior: Clip.none,
           alignment: Alignment.center,
           children: [
-            Image.asset(
-              widget.imagePath,
-              height: size,
-              width: size,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const ErrorImage(size: size),
-            ),
+            _imageBuilder,
             deleteIcon,
           ],
         ),
       ),
     );
   }
+
+  Widget get _imageBuilder => FutureBuilder(
+        future:
+            context.read<HomeRepository>().getImageFromDevice(widget.imagePath),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Image.memory(
+              snapshot.data!,
+              height: size,
+              width: size,
+              fit: BoxFit.cover,
+            );
+          } else {
+            return const ErrorImage.square(size: size);
+          }
+        },
+      );
 
   Widget get deleteIcon => AnimatedOpacity(
         duration: const Duration(milliseconds: 250),

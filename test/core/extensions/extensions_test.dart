@@ -6,6 +6,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   const horizontalSpacer = SizedBox(width: 10);
+
   group('Widget extensions', () {
     testWidgets('Adding padding in a widget', (tester) async {
       await tester.pumpWidget(
@@ -18,6 +19,7 @@ void main() {
 
       expect(find.byType(Padding), findsOneWidget);
     });
+
     testWidgets('Adding separator in between items', (tester) async {
       const items = <Widget>[Text('a'), Text('b'), Text('c'), Text('d')];
       final result = items.joinWith(horizontalSpacer);
@@ -52,9 +54,9 @@ void main() {
     });
   });
 
-  group('theme extension', () {
+  group('Theme extension', () {
     testWidgets(
-      'theme of context',
+      'Theme of context',
       (tester) async {
         // FlutterError.onError = ignoreOverflowErrors;
         final theme = ThemeData(brightness: Brightness.light);
@@ -73,9 +75,9 @@ void main() {
     );
   });
 
-  group('Snackbar action show', () {
+  group('Snackbar extensions', () {
     testWidgets(
-      '''Tests the snackbar''',
+      'Show snackbar',
       (tester) async {
         const helloSnackBar = 'Hello SnackBar';
         const tapTarget = Key('tap-target');
@@ -95,7 +97,8 @@ void main() {
         expect(find.text(helloSnackBar), findsNothing);
         await tester.tap(
           find.byKey(tapTarget),
-          warnIfMissed: false, // Added to remove unnecesary warning
+          // Added to remove unnecesary warning
+          warnIfMissed: false,
         );
         expect(find.text(helloSnackBar), findsNothing);
         await tester.pump();
@@ -104,7 +107,7 @@ void main() {
     );
 
     testWidgets(
-      '''Tests the error snackbar and clicks the action button''',
+      'Tests the error snackbar and clicks the action button',
       (tester) async {
         const helloSnackBar = 'Hello SnackBar';
         const tapTarget = Key('tap-target');
@@ -128,7 +131,8 @@ void main() {
         expect(find.text(helloSnackBar), findsNothing);
         await tester.tap(
           find.byKey(tapTarget),
-          warnIfMissed: false, // Added to remove unnecesary warning
+          // Added to remove unnecesary warning
+          warnIfMissed: false,
         );
         expect(find.text(helloSnackBar), findsNothing);
         await tester.pump();
@@ -139,7 +143,8 @@ void main() {
         // dismiss the snackbar
         await tester.press(
           find.byType(TextButton).last,
-          warnIfMissed: false, // Added to remove unnecesary warning
+          // Added to remove unnecesary warning
+          warnIfMissed: false,
         );
 
         await tester.pumpAndSettle(const Duration(seconds: 3));

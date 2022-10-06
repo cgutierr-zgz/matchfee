@@ -9,13 +9,8 @@ class HomeRepository {
   HomeRepository({required Client client}) {
     _client = client;
   }
-  late final Client _client;
 
-  // Future<Match> getMatch(String id);
-  // Future<List<Match>> getMatches();
-  // Future<void> saveMatch(Match match);
-  // Future<void> deleteMatch(String id);
-  // Future<void> deleteMatches();
+  late final Client _client;
 
   /// Returns n random images from the coffee API
   Future<List<String>> getCoffeeImages(int ammount) async {
@@ -73,7 +68,7 @@ class HomeRepository {
 
       return file;
     } catch (e) {
-      throw Exception('Failed to save image');
+      throw Exception('Failed to read image');
     }
   }
 }

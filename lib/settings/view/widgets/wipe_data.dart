@@ -13,16 +13,7 @@ class WipeData extends StatelessWidget {
         if (state.isNotEmpty) {
           return Column(
             children: [
-              const Align(
-                child: Text(
-                  'Reset the data just in case you want to start over',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              _hintResetData,
               Row(
                 children: [
                   Expanded(
@@ -40,12 +31,7 @@ class WipeData extends StatelessWidget {
                         ),
                       ),
                       child: const Text('Wipe data'),
-                      onPressed: () => context.showSnackbar(
-                        'Are your sure you want to wipe the data?',
-                        error: true,
-                        onPressed: () =>
-                            context.read<MatchesCubit>().wipeData(),
-                      ),
+                      onPressed: () => onPressed(context),
                     ),
                   ),
                 ],
@@ -58,4 +44,21 @@ class WipeData extends StatelessWidget {
       },
     );
   }
+
+  Widget get _hintResetData => const Align(
+        child: Text(
+          'Reset the data just in case you want to start over',
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+
+  void onPressed(BuildContext context) => context.showSnackbar(
+        'Are your sure you want to wipe the data?',
+        error: true,
+        onPressed: () => context.read<MatchesCubit>().wipeData(),
+      );
 }

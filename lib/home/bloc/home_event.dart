@@ -50,6 +50,7 @@ class NextHomeEvent extends HomeEvent {
 }
 
 /// Event to trigger when we want to go to the previous coffee
+/// This event is only valid if we dislaked one coffee, like in Tin...Matchfee
 class PreviousHomeEvent extends HomeEvent {
   const PreviousHomeEvent();
 }

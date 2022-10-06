@@ -14,6 +14,7 @@ void main() {
     imagePath: 'image2.png',
     superLike: false,
   );
+
   group('MatchesCubit', () {
     late MatchesCubit matchesCubit;
 
@@ -104,6 +105,8 @@ void main() {
     );
 
     /*
+    * I don't really know how to test the storage part of the cubit
+
     late Storage storage;
     late MatchesCubit cubit;
     setUp(() {
@@ -118,9 +121,6 @@ void main() {
       );
       verify<dynamic>(() => storage.read('')).called(1);
     });
-
-    * I don't really know how to test the storage part of the cubit, so can't
-    really test teh fromMap
     */
   });
 }

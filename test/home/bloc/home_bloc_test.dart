@@ -1,7 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:matchfee/home/home.dart';
 
 import 'package:matchfee/matches/matches.dart';
@@ -13,41 +11,37 @@ void main() {
     late HomeBloc homeBloc;
     late MatchesCubit matchesCubit;
     final exception = Exception('error');
-    final images = ['image1', 'image2'];
+    final images = ['test', 'test'];
 
     setUp(() {
       matchesCubit = buildMatchesCubit();
       homeBloc = HomeBloc(
         matchesCubit: matchesCubit,
-        homeRepository: HomeRepository(
-          client: MockClient(
-            (request) async {
-              return Response('{"file":  "test"}', 200);
-            },
-          ),
-        ),
+        homeRepository: HomeRepository(client: mockClient),
+        // Mind that we have the images named 'test' in the mock client
+        // and on top so images will appear with the same name
       );
     });
 
-    test('initial state is empty', () {
+    test('Initial state is Loading', () {
       expect(homeBloc.state, equals(const HomeLoading()));
     });
 
     blocTest<HomeBloc, HomeState>(
-      'Adds new matchees to the array (mock images)',
+      'Emits new matches when Start event is added',
       build: () => homeBloc,
       act: (bloc) => bloc.add(HomeStartEvent(images)),
       expect: () => [
         equals(HomeLoaded(images)),
-        // Emits 'test' because thats the name we gave in the mock client
         equals(const HomeLoaded(['test', 'test', 'test', 'test'])),
       ],
     );
 
-/* 
-  * Having trouble testing the saveImage to device...
-
-  So i can't relly test the  NextHomeEvent.like and NextHomeEvent.superLike :/
+    /* 
+    * Having trouble testing the saveImage to device...
+    * So i can't relly test:
+    * NextHomeEvent.like and NextHomeEvent.superLike :/
+    * Since both of them call saveImage
 
     blocTest<HomeBloc, HomeState>(
       'Adds a new matchee',
@@ -65,6 +59,7 @@ void main() {
       ],
     );
     */
+
     blocTest<HomeBloc, HomeState>(
       'Dislikes the given matchee',
       build: () => homeBloc,
@@ -74,14 +69,14 @@ void main() {
           NextHomeEvent.dislike(image: images[0]),
         ),
       expect: () => [
-        equals(const HomeLoaded(['image2', 'test'])),
+        equals(const HomeLoaded(['test', 'test'])),
         equals(const HomeLoading()),
-        equals(const HomeLoaded(['image2', 'test'])),
+        equals(const HomeLoaded(['test', 'test'])),
         equals(const HomeLoaded(['test', 'test', 'test', 'test'])),
       ],
     );
     blocTest<HomeBloc, HomeState>(
-      'Dislikes the given matchee and goes back',
+      'Dislikes the given matchee and goes back to the previous one',
       build: () => homeBloc,
       act: (bloc) => bloc
         ..add(HomeStartEvent(images))
@@ -92,17 +87,17 @@ void main() {
           const PreviousHomeEvent(),
         ),
       expect: () => [
-        equals(const HomeLoaded(['image2', 'test'])),
+        equals(const HomeLoaded(['test', 'test'])),
         equals(const HomeLoading()),
-        equals(const HomeLoaded(['image2', 'test'])),
+        equals(const HomeLoaded(['test', 'test'])),
         equals(const HomeLoading()),
-        equals(const HomeLoaded(['image2', 'test'])),
+        equals(const HomeLoaded(['test', 'test'])),
         equals(const HomeLoaded(['test', 'test', 'test', 'test'])),
       ],
     );
 
     blocTest<HomeBloc, HomeState>(
-      'Adds an error',
+      'Emits an error after starting',
       build: () => homeBloc,
       act: (bloc) => bloc
         ..add(HomeStartEvent(images))

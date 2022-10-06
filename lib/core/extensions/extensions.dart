@@ -27,7 +27,7 @@ extension BuildContextExtensionsX on BuildContext {
   /// {@macro l10n_extension}
   ThemeData get theme => Theme.of(this);
 
-  /// Shows a snackbar with the given message.
+  /// Shows a snackbar with the given message and hides the other snackbars.
   ///
   /// Usage:
   /// ```dart

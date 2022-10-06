@@ -9,6 +9,7 @@ void main() {
     imagePath: 'coffee2.png',
     superLike: true,
   );
+
   group('Coffe class tests', () {
     test('fromJson', () {
       final json = jsonEncode({
