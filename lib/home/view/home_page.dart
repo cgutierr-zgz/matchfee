@@ -33,7 +33,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarHome(),
+      appBar: const HomeAppBar(),
       body: Center(
         child: const CoffeeCards().padded(),
       ),

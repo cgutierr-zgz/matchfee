@@ -3,8 +3,8 @@ import 'package:matchfee/core/core.dart';
 import 'package:matchfee/matches/matches.dart';
 import 'package:matchfee/settings/settings.dart';
 
-class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarHome({super.key});
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const HomeAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
