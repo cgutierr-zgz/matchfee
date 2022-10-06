@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchfee/core/core.dart';
 import 'package:matchfee/home/home.dart';
@@ -48,6 +47,8 @@ class FontCoffeeCard extends StatefulWidget {
 class _FontCoffeeCardState extends State<FontCoffeeCard>
     with TickerProviderStateMixin {
   late final AnimationController animationController;
+  late Offset position;
+  late bool isDragging;
 
   @override
   void initState() {
@@ -56,6 +57,8 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
+    position = Offset.zero;
+    isDragging = false;
   }
 
   @override
@@ -64,42 +67,99 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
     super.dispose();
   }
 
-  Future<void> onSlide() async => animationController
-      .forward(from: 0)
-      .then((value) => animationController.reset());
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
         if (state is HomeLoaded) {
-          onSlide(); // TODO(c): Fix this
+          // TODO(c): Fix this onSlide();
         }
       },
       builder: (context, state) {
+        final isLoaded = state is HomeLoaded;
         return GestureDetector(
-          //onTap: onSlide,
-          //onHorizontalDragEnd: (details) => onSlide(),
-          //onHorizontalDragStart: (details) async {
-          //},
-          //onHorizontalDragUpdate: print,
-          child: _CardView(state: state)
-              .animate(
-                controller: animationController,
-                adapter: ValueAdapter(),
-              )
-              .slide(
-                begin: Offset.zero,
-                end: const Offset(2, 0),
-              )
-              .rotate(
-                begin: 0,
-                end: 0.05,
-                alignment: Alignment.center,
+          onTap: onSlide,
+          onPanStart: isLoaded ? onPanStart : null,
+          onPanEnd: isLoaded ? (details) => onPanEnd(details, state) : null,
+          onPanUpdate: isLoaded ? onPanUpdate : null,
+          child: AnimatedContainer(
+            duration:
+                isDragging ? const Duration(milliseconds: 50) : Duration.zero,
+            transform: Matrix4.identity()
+              ..translate(
+                position.dx,
+                position.dy,
               ),
+            child: _CardView(state: state),
+            /* 
+            TODO(c): Fix this
+                .animate(
+                  controller: animationController,
+                  adapter: ValueAdapter(),
+                )
+                .slide(
+                  begin: Offset.zero,
+                  end: const Offset(2, 0),
+                )
+                .rotate(
+                  begin: 0,
+                  end: 0.05,
+                  alignment: Alignment.center,
+                ),
+                */
+          ),
         );
       },
     );
+  }
+
+  Future<void> onSlide() async => animationController
+      .forward(from: 0)
+      .then((value) => animationController.reset());
+
+  void resetPosition() {
+    Future<void>.delayed(const Duration(milliseconds: 200))
+        .then((value) => setState(() => position = Offset.zero));
+    setState(() => isDragging = false);
+  }
+
+  void onPanStart(DragStartDetails details) => setState(() {
+        isDragging = true;
+        position = Offset.zero;
+      });
+
+  void onPanUpdate(DragUpdateDetails details) => setState(() {
+        isDragging = true;
+        position += details.delta;
+      });
+
+  void onPanEnd(DragEndDetails details, HomeLoaded state) {
+    if (position.dx > 100) {
+      //  context.read<HomeBloc>().add(const HomeEvent.like());
+      // send it to the right
+      position = const Offset(500, 0);
+      context.read<HomeBloc>().add(
+            NextHomeEvent(
+              image: state.images.first,
+              liked: true,
+            ),
+          );
+      resetPosition();
+    } else if (position.dx < -100) {
+      //  context.read<HomeBloc>().add(const HomeEvent.dislike());
+
+      // send it to the left
+      position = const Offset(-500, 0);
+      context.read<HomeBloc>().add(
+            NextHomeEvent(
+              image: state.images.first,
+              liked: false,
+            ),
+          );
+      resetPosition();
+    } else {
+      resetPosition();
+    }
   }
 }
 

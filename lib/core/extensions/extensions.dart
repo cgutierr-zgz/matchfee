@@ -52,15 +52,17 @@ extension BuildContextExtensionsX on BuildContext {
     bool error = false,
     IconData? prefixIcon,
   }) =>
-      ScaffoldMessenger.of(this).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          content: error
-              ? CustomSnackbar.error(message: message)
-              : CustomSnackbar(message: message, prefixIcon: prefixIcon),
-        ),
-      );
+      ScaffoldMessenger.of(this)
+        ..clearSnackBars()
+        ..showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            content: error
+                ? CustomSnackbar.error(message: message)
+                : CustomSnackbar(message: message, prefixIcon: prefixIcon),
+          ),
+        );
 }
 
 /// {@template joined_widgets}
