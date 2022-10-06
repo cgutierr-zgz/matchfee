@@ -16,7 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     _init();
     on<HomeStartEvent>(_onAppStarted);
-    on<NextHomeEvent>(_onLikeHome);
+    on<NextHomeEvent>(_onNextHome);
     on<PreviousHomeEvent>(_onPreviousHome);
     on<HomeErrorEvent>(_onError);
   }
@@ -48,7 +48,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoaded(photoStack));
   }
 
-  Future<void> _onLikeHome(
+  Future<void> _onNextHome(
     NextHomeEvent event,
     Emitter<HomeState> emit,
   ) async {
@@ -63,13 +63,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         );
       } else {
         // If its not a like we save it to the stack, so we can go back once
-        photoToDelete = photoStack[0];
+        photoToDelete = photoStack.first;
       }
 
       final photos = await _homeRepository.getCoffeeImages(1);
       photoStack
-        ..addAll(photos)
-        ..removeAt(0);
+        ..removeAt(0) // We remove the front photo
+        ..addAll(photos); // Then we add the new photos to the stack
 
       emit(const HomeLoading());
       emit(HomeLoaded(photoStack));

@@ -26,7 +26,10 @@ class CoffeeCards extends StatelessWidget {
                 (index) => Transform.rotate(
                   //offset: const Offset(0, -50),
                   angle: -math.pi / 40.0 + index * math.pi / 20.0,
-                  child: _CardView.back(state: state, index: index + 1),
+                  child: _CardView(
+                    state: state,
+                    index: state.images.length - index - 1,
+                  ),
                 ),
               ),
             const FontCoffeeCard(),
@@ -73,7 +76,7 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
                 position.dx,
                 position.dy,
               ),
-            child: _CardView(state: state),
+            child: _CardView(state: state, index: 0),
           ),
         );
       },
@@ -118,8 +121,7 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
 }
 
 class _CardView extends StatelessWidget {
-  const _CardView({required this.state}) : index = 0;
-  const _CardView.back({
+  const _CardView({
     required this.state,
     required this.index,
   });
@@ -144,9 +146,7 @@ class _CardView extends StatelessWidget {
           if (state is HomeLoading) const _LoadingWidget(),
           if (state is HomeLoaded)
             Image.network(
-              index == 0
-                  ? (state as HomeLoaded).images.first
-                  : (state as HomeLoaded).images[index],
+              (state as HomeLoaded).images[index],
               height: height,
               width: double.maxFinite,
               fit: BoxFit.cover,
