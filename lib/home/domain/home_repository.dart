@@ -64,7 +64,7 @@ class HomeRepository {
     }
   }
 
-  /// Saves the image data to the device
+  /// Gets the image data from the device
   Future<Uint8List> getImageFromDevice(String path) async {
     try {
       final output = File(path);

@@ -11,7 +11,6 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
-      // TODO(carlito): darkTheme: AppTheme.darkTheme,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:matchfee/home/home.dart';
 import 'package:matchfee/matches/matches.dart';

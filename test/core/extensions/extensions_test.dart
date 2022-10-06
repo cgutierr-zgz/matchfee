@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:matchfee/app/view/app.dart';
 import 'package:matchfee/core/core.dart';
 
 import '../../helpers/helpers.dart';
@@ -118,9 +117,7 @@ void main() {
                   onTap: () => context.showSnackbar(
                     helloSnackBar,
                     error: true,
-                    onPressed: () {
-                      print('henlo');
-                    },
+                    onPressed: () => debugPrint('henlo'),
                   ),
                   behavior: HitTestBehavior.opaque,
                 );
@@ -153,6 +150,5 @@ void main() {
         */
       },
     );
-
   });
 }

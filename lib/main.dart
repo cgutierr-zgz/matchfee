@@ -4,5 +4,3 @@ import 'package:matchfee/bootstrap.dart';
 void main() {
   bootstrap(() => const App());
 }
-
-// TODO: Add translations

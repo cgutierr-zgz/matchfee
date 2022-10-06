@@ -74,6 +74,7 @@ _Carlos 💙... 🦄_
 
 1. Add more tests:
 There are some things that I've never had the chance to do almost any tests in the companies I've worked, or I still don't know how to test those things, so I've decided to leave them out for now, but I would like to add them in the future.
+There's notes on the tests with the parts I don't really know how to test, like snackbar dismissions and storage...
 I know that's a drawback for the company but I'd love to learn about it and improve as much as possible, hopefully I'll be able to do it in VGV :)
 
 2. Add more animations:
@@ -108,6 +109,9 @@ Used to get the path where the data is being stored, so I can write there and re
 4. [http](https://pub.dev/packages/http)
 Used to make the requests to the Coffee API to get the random image.
 I'm more used to [dio](https://pub.dev/packages/dio), but http was more than enough for this test.
+
+5. [equtable](https://pub.dev/packages/equatable)
+I didn't thought I would need it, but I ended up using it to compare the states of the blocs correctly, I'm used to it and I love it.
 
 ---
 

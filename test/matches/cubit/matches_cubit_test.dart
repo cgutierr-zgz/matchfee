@@ -80,5 +80,47 @@ void main() {
         equals([]),
       ],
     );
+
+    blocTest<MatchesCubit, List<SavedCoffee>>(
+      'Wipes the data',
+      build: buildMatchesCubit,
+      act: (cubit) {
+        cubit
+          ..addMatch(
+            coffeeSample.imagePath,
+            isSuperLike: coffeeSample.superLike,
+          )
+          ..addMatch(
+            coffeeSample2.imagePath,
+            isSuperLike: coffeeSample2.superLike,
+          )
+          ..wipeData();
+      },
+      expect: () => [
+        equals([coffeeSample2, coffeeSample]),
+        equals([coffeeSample2, coffeeSample]),
+        equals([]),
+      ],
+    );
+
+    /*
+    late Storage storage;
+    late MatchesCubit cubit;
+    setUp(() {
+      storage = MockStorage();
+      cubit = buildMatchesCubit(storage);
+    });
+
+    test('writes and reads', () {
+      cubit.addMatch(
+        coffeeSample.imagePath,
+        isSuperLike: coffeeSample.superLike,
+      );
+      verify<dynamic>(() => storage.read('')).called(1);
+    });
+
+    * I don't really know how to test the storage part of the cubit, so can't
+    really test teh fromMap
+    */
   });
 }

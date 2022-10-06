@@ -5,19 +5,18 @@ import 'package:mocktail/mocktail.dart';
 class MockStorage extends Mock implements Storage {}
 
 MockStorage setUpHydratedStorage() {
-  final hydratedStorage = MockStorage();
+  final storage = MockStorage();
 
-  when(() => hydratedStorage.write(any(), any<dynamic>()))
-      .thenAnswer((_) async {});
+  when(() => storage.write(any(), any<dynamic>())).thenAnswer((_) async {});
+  when<dynamic>(() => storage.read(any())).thenReturn(<String, dynamic>{});
+  when(() => storage.delete(any())).thenAnswer((_) async {});
+  when(storage.clear).thenAnswer((_) async {});
 
-  when<dynamic>(() => hydratedStorage.read(any())).thenAnswer((_) async {});
-
-  when(() => hydratedStorage.delete(any())).thenAnswer((_) async {});
-
-  return hydratedStorage;
+  return storage;
 }
 
-MatchesCubit buildMatchesCubit() => HydratedBlocOverrides.runZoned(
+MatchesCubit buildMatchesCubit([Storage? storage]) =>
+    HydratedBlocOverrides.runZoned(
       MatchesCubit.new,
-      storage: setUpHydratedStorage(),
+      storage: storage ?? setUpHydratedStorage(),
     );
