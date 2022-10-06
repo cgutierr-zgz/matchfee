@@ -20,16 +20,16 @@ Since 2022 ©
 
 ## Synopsis
 
-- [App Features and Guide](#app-features-and-guide)
-- [Things I would have like to do](#things-i-would-have-like-to-do)
-- [Packages I've used and why](#packages-ive-used-and-why)
-- [Getting Started](#getting-started)
-- [Running Tests](#running-tests)
-- [Working with Translations ](#working-with-translations)
+- [App Features and Guide](#app-features-and-guide-)
+- [Things I would have like to do](#things-i-would-have-like-to-do-)
+- [Packages I've used and why](#packages-ive-used-and-why-)
+- [Getting Started](#getting-started-)
+- [Running Tests](#running-tests-)
+- [Working with Translations ](#working-with-translations-)
 
 ---
 
-## App Features and Guide
+## App Features and Guide 📱
 
 The app is called **Matchfee**, and it has no inspiration from any other app, I swear... 🤥
 Well... maybe a little bit from [Tinder](https://www.tinder.com/) 😅
@@ -78,7 +78,7 @@ _Carlos 💙... 🦄_
 
 ---
 
-## Things I would have like to do
+## Things I would have like to do 🤞
 
 1. Add more tests:
 I've never had the chance to do almost any tests in the companies I've worked for, so there's things I still don't know how to test yet.
@@ -106,7 +106,7 @@ _Also, I didn't translated the Settings Page, cause at the end of the day it's j
 
 ---
 
-## Packages I've Used And Why
+## Packages I've Used And Why 📦
 
 1. [flutter_bloc](https://pub.dev/packages/flutter_bloc)
 I've used the flutter implementation of bloc beacuse I'm familiar with it, I've already used it a lot of times, well, basically in all my projects, so I know how to use it and how to implement it.
