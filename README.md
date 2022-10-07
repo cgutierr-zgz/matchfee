@@ -133,7 +133,7 @@ I also like to use [flutter_gen](https://pub.dev/packages/flutter_gen) for the a
 
 This project contains no flavors, sorry, I deleted them.
 
-To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
+To run the app either use the launch configuration in VSCode/Android Studio or use the following commands:
 
 ```sh
 $ flutter run
