@@ -1,6 +1,6 @@
 # <img src="assets/images/logo.png" alt="logo" width="40"/> Matchfee 
 
-
+[![matchfee](https://github.com/cgutierr-zgz/matchfee/actions/workflows/main.yaml/badge.svg)](https://github.com/cgutierr-zgz/matchfee/actions/workflows/main.yaml)
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
@@ -133,7 +133,7 @@ I also like to use [flutter_gen](https://pub.dev/packages/flutter_gen) for the a
 
 This project contains no flavors, sorry, I deleted them.
 
-To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
+To run the app either use the launch configuration in VSCode/Android Studio or use the following commands:
 
 ```sh
 $ flutter run
