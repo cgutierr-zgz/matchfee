@@ -12,7 +12,7 @@ Since 2022 ©
 
 
 >⚠️ **Note**
->Could not test on a real iOS device, since the only one I have is from my >company and It's not allowed to install apps from outside the App Store
+>Could not test on a real iOS device, since the only one I have is from my company and It's not allowed to install apps from outside the App Store
 >Worked just fine on the simulator though
 >Also tested in Android real device and it worked just fine
 
@@ -67,7 +67,7 @@ And another pun 😅
 
 This isn't really a feature of the app, but it's just a page that shows a small information text.
 
-There's a hidden easteregg on this page tho 😏
+There's a **hidden easteregg** on this page tho 😏
 
 If there's data stored, you'll be able to wipe it out, and start fresh.
 
