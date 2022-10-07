@@ -25,6 +25,7 @@ Since 2022 ©
 - [Packages I've used and why](#packages-ive-used-and-why-)
 - [Getting Started](#getting-started-)
 - [Running Tests](#running-tests-)
+- [Contributing to matchfee](#contributing-to-matchfee-)
 - [Working with Translations ](#working-with-translations-)
 
 ---
@@ -177,6 +178,13 @@ Everything together:
 ```sh
 $ flutter test --coverage --test-randomize-ordering-seed random && genhtml coverage/lcov.info -o coverage/ && open coverage/index.html
 ```
+
+---
+
+## Contributing to matchfee ❤️‍🩹
+
+Feel free to read the [CONTRIBUTING.md](https://github.com/cgutierr-zgz/matchfee/blob/main/CONTRIBUTING.md) guide and improve any of the code, tests, or whatever.
+There's also some [issues templates](https://github.com/cgutierr-zgz/matchfee/issues/new/choose) available in case
 
 ---
 
