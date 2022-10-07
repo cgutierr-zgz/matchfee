@@ -133,36 +133,39 @@ class _CardView extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 0.6;
 
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      clipBehavior: Clip.hardEdge,
-      elevation: 10,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (state is HomeLoaded)
-            Image.network(
-              (state as HomeLoaded).images[index],
-              height: height,
-              width: double.maxFinite,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return ErrorImage(
-                  height: height,
-                  width: double.maxFinite,
-                );
-              },
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const _PladeholderWidget(hasError: false);
-              },
-            ),
-          if (state is HomeError) const _PladeholderWidget(hasError: true),
-          if (state is HomeLoading) const _PladeholderWidget(hasError: false),
-        ].joinWith(const SizedBox(height: 10)),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 350),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        clipBehavior: Clip.hardEdge,
+        elevation: 10,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (state is HomeLoaded)
+              Image.network(
+                (state as HomeLoaded).images[index],
+                height: height,
+                width: double.maxFinite,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return ErrorImage(
+                    height: height,
+                    width: double.maxFinite,
+                  );
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const _PladeholderWidget(hasError: false);
+                },
+              ),
+            if (state is HomeError) const _PladeholderWidget(hasError: true),
+            if (state is HomeLoading) const _PladeholderWidget(hasError: false),
+          ].joinWith(const SizedBox(height: 10)),
+        ),
       ),
     );
   }

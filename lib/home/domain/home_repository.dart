@@ -55,7 +55,7 @@ class HomeRepository {
 
       return file.path;
     } catch (e) {
-      throw Exception('Failed to save image');
+      throw Exception('Failed to save image: $e');
     }
   }
 
@@ -68,7 +68,7 @@ class HomeRepository {
 
       return file;
     } catch (e) {
-      throw Exception('Failed to read image');
+      throw Exception('Failed to read image: $e');
     }
   }
 }

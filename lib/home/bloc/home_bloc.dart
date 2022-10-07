@@ -34,7 +34,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       add(HomeStartEvent(photos));
     } catch (e) {
-      add(HomeErrorEvent(Exception('Could not load more images')));
+      add(HomeErrorEvent(Exception('Could not load more images: $e')));
     }
   }
 
