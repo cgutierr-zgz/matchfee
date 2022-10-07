@@ -25,7 +25,7 @@ Since 2022 ©
 - [Packages I've used and why](#packages-ive-used-and-why-)
 - [Getting Started](#getting-started-)
 - [Running Tests](#running-tests-)
-- [Contributing to matchfee](#contributing-to-matchfee-)
+- [Contributing to matchfee](#contributing-to-matchfee-%EF%B8%8F)
 - [Working with Translations ](#working-with-translations-)
 
 ---
