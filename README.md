@@ -12,9 +12,9 @@ Since 2022 ©
 
 
 >⚠️ **Note**
->Could not test on a real iOS device, since the only one I have is from my company and It's not allowed to install apps from outside the App Store
->Worked just fine on the simulator though
->Also tested in Android real device and it worked just fine
+>Could not test on a real iOS device, since the only one I have is from my company and It's not allowed to install apps from outside the App Store.
+>Worked just fine on the simulator though.
+>Also tested in Android real device and it worked just fine.
 
 ---
 
@@ -184,7 +184,8 @@ $ flutter test --coverage --test-randomize-ordering-seed random && genhtml cover
 ## Contributing to matchfee ❤️‍🩹
 
 Feel free to read the [CONTRIBUTING.md](https://github.com/cgutierr-zgz/matchfee/blob/main/CONTRIBUTING.md) guide and improve any of the code, tests, or whatever.
-There's also some [issues templates](https://github.com/cgutierr-zgz/matchfee/issues/new/choose) available in case
+
+There's also some [issues templates](https://github.com/cgutierr-zgz/matchfee/issues/new/choose) available in case you want to fill any issues.
 
 ---
 
