@@ -1,6 +1,6 @@
 # <img src="assets/images/logo.png" alt="logo" width="40"/> Matchfee 
 
-
+[![matchfee](https://github.com/cgutierr-zgz/matchfee/actions/workflows/main.yaml/badge.svg)](https://github.com/cgutierr-zgz/matchfee/actions/workflows/main.yaml)
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
