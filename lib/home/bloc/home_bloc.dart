@@ -53,26 +53,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     if (photoStack.length > 1) {
-      if (event.type == NextEventType.like ||
-          event.type == NextEventType.superLike) {
-        // We save the photo locally if its not a dislike
-        final path = await _homeRepository.saveImageToDevice(event.image);
-        _matchesCubit.addMatch(
-          path,
-          isSuperLike: event.type == NextEventType.superLike,
-        );
-      } else {
-        // If its not a like we save it to the stack, so we can go back once
-        photoToDelete = photoStack.first;
+      try {
+        if (event.type == NextEventType.like ||
+            event.type == NextEventType.superLike) {
+          // We save the photo locally if its not a dislike
+          final path = await _homeRepository.saveImageToDevice(event.image);
+          _matchesCubit.addMatch(
+            path,
+            isSuperLike: event.type == NextEventType.superLike,
+          );
+        } else {
+          // If its not a like we save it to the stack, so we can go back once
+          photoToDelete = photoStack.first;
+        }
+
+        final photos = await _homeRepository.getCoffeeImages(1);
+        photoStack
+          ..removeAt(0) // We remove the front photo
+          ..addAll(photos); // Then we add the new photos to the stack
+
+        emit(const HomeLoading());
+        emit(HomeLoaded(photoStack));
+      } catch (e) {
+        add(HomeErrorEvent(Exception('An error occured: $e')));
       }
-
-      final photos = await _homeRepository.getCoffeeImages(1);
-      photoStack
-        ..removeAt(0) // We remove the front photo
-        ..addAll(photos); // Then we add the new photos to the stack
-
-      emit(const HomeLoading());
-      emit(HomeLoaded(photoStack));
     } else {
       add(HomeErrorEvent(Exception('Could not load more images')));
     }

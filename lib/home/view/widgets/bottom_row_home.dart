@@ -51,13 +51,13 @@ class BottomRowHome extends StatelessWidget {
               color: Colors.blue,
               onPressed: isLoaded
                   ? () {
+                      context.read<HomeBloc>().add(
+                            NextHomeEvent.superLike(image: state.images.first),
+                          );
                       context.showSnackbar(
                         l10n.iLoveYouTooText,
                         prefixIcon: Icons.favorite_rounded,
                       );
-                      context.read<HomeBloc>().add(
-                            NextHomeEvent.superLike(image: state.images.first),
-                          );
                     }
                   : null,
             ),

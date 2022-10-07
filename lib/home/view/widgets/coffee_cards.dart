@@ -143,7 +143,6 @@ class _CardView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (state is HomeLoading) const _LoadingWidget(),
           if (state is HomeLoaded)
             Image.network(
               (state as HomeLoaded).images[index],
@@ -158,17 +157,21 @@ class _CardView extends StatelessWidget {
               },
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
-                return const _LoadingWidget();
+                return const _PladeholderWidget(hasError: false);
               },
             ),
+          if (state is HomeError) const _PladeholderWidget(hasError: true),
+          if (state is HomeLoading) const _PladeholderWidget(hasError: false),
         ].joinWith(const SizedBox(height: 10)),
       ),
     );
   }
 }
 
-class _LoadingWidget extends StatelessWidget {
-  const _LoadingWidget();
+class _PladeholderWidget extends StatelessWidget {
+  const _PladeholderWidget({required this.hasError});
+
+  final bool hasError;
 
   @override
   Widget build(BuildContext context) {
@@ -179,13 +182,16 @@ class _LoadingWidget extends StatelessWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Image.asset(
-          height: height,
-          width: double.maxFinite,
-          'assets/images/loading.png',
-        ),
+        if (hasError)
+          ErrorImage(width: double.maxFinite, height: height)
+        else
+          Image.asset(
+            width: double.maxFinite,
+            height: height,
+            'assets/images/loading.png',
+          ),
         Text(
-          '${l10n.loadingText}...',
+          hasError ? l10n.error : '${l10n.loadingText}...',
           style: theme.textTheme.titleLarge,
         ).padded(const EdgeInsets.only(bottom: 50))
       ],

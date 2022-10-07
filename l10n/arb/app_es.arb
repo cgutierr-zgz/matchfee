@@ -12,6 +12,10 @@
 	"@loadingText": {
 		"description": "Texto para mostrar que algo está cargando"
 	},
+	"error": "Error",
+	"@errorText": {
+		"description": "Texto para mostrar que algo tiene un error"
+	},
 	"coffeeText": "Café",
 	"@coffeeText": {
 		"description": "Texto general para el café"

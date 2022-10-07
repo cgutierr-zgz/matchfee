@@ -12,6 +12,10 @@
 	"@loadingText": {
 		"description": "Label to show that something is loading"
 	},
+	"error": "Error",
+	"@errorText": {
+		"description": "Label to show that something has an error"
+	},
 	"coffeeText": "Coffee",
 	"@coffeeText": {
 		"description": "General text for coffee"
