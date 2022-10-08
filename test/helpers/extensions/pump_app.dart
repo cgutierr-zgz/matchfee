@@ -8,7 +8,11 @@ import 'package:matchfee/home/home.dart';
 import 'package:matchfee/matches/matches.dart';
 
 extension PumpApp on WidgetTester {
-  Future<void> pumpApp(Widget widget, {required MatchesCubit matchesCubit}) {
+  Future<void> pumpApp(
+    Widget widget, {
+    required MatchesCubit matchesCubit,
+    HomeBloc? homeBloc,
+  }) {
     return pumpWidget(
       MaterialApp(
         localizationsDelegates: const [
@@ -25,12 +29,17 @@ extension PumpApp on WidgetTester {
               BlocProvider.value(
                 value: matchesCubit,
               ),
-              BlocProvider<HomeBloc>(
-                create: (context) => HomeBloc(
-                  homeRepository: context.read<HomeRepository>(),
-                  matchesCubit: context.read<MatchesCubit>(),
+              if (homeBloc != null)
+                BlocProvider.value(
+                  value: homeBloc,
+                )
+              else
+                BlocProvider<HomeBloc>(
+                  create: (context) => HomeBloc(
+                    homeRepository: context.read<HomeRepository>(),
+                    matchesCubit: context.read<MatchesCubit>(),
+                  ),
                 ),
-              ),
             ],
             child: widget,
           ),

@@ -31,9 +31,16 @@ void main() {
       expect(find.text('Wipe data'), findsOneWidget);
       await tester.tap(find.text('Wipe data'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Accept'));
-      //matchesCubit.wipeData();
+      // We cancel the snackbar and open again
+      await tester.tap(find.text('Cancel'));
       await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Wipe data'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Accept'));
+      await tester.pumpAndSettle();
+
       expect(find.text('Wipe data'), findsNothing);
     });
   });
