@@ -7,12 +7,6 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('Widget extensions', () {
-    late MatchesCubit matchesCubit;
-    initHydratedStorage();
-
-    setUp(() {
-      matchesCubit = buildMatchesCubit(hydratedStorage);
-    });
     const horizontalSpacer = SizedBox(width: 10);
     testWidgets('Adding padding in a widget', (tester) async {
       await tester.pumpWidget(
