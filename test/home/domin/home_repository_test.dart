@@ -9,21 +9,6 @@ import '../../helpers/helpers.dart';
 void main() {
   group('Home repository', () {
     test(
-      'getCoffeeImages should return a list of strings',
-      () async {
-        final repository = HomeRepository(
-          client: Client(),
-        );
-
-        final result = await repository.getCoffeeImages(1);
-
-        expect(result, isA<List<String>>());
-        expect(result.length, 1);
-      },
-      //skip: true,
-    );
-
-    test(
       'getCoffeeImages should return a list of strings, without error',
       () async {
         final repository = HomeRepository(client: mockClient);
@@ -57,37 +42,29 @@ void main() {
       //skip: true,
     );
 
-    /*
-  * This two functions are not really well tested
-  * Since I don't know how to mock this storage
-  * to receive and store the data
-  */
-    test(
-      'saveImageToDevice should save the image',
-      () async {
-        final repository = HomeRepository(client: mockClient);
+    setUp(initHydratedStorage);
 
-        expect(
-          () => repository.saveImageToDevice(
-            'https://coffee.alexflipnote.dev/9nbUu7WyiFc_coffee.jpg',
-          ),
-          throwsA(isA<Exception>()),
-        );
-      },
-      //skip: true,
-    );
-
+    //* Dont really know how to test this one
+    //* since the image is saved to the device
     test(
       'getImageFromDevice should save the image',
       () async {
+        const name = 'https://coffee.alexflipnote.dev/9nbUu7WyiFc_coffee.jpg';
         final repository = HomeRepository(client: mockClient);
 
-        expect(
-          () => repository.getImageFromDevice(
-            'carlito/doc/mypath.1.png',
-          ),
-          throwsA(isA<Exception>()),
-        );
+        // expect(
+        //   () => repository.getImageFromDevice(
+        //     name,
+        //   ),
+        //   throwsA(isA<Exception>()),
+        // );
+
+        final output = await repository.saveImageToDevice(name);
+        expect(output, isA<String>());
+
+        final file = await repository.getImageFromDevice(name);
+
+        expect(file, isA<Uint8List>());
       },
       //skip: true,
     );
