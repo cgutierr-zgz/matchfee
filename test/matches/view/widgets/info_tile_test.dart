@@ -6,6 +6,12 @@ import '../../../helpers/helpers.dart';
 
 void main() {
   group('Info tile', () {
+    late MatchesCubit matchesCubit;
+    initHydratedStorage();
+
+    setUp(() {
+      matchesCubit = buildMatchesCubit(hydratedStorage);
+    });
     testWidgets('Renders the given text correctly', (tester) async {
       const text = 'Hi Im carlito';
       await tester.pumpApp(
@@ -14,6 +20,7 @@ void main() {
             slivers: [InfoTitle(text: text)],
           ),
         ),
+        matchesCubit: matchesCubit,
       );
 
       expect(find.byType(SliverToBoxAdapter), findsOneWidget);

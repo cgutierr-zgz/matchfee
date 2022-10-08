@@ -19,7 +19,7 @@ class MatchesCubit extends HydratedCubit<List<SavedCoffee>> {
     emit(matches.toList());
   }
 
-  // Delete the given match from the list of matches
+  // Wipes the data by emmiting an empty list of matches
   void wipeData() => emit([]); // Would be nice to also delete files from disk
 
   @override

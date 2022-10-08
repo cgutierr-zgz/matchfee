@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matchfee/core/core.dart';
+import 'package:matchfee/matches/matches.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
-  const horizontalSpacer = SizedBox(width: 10);
-
   group('Widget extensions', () {
+    late MatchesCubit matchesCubit;
+    initHydratedStorage();
+
+    setUp(() {
+      matchesCubit = buildMatchesCubit(hydratedStorage);
+    });
+    const horizontalSpacer = SizedBox(width: 10);
     testWidgets('Adding padding in a widget', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -76,6 +82,12 @@ void main() {
   });
 
   group('Snackbar extensions', () {
+    late MatchesCubit matchesCubit;
+    initHydratedStorage();
+
+    setUp(() {
+      matchesCubit = buildMatchesCubit(hydratedStorage);
+    });
     testWidgets(
       'Show snackbar',
       (tester) async {
@@ -93,6 +105,7 @@ void main() {
               },
             ),
           ),
+          matchesCubit: matchesCubit,
         );
         expect(find.text(helloSnackBar), findsNothing);
         await tester.tap(
@@ -127,6 +140,7 @@ void main() {
               },
             ),
           ),
+          matchesCubit: matchesCubit,
         );
         expect(find.text(helloSnackBar), findsNothing);
         await tester.tap(

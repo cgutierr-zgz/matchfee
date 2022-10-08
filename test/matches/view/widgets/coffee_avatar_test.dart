@@ -6,15 +6,26 @@ import '../../../helpers/helpers.dart';
 
 void main() {
   group('Coffee Avatar', () {
+    late MatchesCubit matchesCubit;
+    initHydratedStorage();
+
+    setUp(() {
+      matchesCubit = buildMatchesCubit(hydratedStorage);
+    });
+
     testWidgets('Renders coffe avatar', (tester) async {
       await tester.pumpApp(
         const CoffeeAvatar(
           imagePath: 'image1.png',
         ),
+        matchesCubit: matchesCubit,
       );
 
       expect(find.byType(GestureDetector), findsOneWidget);
       await tester.tap(find.byIcon(Icons.delete));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.delete));
+      await tester.pumpAndSettle();
 
       /*
       * Dont know how to test the Opacity of a widget

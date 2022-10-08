@@ -83,10 +83,9 @@ _Carlos 💙... 🦄_
 
 1. Add more tests:
 I've never had the chance to do almost any tests in the companies I've worked for, so there's things I still don't know how to test yet.
-There's notes on the tests with the parts I don't really know how to test, mainly related to storage.
+There's some parts I don't really know how to test.
 Also, there's tests marked as `skipped` since they just don't work the same way in Github Actions as they do locally.
-In theory i had like ~81% of coverage, but after skipping those test it's 77.7% which also looks cool 🎰
-I know that's a drawback for the company but I'd love to learn about it and improve as much as possible, hopefully I'll be able to do it in VGV :)
+Hopefully I'll be able to learn more in VGV :)
 
 2. Add more animations:
 I've added some animations, but I would have like to add more so it looks more polished.

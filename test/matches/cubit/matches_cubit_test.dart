@@ -6,21 +6,22 @@ import 'package:matchfee/matches/matches.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  const coffeeSample = SavedCoffee(
-    imagePath: 'image1.png',
-    superLike: true,
-  );
-  const coffeeSample2 = SavedCoffee(
-    imagePath: 'image2.png',
-    superLike: false,
-  );
-
   group('MatchesCubit', () {
     late MatchesCubit matchesCubit;
+    initHydratedStorage();
 
     setUp(() {
       matchesCubit = buildMatchesCubit();
     });
+
+    const coffeeSample = SavedCoffee(
+      imagePath: 'image1.png',
+      superLike: true,
+    );
+    const coffeeSample2 = SavedCoffee(
+      imagePath: 'image2.png',
+      superLike: false,
+    );
 
     test('initial state is empty', () {
       expect(matchesCubit.state, equals([]));

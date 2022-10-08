@@ -10,6 +10,7 @@ import '../../../helpers/helpers.dart';
 void main() {
   group('Coffee Cards', () {
     late HomeBloc homeBloc;
+    initHydratedStorage();
 
     setUp(() {
       homeBloc = HomeBloc(
@@ -49,8 +50,6 @@ void main() {
 
         // expect(find.byType(FontCoffeeCard), findsOneWidget);
       },
-      skip: true,
-      // Skipping cause it fails on github but not locally
     );
   });
 }

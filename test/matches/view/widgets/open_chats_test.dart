@@ -6,6 +6,12 @@ import '../../../helpers/helpers.dart';
 
 void main() {
   group('Open chats', () {
+    late MatchesCubit matchesCubit;
+    initHydratedStorage();
+
+    setUp(() {
+      matchesCubit = buildMatchesCubit(hydratedStorage);
+    });
     testWidgets('renders the list correctly', (tester) async {
       const list = [
         SavedCoffee(imagePath: '1', superLike: true),
@@ -26,6 +32,7 @@ void main() {
             ],
           ),
         ),
+        matchesCubit: matchesCubit,
       );
 
       // ❗️Important:

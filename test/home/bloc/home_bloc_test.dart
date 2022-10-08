@@ -12,6 +12,7 @@ void main() {
     late MatchesCubit matchesCubit;
     final exception = Exception('error');
     final images = ['test', 'test'];
+    initHydratedStorage();
 
     setUp(() {
       matchesCubit = buildMatchesCubit();
@@ -108,5 +109,40 @@ void main() {
         equals(const HomeLoaded(['test', 'test', 'test', 'test'])),
       ],
     );
+
+    test('Testing the props of the states', () {
+      final homeLoaded = HomeLoaded(images);
+      final homeError = HomeError(exception);
+      const homeLoading = HomeLoading();
+
+      expect(homeLoaded.props, [images]);
+      expect(homeError.props, [exception]);
+      expect(homeLoading.props, <Object>[]);
+    });
+
+    test('Testing the props of the events', () {
+      final homeStartEvent = HomeStartEvent(images);
+      final homeErrorEvent = HomeErrorEvent(exception);
+      final nextHomeEventLike = NextHomeEvent.like(image: images[0]);
+      final nextHomeEventSuperLike = NextHomeEvent.superLike(image: images[0]);
+      final nextHomeEventDislike = NextHomeEvent.dislike(image: images[0]);
+      const previousHomeEvent = PreviousHomeEvent();
+
+      expect(homeStartEvent.props, [images]);
+      expect(homeErrorEvent.props, [exception]);
+      expect(
+        nextHomeEventLike.props,
+        [images[0], NextEventType.like],
+      );
+      expect(
+        nextHomeEventSuperLike.props,
+        [images[0], NextEventType.superLike],
+      );
+      expect(
+        nextHomeEventDislike.props,
+        [images[0], NextEventType.dislike],
+      );
+      expect(previousHomeEvent.props, <Object>[]);
+    });
   });
 }

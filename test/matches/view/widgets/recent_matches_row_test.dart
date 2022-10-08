@@ -6,6 +6,13 @@ import '../../../helpers/helpers.dart';
 
 void main() {
   group('Recent chats', () {
+    late MatchesCubit matchesCubit;
+    initHydratedStorage();
+
+    setUp(() {
+      matchesCubit = buildMatchesCubit(hydratedStorage);
+    });
+
     testWidgets('renders the entire list', (tester) async {
       const list = [
         SavedCoffee(imagePath: '1', superLike: true),
@@ -17,11 +24,13 @@ void main() {
             slivers: [RecentMatchesRow(coffees: list)],
           ),
         ),
+        matchesCubit: matchesCubit,
       );
 
       expect(find.byType(CoffeeAvatar), findsNWidgets(list.length));
       // CoffeeAvatar is the only single widget inside each OpenChat Row
     });
+
     testWidgets('renders the entire list', (tester) async {
       const list = [
         SavedCoffee(imagePath: '1', superLike: true),
@@ -39,6 +48,7 @@ void main() {
             slivers: [RecentMatchesRow(coffees: list)],
           ),
         ),
+        matchesCubit: matchesCubit,
       );
 
       expect(find.byType(CoffeeAvatar), findsNWidgets(list.length));

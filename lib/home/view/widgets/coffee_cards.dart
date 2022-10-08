@@ -24,7 +24,6 @@ class CoffeeCards extends StatelessWidget {
               ...List.generate(
                 state.images.length - 1,
                 (index) => Transform.rotate(
-                  //offset: const Offset(0, -50),
                   angle: -math.pi / 40.0 + index * math.pi / 20.0,
                   child: _CardView(
                     state: state,
@@ -61,32 +60,38 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocConsumer<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is HomeLoaded) {
+          position = Offset.zero;
+          isDragging = false;
+          setState(() {});
+        }
+      },
       builder: (context, state) {
         final isLoaded = state is HomeLoaded;
         return GestureDetector(
           onPanStart: isLoaded ? onPanStart : null,
           onPanEnd: isLoaded ? (details) => onPanEnd(details, state) : null,
           onPanUpdate: isLoaded ? onPanUpdate : null,
-          child: AnimatedContainer(
-            duration:
-                isDragging ? const Duration(milliseconds: 50) : Duration.zero,
-            transform: Matrix4.identity()
-              ..translate(
-                position.dx,
-                position.dy,
-              ),
-            child: _CardView(state: state, index: 0),
+          child: AnimatedRotation(
+            // adds subtle rotation on drag
+            turns: isDragging ? position.dx / 10000 : 0,
+            duration: const Duration(milliseconds: 500),
+            child: AnimatedContainer(
+              duration:
+                  isDragging ? const Duration(milliseconds: 50) : Duration.zero,
+              transform: Matrix4.identity()
+                ..translate(
+                  position.dx,
+                  position.dy,
+                ),
+              child: _CardView(state: state, index: 0),
+            ),
           ),
         );
       },
     );
-  }
-
-  void resetPosition() {
-    Future<void>.delayed(const Duration(milliseconds: 200))
-        .then((value) => setState(() => position = Offset.zero));
-    setState(() => isDragging = false);
   }
 
   void onPanStart(DragStartDetails details) => setState(() {
@@ -106,16 +111,12 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
       context
           .read<HomeBloc>()
           .add(NextHomeEvent.like(image: state.images.first));
-      resetPosition();
     } else if (position.dx < -100) {
       // send it to the left
       position = const Offset(-500, 0);
       context.read<HomeBloc>().add(
             NextHomeEvent.dislike(image: state.images.first),
           );
-      resetPosition();
-    } else {
-      resetPosition();
     }
   }
 }
@@ -131,7 +132,7 @@ class _CardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 0.6;
+    final height = MediaQuery.of(context).size.height * 0.5;
 
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 350),
@@ -180,7 +181,7 @@ class _PladeholderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
-    final height = MediaQuery.of(context).size.height * 0.6;
+    final height = MediaQuery.of(context).size.height * 0.5;
 
     return Stack(
       alignment: Alignment.bottomCenter,
