@@ -40,7 +40,7 @@ You can also see the list of liked coffee pictures, and you can also delete them
 
 It has three main features:
 
-#### Home Screen
+#### Coffees Screen (Home screen)
 
 Here, the user will see a list of coffee images as a stack of cards.
 He can interact with them by swiping left or right, or clicking on the buttons.

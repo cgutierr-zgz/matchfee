@@ -4,16 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:matchfee/home/home.dart';
+import 'package:matchfee/coffees/coffees.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('Home repository', () {
+  group('Coffees repository', () {
     test(
       'getCoffeeImages should return a list of strings, without error',
       () async {
-        final repository = HomeRepository(client: mockClient);
+        final repository = CoffeesRepository(client: mockClient);
 
         final result = await repository.getCoffeeImages(5);
 
@@ -27,7 +27,7 @@ void main() {
       'getImageData the bytes of the image',
       () async {
         final bytes = Uint8List(10);
-        final repository = HomeRepository(
+        final repository = CoffeesRepository(
           client: MockClient(
             (request) async {
               return Response(bytes.toString(), 200);
@@ -52,7 +52,7 @@ void main() {
       'getImageFromDevice should save the image',
       () async {
         const name = 'https://coffee.alexflipnote.dev/9nbUu7WyiFc_coffee.jpg';
-        final repository = HomeRepository(client: mockClient);
+        final repository = CoffeesRepository(client: mockClient);
 
         // expect(
         //   () => repository.getImageFromDevice(

@@ -3,8 +3,8 @@ import 'package:matchfee/core/core.dart';
 import 'package:matchfee/matches/matches.dart';
 import 'package:matchfee/settings/settings.dart';
 
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key});
+class CoffeesAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CoffeesAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -17,26 +17,22 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
       leading: IconButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute<dynamic>(
-              builder: (_) => const SettingsPage(),
-            ),
-          );
-        },
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute<MatchesPage>(
+            builder: (_) => const SettingsPage(),
+          ),
+        ),
         icon: const Icon(Icons.settings_rounded),
       ),
       centerTitle: true,
       title: const _AppBarTitle(),
       actions: [
         IconButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<dynamic>(
-                builder: (_) => const MatchesPage(),
-              ),
-            );
-          },
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute<MatchesPage>(
+              builder: (_) => const MatchesPage(),
+            ),
+          ),
           icon: const Icon(Icons.chat_bubble_rounded),
         ),
       ],

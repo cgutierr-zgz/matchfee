@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matchfee/coffees/coffees.dart';
 import 'package:matchfee/core/core.dart';
-import 'package:matchfee/home/home.dart';
 
-class BottomRowHome extends StatelessWidget {
-  const BottomRowHome({super.key});
+class BottomNavigationRow extends StatelessWidget {
+  const BottomNavigationRow({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocBuilder<CoffeesBloc, CoffeesState>(
       builder: (context, state) {
-        final isLoaded = state is HomeLoaded;
+        final isLoaded = state is CoffeesLoaded;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,9 +22,9 @@ class BottomRowHome extends StatelessWidget {
               icon: Icons.undo_rounded,
               color: Colors.yellow,
               onPressed:
-                  isLoaded && context.read<HomeBloc>().photoToDelete != null
-                      ? () => context.read<HomeBloc>().add(
-                            const PreviousHomeEvent(),
+                  isLoaded && context.read<CoffeesBloc>().photoToDelete != null
+                      ? () => context.read<CoffeesBloc>().add(
+                            const PreviousCoffeesEvent(),
                           )
                       : null,
             ),
@@ -33,8 +33,8 @@ class BottomRowHome extends StatelessWidget {
               color: Colors.red,
               onPressed: isLoaded
                   ? () => context
-                      .read<HomeBloc>()
-                      .add(NextHomeEvent.dislike(image: state.images.first))
+                      .read<CoffeesBloc>()
+                      .add(NextCoffeesEvent.dislike(image: state.images.first))
                   : null,
             ),
             BottomItem(
@@ -42,8 +42,8 @@ class BottomRowHome extends StatelessWidget {
               color: Colors.green,
               onPressed: isLoaded
                   ? () => context
-                      .read<HomeBloc>()
-                      .add(NextHomeEvent.like(image: state.images.first))
+                      .read<CoffeesBloc>()
+                      .add(NextCoffeesEvent.like(image: state.images.first))
                   : null,
             ),
             BottomItem.small(
@@ -51,8 +51,10 @@ class BottomRowHome extends StatelessWidget {
               color: Colors.blue,
               onPressed: isLoaded
                   ? () {
-                      context.read<HomeBloc>().add(
-                            NextHomeEvent.superLike(image: state.images.first),
+                      context.read<CoffeesBloc>().add(
+                            NextCoffeesEvent.superLike(
+                              image: state.images.first,
+                            ),
                           );
                       context.showSnackbar(
                         l10n.iLoveYouTooText,

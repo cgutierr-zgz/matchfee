@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matchfee/coffees/coffees.dart';
 import 'package:matchfee/core/core.dart';
-import 'package:matchfee/home/home.dart';
 import 'package:matchfee/matches/matches.dart';
 
 class CoffeeAvatar extends StatefulWidget {
@@ -68,20 +68,19 @@ class _CoffeeAvatarState extends State<CoffeeAvatar> {
   }
 
   Widget get _imageBuilder => FutureBuilder(
-        future:
-            context.read<HomeRepository>().getImageFromDevice(widget.imagePath),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Image.memory(
-              snapshot.data!,
-              height: size,
-              width: size,
-              fit: BoxFit.cover,
-            );
-          } else {
-            return const ErrorImage.square(size: size);
-          }
-        },
+        future: context
+            .read<CoffeesRepository>()
+            .getImageFromDevice(widget.imagePath),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.done &&
+                    !snapshot.hasError
+                ? Image.memory(
+                    snapshot.requireData,
+                    height: size,
+                    width: size,
+                    fit: BoxFit.cover,
+                  )
+                : const ErrorImage.square(size: size),
       );
 
   Widget get deleteIcon => AnimatedOpacity(
@@ -91,10 +90,7 @@ class _CoffeeAvatarState extends State<CoffeeAvatar> {
           height: size,
           width: size,
           color: Colors.black.withOpacity(0.5),
-          child: const Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
+          child: const Icon(Icons.delete, color: Colors.white),
         ),
       );
 }

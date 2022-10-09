@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matchfee/coffees/coffees.dart';
 import 'package:matchfee/core/core.dart';
-import 'package:matchfee/home/home.dart';
 
 enum CardActions {
   like,
@@ -16,11 +16,11 @@ class CoffeeCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocBuilder<CoffeesBloc, CoffeesState>(
       builder: (context, state) {
         return Stack(
           children: [
-            if (state is HomeLoaded)
+            if (state is CoffeesLoaded)
               ...List.generate(
                 state.images.length - 1,
                 (index) => Transform.rotate(
@@ -60,16 +60,16 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeBloc, HomeState>(
+    return BlocConsumer<CoffeesBloc, CoffeesState>(
       listener: (context, state) {
-        if (state is HomeLoaded) {
+        if (state is CoffeesLoaded) {
           position = Offset.zero;
           isDragging = false;
           setState(() {});
         }
       },
       builder: (context, state) {
-        final isLoaded = state is HomeLoaded;
+        final isLoaded = state is CoffeesLoaded;
         return GestureDetector(
           onPanStart: isLoaded ? onPanStart : null,
           onPanEnd: isLoaded ? (details) => onPanEnd(details, state) : null,
@@ -104,18 +104,18 @@ class _FontCoffeeCardState extends State<FontCoffeeCard>
         position += details.delta;
       });
 
-  void onPanEnd(DragEndDetails details, HomeLoaded state) {
+  void onPanEnd(DragEndDetails details, CoffeesLoaded state) {
     if (position.dx > 100) {
       // send it to the right
       position = const Offset(500, 0);
       context
-          .read<HomeBloc>()
-          .add(NextHomeEvent.like(image: state.images.first));
+          .read<CoffeesBloc>()
+          .add(NextCoffeesEvent.like(image: state.images.first));
     } else if (position.dx < -100) {
       // send it to the left
       position = const Offset(-500, 0);
-      context.read<HomeBloc>().add(
-            NextHomeEvent.dislike(image: state.images.first),
+      context.read<CoffeesBloc>().add(
+            NextCoffeesEvent.dislike(image: state.images.first),
           );
     }
   }
@@ -128,7 +128,7 @@ class _CardView extends StatelessWidget {
   });
 
   final int index;
-  final HomeState state;
+  final CoffeesState state;
 
   @override
   Widget build(BuildContext context) {
@@ -146,9 +146,9 @@ class _CardView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (state is HomeLoaded)
+            if (state is CoffeesLoaded)
               Image.network(
-                (state as HomeLoaded).images[index],
+                (state as CoffeesLoaded).images[index],
                 height: height,
                 width: double.maxFinite,
                 fit: BoxFit.cover,
@@ -163,8 +163,9 @@ class _CardView extends StatelessWidget {
                   return const _PladeholderWidget(hasError: false);
                 },
               ),
-            if (state is HomeError) const _PladeholderWidget(hasError: true),
-            if (state is HomeLoading) const _PladeholderWidget(hasError: false),
+            if (state is CoffeesError) const _PladeholderWidget(hasError: true),
+            if (state is CoffeesLoading)
+              const _PladeholderWidget(hasError: false),
           ].joinWith(const SizedBox(height: 10)),
         ),
       ),

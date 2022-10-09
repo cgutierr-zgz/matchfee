@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:matchfee/app/app.dart';
-import 'package:matchfee/home/home.dart';
+import 'package:matchfee/coffees/coffees.dart';
 import 'package:matchfee/matches/matches.dart';
 import 'package:matchfee/settings/view/settings_page.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('HomePage', () {
+  group('CoffeesPage', () {
     late MatchesCubit matchesCubit;
-    late HomeBloc homeBloc;
+    late CoffeesBloc coffeesBloc;
     initHydratedStorage();
 
     setUp(() {
       matchesCubit = buildMatchesCubit(hydratedStorage);
-      homeBloc = HomeBloc(
-        homeRepository: HomeRepository(
-          client: Client(),
+      coffeesBloc = CoffeesBloc(
+        coffeesRepository: CoffeesRepository(
+          client: mockClient,
         ),
         matchesCubit: matchesCubit,
       );
@@ -28,9 +27,9 @@ void main() {
       'Dislike',
       (tester) async {
         await tester.pumpApp(
-          const HomePage(),
+          const CoffeesPage(),
           matchesCubit: matchesCubit,
-          homeBloc: homeBloc,
+          
         );
 
         await tester.tap(find.byIcon(Icons.close_rounded));
@@ -42,8 +41,9 @@ void main() {
       'Dislike and Undo',
       (tester) async {
         await tester.pumpApp(
-          const HomePage(),
+          const CoffeesPage(),
           matchesCubit: matchesCubit,
+          
         );
 
         await tester.tap(find.byIcon(Icons.close_rounded));
@@ -58,8 +58,9 @@ void main() {
       'Like',
       (tester) async {
         await tester.pumpApp(
-          const HomePage(),
+          const CoffeesPage(),
           matchesCubit: matchesCubit,
+          
         );
 
         await tester.tap(find.byIcon(Icons.favorite_rounded));
@@ -72,14 +73,14 @@ void main() {
       'Superlike',
       (tester) async {
         await tester.pumpApp(
-          const HomePage(),
+          const CoffeesPage(),
           matchesCubit: matchesCubit,
-          homeBloc: homeBloc,
+          
         );
 
         await tester.tap(find.byIcon(Icons.star_rounded));
         await tester.pumpAndSettle();
-        homeBloc.add(const HomeStartEvent(['image1']));
+        coffeesBloc.add(const CoffeesStartEvent(['image1']));
         await tester.pumpAndSettle();
         // should see a snackbar
         // * problems testing this
@@ -91,8 +92,9 @@ void main() {
       'Coffees are visible ',
       (tester) async {
         await tester.pumpApp(
-          const HomePage(),
+          const CoffeesPage(),
           matchesCubit: matchesCubit,
+          
         );
 
         expect(find.byType(CoffeeCards), findsOneWidget);
@@ -103,8 +105,9 @@ void main() {
       'Bottom Navbar buttons are visible and the card shows up',
       (tester) async {
         await tester.pumpApp(
-          const HomePage(),
+          const CoffeesPage(),
           matchesCubit: matchesCubit,
+          
         );
 
         expect(find.byType(CoffeeCards), findsOneWidget);
@@ -118,6 +121,7 @@ void main() {
         await tester.pumpApp(
           const App(),
           matchesCubit: matchesCubit,
+          
         );
 
         expect(find.byIcon(Icons.chat_bubble_rounded), findsOneWidget);
@@ -134,6 +138,7 @@ void main() {
         await tester.pumpApp(
           const App(),
           matchesCubit: matchesCubit,
+          
         );
 
         expect(find.byIcon(Icons.settings_rounded), findsOneWidget);

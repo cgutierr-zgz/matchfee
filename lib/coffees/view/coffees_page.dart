@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:matchfee/coffees/coffees.dart';
 import 'package:matchfee/core/core.dart';
-import 'package:matchfee/home/home.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class CoffeesPage extends StatelessWidget {
+  const CoffeesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const HomeAppBar(),
+      appBar: const CoffeesAppBar(),
       body: Center(
         child: const CoffeeCards().padded(),
       ),
       bottomNavigationBar: SafeArea(
-        child: const BottomRowHome().padded(const EdgeInsets.all(20)),
+        child: const BottomNavigationRow().padded(const EdgeInsets.all(20)),
       ),
     );
   }

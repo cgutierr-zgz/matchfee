@@ -5,8 +5,8 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 
-class HomeRepository {
-  HomeRepository({required Client client}) {
+class CoffeesRepository {
+  CoffeesRepository({required Client client}) {
     _client = client;
   }
 

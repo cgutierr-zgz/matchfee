@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matchfee/app/app.dart';
-import 'package:matchfee/home/home.dart';
+import 'package:matchfee/coffees/coffees.dart';
 import 'package:matchfee/matches/matches.dart';
 
 import '../../helpers/helpers.dart';
@@ -13,13 +13,13 @@ void main() {
     setUp(() {
       matchesCubit = buildMatchesCubit(hydratedStorage);
     });
-    testWidgets('renders HomePage', (tester) async {
+    testWidgets('renders CoffeesPage', (tester) async {
       await tester.pumpApp(
         const App(),
         matchesCubit: matchesCubit,
       );
 
-      expect(find.byType(HomePage), findsOneWidget);
+      expect(find.byType(CoffeesPage), findsOneWidget);
     });
   });
 }
