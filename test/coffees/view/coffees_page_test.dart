@@ -29,7 +29,6 @@ void main() {
         await tester.pumpApp(
           const CoffeesPage(),
           matchesCubit: matchesCubit,
-          
         );
 
         await tester.tap(find.byIcon(Icons.close_rounded));
@@ -43,7 +42,6 @@ void main() {
         await tester.pumpApp(
           const CoffeesPage(),
           matchesCubit: matchesCubit,
-          
         );
 
         await tester.tap(find.byIcon(Icons.close_rounded));
@@ -60,7 +58,6 @@ void main() {
         await tester.pumpApp(
           const CoffeesPage(),
           matchesCubit: matchesCubit,
-          
         );
 
         await tester.tap(find.byIcon(Icons.favorite_rounded));
@@ -75,7 +72,6 @@ void main() {
         await tester.pumpApp(
           const CoffeesPage(),
           matchesCubit: matchesCubit,
-          
         );
 
         await tester.tap(find.byIcon(Icons.star_rounded));
@@ -94,7 +90,6 @@ void main() {
         await tester.pumpApp(
           const CoffeesPage(),
           matchesCubit: matchesCubit,
-          
         );
 
         expect(find.byType(CoffeeCards), findsOneWidget);
@@ -107,7 +102,6 @@ void main() {
         await tester.pumpApp(
           const CoffeesPage(),
           matchesCubit: matchesCubit,
-          
         );
 
         expect(find.byType(CoffeeCards), findsOneWidget);
@@ -121,7 +115,6 @@ void main() {
         await tester.pumpApp(
           const App(),
           matchesCubit: matchesCubit,
-          
         );
 
         expect(find.byIcon(Icons.chat_bubble_rounded), findsOneWidget);
@@ -138,7 +131,6 @@ void main() {
         await tester.pumpApp(
           const App(),
           matchesCubit: matchesCubit,
-          
         );
 
         expect(find.byIcon(Icons.settings_rounded), findsOneWidget);
