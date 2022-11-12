@@ -1,14 +1,14 @@
-part of 'coffees_bloc.dart';
+part of 'coffee_bloc.dart';
 
-abstract class CoffeesEvent extends Equatable {
-  const CoffeesEvent();
+abstract class CoffeeEvent extends Equatable {
+  const CoffeeEvent();
   @override
   List<Object> get props => [];
 }
 
 /// Event to trigger once we like a coffee
-class CoffeesErrorEvent extends CoffeesEvent {
-  const CoffeesErrorEvent(this.error);
+class CoffeeErrorEvent extends CoffeeEvent {
+  const CoffeeErrorEvent(this.error);
 
   final Exception error;
 
@@ -17,8 +17,8 @@ class CoffeesErrorEvent extends CoffeesEvent {
 }
 
 /// Event to trigger once we like a coffee
-class CoffeesStartEvent extends CoffeesEvent {
-  const CoffeesStartEvent(this.images);
+class CoffeeStartEvent extends CoffeeEvent {
+  const CoffeeStartEvent(this.images);
 
   final List<String> images;
 
@@ -29,16 +29,16 @@ class CoffeesStartEvent extends CoffeesEvent {
 enum NextEventType { like, dislike, superLike }
 
 /// Event to trigger once we like a coffee
-class NextCoffeesEvent extends CoffeesEvent {
-  const NextCoffeesEvent.like({
+class NextCoffeeEvent extends CoffeeEvent {
+  const NextCoffeeEvent.like({
     required this.image,
   }) : type = NextEventType.like;
 
-  const NextCoffeesEvent.superLike({
+  const NextCoffeeEvent.superLike({
     required this.image,
   }) : type = NextEventType.superLike;
 
-  const NextCoffeesEvent.dislike({
+  const NextCoffeeEvent.dislike({
     required this.image,
   }) : type = NextEventType.dislike;
 
@@ -51,6 +51,6 @@ class NextCoffeesEvent extends CoffeesEvent {
 
 /// Event to trigger when we want to go to the previous coffee
 /// This event is only valid if we dislaked one coffee, like in Tin...Matchfee
-class PreviousCoffeesEvent extends CoffeesEvent {
-  const PreviousCoffeesEvent();
+class PreviousCoffeeEvent extends CoffeeEvent {
+  const PreviousCoffeeEvent();
 }
