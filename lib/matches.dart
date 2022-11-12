@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:matchfee/coffee.dart';
+import 'package:matchfee/coffee/domain/coffee.dart';
 import 'package:matchfee/repo.dart';
 
 class MatchesPage extends StatelessWidget {
