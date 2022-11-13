@@ -5,15 +5,16 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:matchfee/coffee/domain/coffee.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:watcher/watcher.dart';
 
 abstract class ICoffeeRepository {
   Future<String> getRandomCoffee();
   Future<Uint8List> getImageBytes(String url);
+  Future<String> getAppDirectoryPath();
   Future<File> saveCoffeeToDevice(String url, {required bool superLike});
   Future<void> deleteCoffee(Coffee coffee);
   Future<void> deleteAllCoffees();
-  Future<List<Coffee>> getDeviceCoffees();
-  Future<String> getAppDirectoryPath();
+  Stream<List<Coffee>> getDeviceCoffees();
 }
 
 class CoffeeRepository implements ICoffeeRepository {
@@ -79,24 +80,24 @@ class CoffeeRepository implements ICoffeeRepository {
   }
 
   @override
-  Future<List<Coffee>> getDeviceCoffees() async {
+  Stream<List<Coffee>> getDeviceCoffees() async* {
     final directory = await getAppDirectoryPath();
+    final watcher = DirectoryWatcher(directory);
 
-    final files = Directory(directory).listSync();
-    final coffees = <Coffee>[];
+    yield* watcher.events.map((event) {
+      final files = Directory(directory).listSync();
 
-    for (final file in files) {
-      final bytes = await File(file.path).readAsBytes();
+      return files.map((file) {
+        final name = file.path.split('/').last;
+        final bytes = File(file.path).readAsBytesSync();
+        final superLike = name.startsWith('SUPER-');
 
-      final coffee = Coffee(
-        path: file.path,
-        bytes: bytes,
-        isSuperLike: file.path.contains('SUPER-'),
-      );
-
-      coffees.add(coffee);
-    }
-
-    return coffees;
+        return Coffee(
+          path: file.path,
+          bytes: bytes,
+          isSuperLike: superLike,
+        );
+      }).toList();
+    });
   }
 }

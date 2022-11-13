@@ -20,7 +20,7 @@ abstract class CoffeeState extends Equatable {
   }
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [when];
 }
 
 class CoffeeLoading extends CoffeeState {

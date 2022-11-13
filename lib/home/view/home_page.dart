@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:matchfee/coffee/bloc/coffee_bloc.dart';
-import 'package:matchfee/matches.dart';
+import 'package:matchfee/coffee/coffe.dart';
+import 'package:matchfee/home/home.dart';
+import 'package:matchfee/matches/cubit/matches_cubit.dart';
 import 'package:matchfee/repo.dart';
 
 class HomePage extends StatelessWidget {
@@ -24,19 +25,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Matchfee'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<MatchesPage>(
-                builder: (context) => const MatchesPage(),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: const HomeAppBar(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -66,6 +55,14 @@ class HomeView extends StatelessWidget {
                     },
                   ),
                   error: (error) => Text(error.toString()),
+                );
+              },
+            ),
+            BlocBuilder<MatchesCubit, List<Coffee>>(
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 150),
+                  child: Text('<${state.length}>'),
                 );
               },
             ),

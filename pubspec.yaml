@@ -19,6 +19,7 @@ dependencies:
   hydrated_bloc: ^9.0.0
   intl: ^0.17.0
   path_provider: ^2.0.11
+  watcher: ^1.0.2
 
 dev_dependencies:
   bloc_test: ^9.1.0

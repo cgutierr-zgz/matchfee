@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchfee/coffee/domain/coffee.dart';
+import 'package:matchfee/matches/cubit/matches_cubit.dart';
 import 'package:matchfee/repo.dart';
 
 class MatchesPage extends StatelessWidget {
@@ -15,37 +16,42 @@ class MatchesPage extends StatelessWidget {
         title: const Text('matches'),
       ),
       body: Center(
-        child: FutureBuilder<List<Coffee>>(
-          future: coffeeRepository.getDeviceCoffees(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final data = snapshot.requireData[index];
+        child: BlocBuilder<MatchesCubit, List<Coffee>>(
+          builder: (context, state) {
+            return ListView.builder(
+              itemCount: state.length,
+              itemBuilder: (context, index) {
+                final data = state[index];
 
-                  return Stack(
-                    children: [
-                      Image.memory(data.bytes),
-                      if (data.isSuperLike)
-                        const Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.red,
-                          ),
+                return Stack(
+                  children: [
+                    Image.memory(data.bytes),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: IconButton(
+                        onPressed: () {
+                          coffeeRepository.deleteCoffee(data);
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
                         ),
-                    ],
-                  );
-                },
-              );
-            }
-
-            return const CircularProgressIndicator();
+                      ),
+                    ),
+                    if (data.isSuperLike)
+                      const Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.red,
+                        ),
+                      ),
+                  ],
+                );
+              },
+            );
           },
         ),
       ),

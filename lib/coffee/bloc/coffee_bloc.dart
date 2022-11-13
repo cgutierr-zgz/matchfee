@@ -9,9 +9,8 @@ part 'coffees_state.dart';
 class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
   CoffeeBloc({
     required CoffeeRepository coffeeRepository,
-  }) : super(const CoffeeLoading()) {
-    _coffeeRepository = coffeeRepository;
-
+  })  : _coffeeRepository = coffeeRepository,
+        super(const CoffeeLoading()) {
     _init();
     on<CoffeeStartEvent>(_onAppStarted);
     on<NextCoffeeEvent>(_onNextCoffees);
