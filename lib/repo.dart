@@ -10,11 +10,11 @@ import 'package:watcher/watcher.dart';
 abstract class ICoffeeRepository {
   Future<String> getRandomCoffee();
   Future<Uint8List> getImageBytes(String url);
-  Future<Directory> getAppDirectory();
   Future<File> saveCoffeeToDevice(String url, {required bool superLike});
   Future<void> deleteCoffee(Coffee coffee);
   Future<void> deleteAllCoffees();
   Stream<List<Coffee>> getDeviceCoffees();
+  List<Coffee> directoryUpdates(Directory directory);
 }
 
 class CoffeeRepository implements ICoffeeRepository {
@@ -49,18 +49,16 @@ class CoffeeRepository implements ICoffeeRepository {
   }
 
   @override
-  Future<Directory> getAppDirectory() =>
-      getApplicationDocumentsDirectory().then((value) => Directory(value.path));
-
-  @override
   Future<File> saveCoffeeToDevice(
     String url, {
     required bool superLike,
   }) async {
-    final directory = await getAppDirectory();
+    final directory = await getApplicationDocumentsDirectory();
     final bytes = await getImageBytes(url);
     final name = url.split('/').last.split('.').first;
-    final file = File('${directory.path}/${superLike ? 'SUPER-' : ''}$name');
+    final file = File(
+      '${directory.path}/images/${superLike ? 'SUPER-' : ''}$name',
+    );
 
     return file.writeAsBytes(bytes);
   }
@@ -71,7 +69,8 @@ class CoffeeRepository implements ICoffeeRepository {
 
   @override
   Future<void> deleteAllCoffees() async {
-    final directory = await getAppDirectory();
+    final appDir = await getApplicationDocumentsDirectory();
+    final directory = Directory('${appDir.path}/images');
     final files = directory.listSync();
 
     for (final file in files) {
@@ -81,25 +80,28 @@ class CoffeeRepository implements ICoffeeRepository {
 
   @override
   Stream<List<Coffee>> getDeviceCoffees() async* {
-    final directory = await getAppDirectory();
+    final appDir = await getApplicationDocumentsDirectory();
+    final directory = Directory('${appDir.path}/images');
+    if (!directory.existsSync()) await directory.create();
+
     final watcher = DirectoryWatcher(directory.path);
 
-    yield* watcher.events.map((event) {
-      // sort by creation date, latests first
-      final files = directory.listSync()
-        ..sort((a, b) => b.statSync().changed.compareTo(a.statSync().changed));
+    // handles the initial load
+    yield directoryUpdates(directory);
+    yield* watcher.events.map((_) => directoryUpdates(directory));
+  }
 
-      return files.map((file) {
-        final name = file.path.split('/').last;
-        final bytes = File(file.path).readAsBytesSync();
-        final superLike = name.startsWith('SUPER-');
+  @override
+  List<Coffee> directoryUpdates(Directory directory) {
+    final files = directory.listSync()
+      ..sort((a, b) => b.statSync().changed.compareTo(a.statSync().changed));
 
-        return Coffee(
-          path: file.path,
-          bytes: bytes,
-          isSuperLike: superLike,
-        );
-      }).toList();
-    });
+    return files.map((f) {
+      final path = f.path;
+      final bytes = File(path).readAsBytesSync();
+      final isSuperLike = path.contains('SUPER-');
+
+      return Coffee(path: path, bytes: bytes, isSuperLike: isSuperLike);
+    }).toList();
   }
 }

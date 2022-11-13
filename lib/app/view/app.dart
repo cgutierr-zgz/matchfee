@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matchfee/core/core.dart';
 import 'package:matchfee/home/home.dart';
 import 'package:matchfee/profile/profile.dart';
 
@@ -12,8 +13,8 @@ class Matchfee extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: context.select((SettingsCubit c) => c.state.themeMode),
-      // TODO: supportedLocales: AppLocalizations.supportedLocales,
-      // TODO: localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       home: const HomePage(),
     );
   }

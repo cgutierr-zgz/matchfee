@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matchfee/coffee/coffe.dart';
+import 'package:matchfee/matches/matches.dart';
 import 'package:matchfee/profile/cubit/settings_cubit.dart';
 import 'package:matchfee/repo.dart';
 
@@ -44,11 +46,20 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
+
           // TODO: Show this if theres any data in the device
-          TextButton(
-            onPressed: coffeeRepository.deleteAllCoffees,
-            // TODO: Add a confirmation dialog
-            child: const Text('delete the data'),
+          BlocBuilder<MatchesCubit, List<Coffee>>(
+            builder: (context, state) {
+              if (state.isNotEmpty) {
+                return TextButton(
+                  onPressed: coffeeRepository.deleteAllCoffees,
+                  // TODO: Add a confirmation dialog
+                  child: const Text('delete the data'),
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
           )
         ],
       ),
