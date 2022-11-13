@@ -85,7 +85,9 @@ class CoffeeRepository implements ICoffeeRepository {
     final watcher = DirectoryWatcher(directory.path);
 
     yield* watcher.events.map((event) {
-      final files = directory.listSync();
+      // sort by creation date, latests first
+      final files = directory.listSync()
+        ..sort((a, b) => b.statSync().changed.compareTo(a.statSync().changed));
 
       return files.map((file) {
         final name = file.path.split('/').last;

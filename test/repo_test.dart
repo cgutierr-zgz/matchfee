@@ -149,11 +149,33 @@ void main() {
       );
     });
 
-    /*
-    TODO: Implement tests
     test('deleteAllCoffees deletes all images from the device', () async {});
 
-    test('getDeviceCoffees gets all images stored', () async {});
-    */
+    test('getDeviceCoffees gets all images stored', () async {
+      await IOOverrides.runZoned(
+        () async {
+          when(() => directory.listSync(recursive: true))
+              .thenAnswer((_) => [file]);
+          when(() => file.readAsBytes())
+              .thenAnswer((_) async => Future.value(bytes));
+          when(() => file.path).thenReturn(filePath);
+          when(() => file.existsSync).thenReturn(() => true);
+
+          final coffees = await repo.getDeviceCoffees().first;
+
+          expect(coffees, isA<List<Coffee>>());
+          expect(coffees.length, 1);
+          expect(coffees.first.path, filePath);
+          expect(coffees.first.bytes, bytes);
+          expect(coffees.first.isSuperLike, false);
+
+          verify(() => directory.listSync(recursive: true)).called(1);
+          verify(() => file.readAsBytes()).called(1);
+          verify(() => file.path).called(1);
+          expect(file.existsSync(), true);
+        },
+        getCurrentDirectory: () => directory,
+      );
+    });
   });
 }

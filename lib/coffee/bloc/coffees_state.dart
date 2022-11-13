@@ -19,8 +19,41 @@ abstract class CoffeeState extends Equatable {
     }
   }
 
+  Widget maybeWhen({
+    Widget Function()? loading,
+    Widget Function(Exception exception)? error,
+    Widget Function(List<String> images)? loaded,
+    required Widget Function() orElse,
+  }) {
+    if (this is CoffeeLoading) {
+      return loading?.call() ?? orElse();
+    } else if (this is CoffeesError) {
+      return error?.call((this as CoffeesError).error) ?? orElse();
+    } else if (this is CoffeesLoaded) {
+      return loaded?.call((this as CoffeesLoaded).images) ?? orElse();
+    } else {
+      throw Exception('Unknown state');
+    }
+  }
+
+  Widget? whenOrNull({
+    Widget Function()? loading,
+    Widget Function(Exception exception)? error,
+    Widget Function(List<String> images)? loaded,
+  }) {
+    if (this is CoffeeLoading) {
+      return loading?.call();
+    } else if (this is CoffeesError) {
+      return error?.call((this as CoffeesError).error);
+    } else if (this is CoffeesLoaded) {
+      return loaded?.call((this as CoffeesLoaded).images);
+    } else {
+      throw Exception('Unknown state');
+    }
+  }
+
   @override
-  List<Object> get props => [when];
+  List<Object> get props => [when, maybeWhen, whenOrNull];
 }
 
 class CoffeeLoading extends CoffeeState {
