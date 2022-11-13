@@ -13,13 +13,13 @@ void main() {
     setUp(() {
       cubit = MockSettingsCubit();
       when(() => cubit.state).thenReturn(
-        const Settings(themeMode: ThemeMode.system),
+        const Settings(themeMode: ThemeMode.light),
       );
 
       setUpSettingsCubit();
     });
-    test('initial state theme is system mode', () {
-      expect(settingsCubit.state.themeMode, equals(ThemeMode.system));
+    test('initial state theme is light mode', () {
+      expect(settingsCubit.state.themeMode, equals(ThemeMode.light));
     });
 
     group('Toogle themeMode', () {
@@ -27,7 +27,7 @@ void main() {
         'updates themeMode to dark',
         build: SettingsCubit.new,
         act: (bloc) {
-          bloc.toggleThemeMode(ThemeMode.dark);
+          bloc.toggleThemeMode();
         },
         expect: () {
           return const [Settings(themeMode: ThemeMode.dark)];
@@ -38,10 +38,15 @@ void main() {
         'updates themeMode to light',
         build: SettingsCubit.new,
         act: (bloc) {
-          bloc.toggleThemeMode(ThemeMode.light);
+          bloc
+            ..toggleThemeMode()
+            ..toggleThemeMode();
         },
         expect: () {
-          return const [Settings(themeMode: ThemeMode.light)];
+          return const [
+            Settings(themeMode: ThemeMode.dark),
+            Settings(themeMode: ThemeMode.light),
+          ];
         },
       );
 
@@ -50,15 +55,15 @@ void main() {
         build: SettingsCubit.new,
         act: (bloc) {
           bloc
-            ..toggleThemeMode(ThemeMode.dark)
-            ..toggleThemeMode(ThemeMode.light)
-            ..toggleThemeMode(ThemeMode.system);
+            ..toggleThemeMode()
+            ..toggleThemeMode()
+            ..toggleThemeMode();
         },
         expect: () {
           return const [
             Settings(themeMode: ThemeMode.dark),
             Settings(themeMode: ThemeMode.light),
-            Settings(themeMode: ThemeMode.system),
+            Settings(themeMode: ThemeMode.dark),
           ];
         },
       );
@@ -66,16 +71,16 @@ void main() {
 
     group('json (de)serialization', () {
       test('fromJson converts from json to state', () {
-        final result = settingsCubit.fromJson({'themeMode': 0});
-        expect(result, const Settings(themeMode: ThemeMode.system));
+        final result = settingsCubit.fromJson({'themeMode': 1});
+        expect(result, const Settings(themeMode: ThemeMode.light));
       });
     });
 
     test('toJson converts from state to json', () {
       final result = settingsCubit.toJson(
-        const Settings(themeMode: ThemeMode.system),
+        const Settings(themeMode: ThemeMode.light),
       );
-      expect(result, {'themeMode': 0});
+      expect(result, {'themeMode': 1});
     });
   });
 }

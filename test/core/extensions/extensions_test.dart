@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matchfee/core/core.dart';
 
+import '../../helpers/helpers.dart';
+
 void main() {
   group('Widget extensions', () {
     const horizontalSpacer = SizedBox(width: 10);
@@ -91,95 +93,33 @@ void main() {
     );
   });
 
-/*
-  group('Snackbar extensions', () {
-    late MatchesCubit matchesCubit;
-    initHydratedStorage();
-
-    setUp(() {
-      matchesCubit = buildMatchesCubit(hydratedStorage);
-    });
-    testWidgets(
-      'Show snackbar',
-      (tester) async {
-        const helloSnackBar = 'Hello SnackBar';
-        const tapTarget = Key('tap-target');
-        await tester.pumpApp(
-          Scaffold(
-            body: Builder(
-              builder: (context) {
-                return GestureDetector(
-                  key: tapTarget,
-                  onTap: () => context.showSnackbar(helloSnackBar),
-                  behavior: HitTestBehavior.opaque,
-                );
-              },
-            ),
+  testWidgets(
+    'Show snackbar',
+    (tester) async {
+      const helloSnackBar = 'Hello SnackBar';
+      const tapTarget = Key('tap-target');
+      await tester.pumpApp(
+        Scaffold(
+          body: Builder(
+            builder: (context) {
+              return GestureDetector(
+                key: tapTarget,
+                onTap: () => context.showSnackbar(helloSnackBar),
+                behavior: HitTestBehavior.opaque,
+              );
+            },
           ),
-          matchesCubit: matchesCubit,
-        );
-        expect(find.text(helloSnackBar), findsNothing);
-        await tester.tap(
-          find.byKey(tapTarget),
-          // Added to remove unnecesary warning
-          warnIfMissed: false,
-        );
-        expect(find.text(helloSnackBar), findsNothing);
-        await tester.pump();
-        expect(find.text(helloSnackBar), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      'Tests the error snackbar and clicks the action button',
-      (tester) async {
-        const helloSnackBar = 'Hello SnackBar';
-        const tapTarget = Key('tap-target');
-        await tester.pumpApp(
-          Scaffold(
-            body: Builder(
-              builder: (context) {
-                return GestureDetector(
-                  key: tapTarget,
-                  onTap: () => context.showSnackbar(
-                    helloSnackBar,
-                    error: true,
-                    onPressed: () => debugPrint('henlo'),
-                  ),
-                  behavior: HitTestBehavior.opaque,
-                );
-              },
-            ),
-          ),
-          matchesCubit: matchesCubit,
-        );
-        expect(find.text(helloSnackBar), findsNothing);
-        await tester.tap(
-          find.byKey(tapTarget),
-          // Added to remove unnecesary warning
-          warnIfMissed: false,
-        );
-        expect(find.text(helloSnackBar), findsNothing);
-        await tester.pump();
-        expect(find.text(helloSnackBar), findsOneWidget);
-        expect(find.text('Accept'), findsOneWidget);
-        expect(find.byType(TextButton), findsNWidgets(2));
-
-        // dismiss the snackbar
-        await tester.press(
-          find.byType(TextButton).last,
-          // Added to remove unnecesary warning
-          warnIfMissed: false,
-        );
-
-        await tester.pumpAndSettle(const Duration(seconds: 3));
-
-        /*
-        * I don't know how to test dismissed snackbars, even after click
-          on the action button, the snackbar is still there
-        */
-      },
-    );
-  });
-  */
+        ),
+      );
+      expect(find.text(helloSnackBar), findsNothing);
+      await tester.tap(
+        find.byKey(tapTarget),
+        // Added to remove unnecesary warning
+        warnIfMissed: false,
+      );
+      expect(find.text(helloSnackBar), findsNothing);
+      await tester.pump();
+      expect(find.text(helloSnackBar), findsOneWidget);
+    },
+  );
 }

@@ -3,10 +3,15 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:matchfee/profile/profile.dart';
 
 class SettingsCubit extends HydratedCubit<Settings> {
-  SettingsCubit() : super(const Settings(themeMode: ThemeMode.system));
+  SettingsCubit() : super(const Settings(themeMode: ThemeMode.light));
 
-  void toggleThemeMode(ThemeMode themeMode) =>
-      emit(state.copyWith(themeMode: themeMode));
+  void toggleThemeMode() => emit(
+        state.copyWith(
+          themeMode: state.themeMode == ThemeMode.light
+              ? ThemeMode.dark
+              : ThemeMode.light,
+        ),
+      );
 
   @override
   Settings fromJson(Map<String, dynamic> json) => Settings.fromJson(json);

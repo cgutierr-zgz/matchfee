@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matchfee/profile/profile.dart';
 
@@ -24,21 +25,40 @@ void main() {
 
     testWidgets('shows new themeMode when cubit is updated', (tester) async {
       await tester.pumpApp(const ProfilePage());
-      /*
-      expect(find.text('Current theme mode: ThemeMode.system'), findsOneWidget);
 
-      settingsCubit.toggleThemeMode(ThemeMode.dark);
-      await tester.pumpAndSettle();
-      expect(find.text('Current theme mode: ThemeMode.dark'), findsOneWidget);
+      expect(find.text('Profile Page'), findsOneWidget);
+      expect(
+        find.widgetWithIcon(ThemeToogler, Icons.dark_mode),
+        findsOneWidget,
+      );
+      expect(
+        find.widgetWithIcon(ThemeToogler, Icons.light_mode),
+        findsNothing,
+      );
 
-      settingsCubit.toggleThemeMode(ThemeMode.light);
+      settingsCubit.toggleThemeMode();
       await tester.pumpAndSettle();
-      expect(find.text('Current theme mode: ThemeMode.light'), findsOneWidget);
 
-      settingsCubit.toggleThemeMode(ThemeMode.system);
+      expect(
+        find.widgetWithIcon(ThemeToogler, Icons.light_mode),
+        findsOneWidget,
+      );
+      expect(
+        find.widgetWithIcon(ThemeToogler, Icons.dark_mode),
+        findsNothing,
+      );
+
+      await tester.tap(find.widgetWithIcon(ThemeToogler, Icons.light_mode));
       await tester.pumpAndSettle();
-      expect(find.text('Current theme mode: ThemeMode.system'), findsOneWidget);
-      */
+
+      expect(
+        find.widgetWithIcon(ThemeToogler, Icons.dark_mode),
+        findsOneWidget,
+      );
+      expect(
+        find.widgetWithIcon(ThemeToogler, Icons.light_mode),
+        findsNothing,
+      );
     });
   });
 }
