@@ -1,25 +1,18 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:matchfee/repo.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
-import 'helper1.dart';
-
-class MockClient extends Mock implements Client {}
-
-class MockRepo extends Mock implements CoffeeRepository {}
+import 'helpers/helpers.dart';
 
 void main() {
   const url = 'https://coffee.alexflipnote.dev/123.jpg';
   TestWidgetsFlutterBinding.ensureInitialized();
+
   group('Repo Test', () {
     late CoffeeRepository repo;
     late Client client;
-    //late Directory directory;
 
     setUp(() {
       client = MockClient();
@@ -99,6 +92,7 @@ void main() {
       final path = await repo.getAppDirectoryPath();
 
       expect(path, isA<String>());
+      expect(path, 'applicationDocumentsPath');
     });
 
     test('saveImageToDevice saves an image to device', () async {

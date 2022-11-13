@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matchfee/core/core.dart';
-import 'package:matchfee/matches.dart';
+import 'package:matchfee/matches/view/matches_page.dart';
 import 'package:matchfee/profile/profile.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
