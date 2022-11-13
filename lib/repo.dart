@@ -10,7 +10,7 @@ import 'package:watcher/watcher.dart';
 abstract class ICoffeeRepository {
   Future<String> getRandomCoffee();
   Future<Uint8List> getImageBytes(String url);
-  Future<String> getAppDirectoryPath();
+  Future<Directory> getAppDirectory();
   Future<File> saveCoffeeToDevice(String url, {required bool superLike});
   Future<void> deleteCoffee(Coffee coffee);
   Future<void> deleteAllCoffees();
@@ -49,18 +49,18 @@ class CoffeeRepository implements ICoffeeRepository {
   }
 
   @override
-  Future<String> getAppDirectoryPath() =>
-      getApplicationDocumentsDirectory().then((value) => value.path);
+  Future<Directory> getAppDirectory() =>
+      getApplicationDocumentsDirectory().then((value) => Directory(value.path));
 
   @override
   Future<File> saveCoffeeToDevice(
     String url, {
     required bool superLike,
   }) async {
-    final directory = await getAppDirectoryPath();
+    final directory = await getAppDirectory();
     final bytes = await getImageBytes(url);
     final name = url.split('/').last.split('.').first;
-    final file = File('$directory/${superLike ? 'SUPER-' : ''}$name');
+    final file = File('${directory.path}/${superLike ? 'SUPER-' : ''}$name');
 
     return file.writeAsBytes(bytes);
   }
@@ -71,8 +71,8 @@ class CoffeeRepository implements ICoffeeRepository {
 
   @override
   Future<void> deleteAllCoffees() async {
-    final directory = await getAppDirectoryPath();
-    final files = Directory(directory).listSync();
+    final directory = await getAppDirectory();
+    final files = directory.listSync();
 
     for (final file in files) {
       file.deleteSync();
@@ -81,11 +81,11 @@ class CoffeeRepository implements ICoffeeRepository {
 
   @override
   Stream<List<Coffee>> getDeviceCoffees() async* {
-    final directory = await getAppDirectoryPath();
-    final watcher = DirectoryWatcher(directory);
+    final directory = await getAppDirectory();
+    final watcher = DirectoryWatcher(directory.path);
 
     yield* watcher.events.map((event) {
-      final files = Directory(directory).listSync();
+      final files = directory.listSync();
 
       return files.map((file) {
         final name = file.path.split('/').last;

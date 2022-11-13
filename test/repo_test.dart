@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
+import 'package:matchfee/coffee/coffe.dart';
 import 'package:matchfee/repo.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -8,19 +11,25 @@ import 'helpers/helpers.dart';
 
 void main() {
   const url = 'https://coffee.alexflipnote.dev/123.jpg';
+  const filePath = 'path/to/file';
+  final bytes = Uint8List.fromList([1, 2, 3]);
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Repo Test', () {
     late CoffeeRepository repo;
     late Client client;
+    late File file;
+    late Directory directory;
 
     setUp(() {
       client = MockClient();
       repo = CoffeeRepository(client: client);
+      file = MockFile();
+      directory = MockDirectory();
       PathProviderPlatform.instance = FakePathProviderPlatform();
     });
 
-    group('getRandomImage', () {
+    group('getRandomCoffee', () {
       test('returns an image url when status code is 200', () async {
         when(() => client.get(Uri.parse(CoffeeRepository.baseUrl)))
             .thenAnswer((_) async => Response('{"file": "$url"}', 200));
@@ -89,66 +98,62 @@ void main() {
     });
 
     test('getAppDirectoryPath returns the app directory path', () async {
-      final path = await repo.getAppDirectoryPath();
+      final directory = await repo.getAppDirectory();
 
-      expect(path, isA<String>());
-      expect(path, 'applicationDocumentsPath');
+      expect(directory, isA<Directory>());
+      expect(directory.path, 'applicationDocumentsPath');
     });
 
-    test('saveImageToDevice saves an image to device', () async {
-/*
-      when(() => client.get(Uri.parse(url)))
-          .thenAnswer((_) async => Response('image bytes', 200));
-      when(() => file.writeAsBytes(any()))
-          .thenAnswer((_) async => Future.value(file));
+    test('saveCoffeeToDevice saves an image to device', () async {
+      await IOOverrides.runZoned(
+        () async {
+          when(() => client.get(Uri.parse(url)))
+              .thenAnswer((_) async => Response('image bytes', 200));
+          when(() => file.writeAsBytes(any()))
+              .thenAnswer((_) async => Future.value(File(filePath)));
+          when(file.existsSync).thenReturn(true);
 
-      final image = await repo.saveImageToDevice(url);
+          final image = await repo.saveCoffeeToDevice(
+            url,
+            superLike: false,
+          );
 
-      expect(image, isA<File>());
-      verify(() => client.get(Uri.parse(url))).called(1);
+          expect(image, isA<File>());
 
-      verify(() => file.writeAsBytes(any())).called(1);
-
-      verify(() => file.path).called(1);
-      */
+          verify(() => client.get(Uri.parse(url))).called(1);
+          verify(() => file.writeAsBytes(any())).called(1);
+          expect(file.existsSync(), true);
+        },
+        createFile: (_) => file,
+      );
     });
 
-    test('deleteImage deletes an image from the device', () async {
-      /*
-      final repo = MockRepo();
-      when(() => repo.deleteCoffee(any())).thenAnswer((_) async => true);
+    test('deleteCoffee deletes an image from the device', () async {
+      await IOOverrides.runZoned(
+        () async {
+          when(file.deleteSync).thenAnswer((_) => Future<void>.value());
+          when(file.existsSync).thenReturn(false);
 
-      final result = await repo.deleteCoffee('path');
+          final coffee = Coffee(
+            path: filePath,
+            isSuperLike: false,
+            bytes: bytes,
+          );
 
-      verify(() => repo.deleteCoffee(any())).called(1);
-      */
+          await repo.deleteCoffee(coffee);
+
+          verify(file.deleteSync).called(1);
+          expect(file.existsSync(), false);
+        },
+        createFile: (_) => file,
+      );
     });
 
-/*
-    group('deleteAllImages', () {
-      test('deleteAllImages deletes all images from the device', () async {
-        final repo = MockRepo();
-        when(repo.deleteAllImages).thenAnswer((_) async => 'path');
+    /*
+    TODO: Implement tests
+    test('deleteAllCoffees deletes all images from the device', () async {});
 
-        await repo.deleteAllImages();
-
-        verify(repo.deleteAllImages).called(1);
-      });
-    });
-
-    group('getDeviceImages', () {
-      test('getDeviceImages gets all images stored', () async {
-        final repo = MockRepo();
-        final bytes = Uint8List.fromList([1, 2, 3]);
-        when(repo.getDeviceImages).thenAnswer(
-          (_) async => [bytes],
-        );
-
-        final images = await repo.getDeviceImages();
-
-        expect(images, isA<List<Uint8List>>());
-        verify(repo.getDeviceImages).called(1);
-      });
-    });*/
+    test('getDeviceCoffees gets all images stored', () async {});
+    */
   });
 }

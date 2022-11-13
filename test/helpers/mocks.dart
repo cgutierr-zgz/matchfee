@@ -1,5 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';
@@ -17,3 +19,7 @@ class FakePathProviderPlatform extends Mock
 }
 
 class MockClient extends Mock implements Client {}
+
+class MockFile extends Mock implements File {}
+
+class MockDirectory extends Mock implements Directory {}
