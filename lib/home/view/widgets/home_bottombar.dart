@@ -115,16 +115,22 @@ class _BottomBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+
     return CustomAnimatedButton(
       rotate: rotate,
       onPressed: onPressed,
       child: DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.white,
+          color: theme.brightness == Brightness.dark
+              ? Colors.black45
+              : theme.cardColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: theme.brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.05)
+                  : Colors.black.withOpacity(0.1),
               blurRadius: 10,
               spreadRadius: 5,
             ),
