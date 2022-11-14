@@ -13,8 +13,6 @@ class Matchfee extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: context.select((SettingsCubit c) => c.state.themeMode),
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
       home: const HomePage(),
     );
   }

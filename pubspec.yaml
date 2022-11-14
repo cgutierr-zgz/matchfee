@@ -13,11 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
-  flutter_localizations:
-    sdk: flutter
   http: ^0.13.5
   hydrated_bloc: ^9.0.0
-  intl: ^0.17.0
   path_provider: ^2.0.11
   watcher: ^1.0.2
 
@@ -63,3 +60,7 @@ flutter:
         - asset: assets/fonts/Lato-ThinItalic.ttf
           weight: 100
           style: italic
+    - family: HappyPink
+      fonts:
+        - asset: assets/fonts/Happy-Pink.otf
+          weight: 400

@@ -94,8 +94,6 @@ class _SnackbarActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return Row(
       children: [
         TextButton(
@@ -104,13 +102,13 @@ class _SnackbarActions extends StatelessWidget {
             onPressed.call();
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
           },
-          child: Text(l10n.acceptButton),
+          child: const Text('Accept'),
         ),
         const Spacer(),
         TextButton(
           style: TextButton.styleFrom(padding: EdgeInsets.zero),
           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-          child: Text(l10n.cancelButton),
+          child: const Text('Cancel'),
         )
       ],
     );

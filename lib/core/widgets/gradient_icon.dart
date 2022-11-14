@@ -24,11 +24,11 @@ class GradientIcon extends StatelessWidget {
 
     return ShaderMask(
       child: SizedBox(
-        width: size * 1.2,
-        height: size * 1.2,
+        width: size,
+        height: size,
         child: Icon(
           icon,
-          size: size,
+          size: size * 0.8,
           color: Colors.white,
         ),
       ),

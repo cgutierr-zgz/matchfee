@@ -69,18 +69,9 @@ class HomeBottomBar extends StatelessWidget {
               _BottomBarItem.small(
                 rotate: false,
                 onPressed: isLoaded
-                    ? () {
-                        context.read<CoffeeBloc>().add(
-                              NextCoffeeEvent.superLike(
-                                image: state.images.first,
-                              ),
-                            );
-
-                        context.showSnackbar(
-                          'Super Like!',
-                          prefixIcon: Icons.favorite_rounded,
-                        );
-                      }
+                    ? () => context.read<CoffeeBloc>().add(
+                          NextCoffeeEvent.superLike(image: state.images.first),
+                        )
                     : null,
                 icon: Icons.star_rounded,
                 gradient: const LinearGradient(

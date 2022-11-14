@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:matchfee/core/core.dart';
 import 'package:matchfee/matches/matches.dart';
 import 'package:matchfee/profile/profile.dart';
 import 'package:matchfee/repo.dart';
@@ -27,11 +26,7 @@ extension PumpApp on WidgetTester {
             BlocProvider.value(value: sCubit ?? settingsCubit),
             BlocProvider.value(value: mCubit ?? matchesCubit),
           ],
-          child: MaterialApp(
-            home: widget,
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-          ),
+          child: MaterialApp(home: widget),
         ),
       ),
     );

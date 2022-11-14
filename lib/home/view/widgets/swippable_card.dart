@@ -252,7 +252,6 @@ class _PladeholderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = context.theme;
 
     return Stack(
@@ -269,7 +268,7 @@ class _PladeholderWidget extends StatelessWidget {
             'assets/images/loading.png',
           ),
         Text(
-          hasError ? l10n.error : '${l10n.loadingText}...',
+          hasError ? 'Error' : 'Loading...',
           style: theme.textTheme.titleLarge,
         ).padded(const EdgeInsets.only(bottom: 50))
       ],

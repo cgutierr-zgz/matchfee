@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matchfee/core/core.dart';
-export 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 extension BuildContextX on BuildContext {
-  /// Grants access to the [AppLocalizations] instance based on the context.
-  ///
-  /// Usage:
-  /// ```dart
-  /// final l10n = context.l10n;
-  /// ```
-  ///
-  /// {@macro l10n_extension}
-  AppLocalizations get l10n => AppLocalizations.of(this);
-
   /// Grants access to [ThemeData] based on given context
   ///
   /// Usage:
