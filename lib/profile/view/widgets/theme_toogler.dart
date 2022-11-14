@@ -11,8 +11,8 @@ class ThemeToogler extends StatelessWidget {
       builder: (context, state) {
         return IconButton(
           icon: state.themeMode == ThemeMode.dark
-              ? const Icon(Icons.light_mode)
-              : const Icon(Icons.dark_mode),
+              ? const Icon(Icons.light_mode_rounded)
+              : const Icon(Icons.dark_mode_rounded),
           onPressed: () => context.read<SettingsCubit>().toggleThemeMode(),
         );
       },

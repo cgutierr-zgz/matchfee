@@ -23,6 +23,16 @@ extension BuildContextX on BuildContext {
   /// {@macro theme_extension}
   ThemeData get theme => Theme.of(this);
 
+  /// Gives access to [Size] based on given context
+  ///
+  /// Usage:
+  /// ```dart
+  /// final size = context.currentSize;
+  /// ```
+  ///
+  /// {@macro size_extension}
+  Size get currentSize => MediaQuery.of(this).size;
+
   ///
   void push(Widget widget) => Navigator.of(this).push(
         MaterialPageRoute<dynamic>(builder: (context) => widget),

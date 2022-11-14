@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchfee/coffee/coffe.dart';
+import 'package:matchfee/core/extensions.dart';
 import 'package:matchfee/home/home.dart';
-import 'package:matchfee/matches/cubit/matches_cubit.dart';
 import 'package:matchfee/repo.dart';
 
 class HomePage extends StatelessWidget {
@@ -24,49 +24,62 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = context.currentSize;
+
     return Scaffold(
       appBar: const HomeAppBar(),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BlocBuilder<CoffeeBloc, CoffeeState>(
-              builder: (context, state) {
-                return state.when(
-                  loading: () => const CircularProgressIndicator(),
-                  loaded: (images) => Builder(
-                    builder: (context) {
-                      return Stack(
-                        children: List.generate(
-                          images.length,
-                          (index) {
-                            return Transform.rotate(
-                              angle: index * 0.1,
-                              child: Image.network(
-                                images.reversed.toList()[index],
-                                height: 450,
-                                width: 300,
+        child: BlocBuilder<CoffeeBloc, CoffeeState>(
+          builder: (context, state) {
+            return state.when(
+              loading: () => const CircularProgressIndicator(),
+              loaded: (images) => Builder(
+                builder: (context) {
+                  return Stack(
+                    children: List.generate(
+                      images.length,
+                      (index) {
+                        final height = size.height * 0.70;
+                        final width = size.width * 0.90;
+
+                        // TODO: Blur the one in the back a lot
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            images.reversed.toList()[index],
+                            height: height,
+                            width: width,
+                            fit: BoxFit.cover,
+                            filterQuality: FilterQuality.high,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Image.asset(
+                                'assets/images/loading.png',
+                                height: height,
+                                width: width,
                                 fit: BoxFit.cover,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  error: (error) => Text(error.toString()),
-                );
-              },
-            ),
-            BlocBuilder<MatchesCubit, List<Coffee>>(
-              builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 150),
-                  child: Text('<${state.length}>'),
-                );
-              },
-            ),
-          ],
+                                filterQuality: FilterQuality.high,
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'assets/images/error.png',
+                                height: height,
+                                width: width,
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              error: (error) => Text(error.toString()),
+            );
+          },
         ),
       ),
       bottomNavigationBar: BlocBuilder<CoffeeBloc, CoffeeState>(
@@ -79,7 +92,7 @@ class HomeView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.undo_rounded),
+                  icon: const Icon(Icons.replay_rounded),
                   onPressed: isLoaded &&
                           context.read<CoffeeBloc>().photoToDelete != null
                       ? () => context.read<CoffeeBloc>().add(
