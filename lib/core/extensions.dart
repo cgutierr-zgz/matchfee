@@ -58,6 +58,7 @@ extension BuildContextX on BuildContext {
           SnackBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
+            duration: const Duration(milliseconds: 500),
             content: error
                 ? CustomSnackbar.error(message: message, onPressed: onPressed)
                 : CustomSnackbar(

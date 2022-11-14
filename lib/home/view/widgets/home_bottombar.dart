@@ -69,11 +69,18 @@ class HomeBottomBar extends StatelessWidget {
               _BottomBarItem.small(
                 rotate: false,
                 onPressed: isLoaded
-                    ? () => context.read<CoffeeBloc>().add(
-                          NextCoffeeEvent.superLike(
-                            image: state.images.first,
-                          ),
-                        )
+                    ? () {
+                        context.read<CoffeeBloc>().add(
+                              NextCoffeeEvent.superLike(
+                                image: state.images.first,
+                              ),
+                            );
+
+                        context.showSnackbar(
+                          'Super Like!',
+                          prefixIcon: Icons.favorite_rounded,
+                        );
+                      }
                     : null,
                 icon: Icons.star_rounded,
                 gradient: const LinearGradient(
@@ -97,7 +104,7 @@ class _BottomBarItem extends StatelessWidget {
     required this.onPressed,
     required this.gradient,
     required this.icon,
-  })  : size = 50,
+  })  : size = 60,
         rotate = false;
 
   const _BottomBarItem.small({
@@ -105,7 +112,7 @@ class _BottomBarItem extends StatelessWidget {
     required this.gradient,
     required this.icon,
     required this.rotate,
-  }) : size = 30;
+  }) : size = 40;
 
   final double size;
   final void Function()? onPressed;
@@ -120,7 +127,9 @@ class _BottomBarItem extends StatelessWidget {
     return CustomAnimatedButton(
       rotate: rotate,
       onPressed: onPressed,
-      child: DecoratedBox(
+      child: Container(
+        width: size,
+        height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: theme.brightness == Brightness.dark
@@ -138,7 +147,7 @@ class _BottomBarItem extends StatelessWidget {
         ),
         child: GradientIcon(
           icon: icon,
-          size: size,
+          size: size * 0.8,
           gradient: gradient,
         ),
       ),

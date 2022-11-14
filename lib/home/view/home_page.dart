@@ -29,7 +29,12 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: const HomeAppBar(),
       body: Center(
-        child: BlocBuilder<CoffeeBloc, CoffeeState>(
+        child: BlocConsumer<CoffeeBloc, CoffeeState>(
+          listener: (context, state) {
+            if (state is CoffeesError) {
+              context.showSnackbar(state.error.toString(), error: true);
+            }
+          },
           builder: (context, state) {
             return state.when(
               loading: () => const CircularProgressIndicator(),
