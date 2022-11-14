@@ -44,7 +44,7 @@ class HomeView extends StatelessWidget {
 
                         // TODO: Blur the one in the back a lot
                         return ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(15),
                           child: Image.network(
                             images.reversed.toList()[index],
                             height: height,
@@ -82,55 +82,7 @@ class HomeView extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: BlocBuilder<CoffeeBloc, CoffeeState>(
-        builder: (context, state) {
-          final isLoaded = state is CoffeesLoaded;
-
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 100),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.replay_rounded),
-                  onPressed: isLoaded &&
-                          context.read<CoffeeBloc>().photoToDelete != null
-                      ? () => context.read<CoffeeBloc>().add(
-                            const PreviousCoffeeEvent(),
-                          )
-                      : null,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close_rounded),
-                  onPressed: isLoaded
-                      ? () => context.read<CoffeeBloc>().add(
-                            NextCoffeeEvent.dislike(image: state.images.first),
-                          )
-                      : null,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.favorite_rounded),
-                  onPressed: isLoaded
-                      ? () => context
-                          .read<CoffeeBloc>()
-                          .add(NextCoffeeEvent.like(image: state.images.first))
-                      : null,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.star_rounded),
-                  onPressed: isLoaded
-                      ? () => context.read<CoffeeBloc>().add(
-                            NextCoffeeEvent.superLike(
-                              image: state.images.first,
-                            ),
-                          )
-                      : null,
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+      bottomNavigationBar: const HomeBottomBar(),
     );
   }
 }

@@ -52,6 +52,7 @@ class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
       try {
         if (event.type == NextEventType.like ||
             event.type == NextEventType.superLike) {
+          photoToDelete = null;
           // We save the photo locally if its not a dislike
           await _coffeeRepository.saveCoffeeToDevice(
             event.image,
