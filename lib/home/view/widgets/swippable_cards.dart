@@ -102,21 +102,26 @@ class _CardState extends State<_Card> with TickerProviderStateMixin {
   }
 
   void onPanEnd(DragEndDetails details, CoffeesLoaded state) {
-    if (position.dx > 250) {
+    if (position.dx > 100) {
       // send it to the right
       position = const Offset(500, 0);
       context
           .read<CoffeeBloc>()
           .add(NextCoffeeEvent.like(image: state.images.first));
-    } else if (position.dx < -250) {
+    } else if (position.dx < -100) {
       // send it to the left
       position = const Offset(-500, 0);
       context.read<CoffeeBloc>().add(
             NextCoffeeEvent.dislike(image: state.images.first),
           );
+    } else if (position.dy < -100) {
+      // send it up
+      position = const Offset(0, -500);
+      context
+          .read<CoffeeBloc>()
+          .add(NextCoffeeEvent.superLike(image: state.images.first));
     } else {
-      position = Offset.zero;
-      setState(() {});
+      setState(() => position = Offset.zero);
     }
   }
 
@@ -125,9 +130,11 @@ class _CardState extends State<_Card> with TickerProviderStateMixin {
     return BlocConsumer<CoffeeBloc, CoffeeState>(
       listener: (context, state) {
         if (state is CoffeesLoaded) {
-          position = Offset.zero;
-          isDragging = false;
-          setState(() {});
+          setState(() {
+            position = Offset.zero;
+            isDragging = false;
+            action = null;
+          });
         }
       },
       builder: (context, state) {
@@ -148,27 +155,54 @@ class _CardState extends State<_Card> with TickerProviderStateMixin {
                   position.dx,
                   position.dy,
                 ),
-              child: Column(
+              child: Stack(
                 children: [
-                  if (action != null)
-                    action == Action.like
-                        ? const Icon(
-                            Icons.favorite,
-                            color: Colors.green,
-                            size: 100,
-                          )
-                        : action == Action.disLike
-                            ? const Icon(
-                                Icons.close,
-                                color: Colors.red,
-                                size: 100,
-                              )
-                            : const Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                                size: 100,
-                              ),
                   _CardView(state: state, index: 0),
+                  if (action != null)
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: action == Action.like
+                              ? Alignment.centerLeft
+                              : action == Action.disLike
+                                  ? Alignment.centerRight
+                                  : Alignment.bottomCenter,
+                          end: action == Action.like
+                              ? Alignment.centerRight
+                              : action == Action.disLike
+                                  ? Alignment.centerLeft
+                                  : Alignment.topCenter,
+                          colors: [
+                            if (action == Action.like) ...[
+                              Colors.green.withOpacity(0),
+                              Colors.green
+                            ] else if (action == Action.disLike) ...[
+                              Colors.red.withOpacity(0),
+                              Colors.red
+                            ] else ...[
+                              Colors.blue.withOpacity(0),
+                              Colors.blue
+                            ]
+                          ],
+                          stops: const [0.0, 0.6],
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Text(
+                          action == Action.like
+                              ? 'Like'
+                              : action == Action.disLike
+                                  ? 'Dislike'
+                                  : 'Super Like',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )
                 ],
               ),
             ),
