@@ -41,8 +41,6 @@ class HomeView extends StatelessWidget {
                       (index) {
                         final height = size.height * 0.70;
                         final width = size.width * 0.90;
-
-                        // TODO: Blur the one in the back a lot
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.network(

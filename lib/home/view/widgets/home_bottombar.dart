@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchfee/coffee/coffe.dart';
+import 'package:matchfee/core/core.dart';
 
 class HomeBottomBar extends StatelessWidget {
   const HomeBottomBar({super.key});
@@ -17,70 +18,51 @@ class HomeBottomBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconButton(
-                iconSize: 30,
-                icon: GradientIcon.small(
-                  icon: Icons.replay_rounded,
-                  gradient: isBackAvailable
-                      ? const LinearGradient(
-                          colors: [
-                            Colors.red,
-                            Colors.yellow,
-                          ],
-                        )
-                      : null,
-                ),
+              _BottomBarItem.small(
                 onPressed: isBackAvailable
                     ? () => context
                         .read<CoffeeBloc>()
                         .add(const PreviousCoffeeEvent())
                     : null,
+                icon: Icons.replay_rounded,
+                gradient: isBackAvailable
+                    ? const LinearGradient(
+                        colors: [
+                          Colors.red,
+                          Colors.yellow,
+                        ],
+                      )
+                    : null,
               ),
-              IconButton(
-                iconSize: 50,
-                icon: const GradientIcon(
-                  icon: Icons.close_rounded,
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.red,
-                      Colors.redAccent,
-                    ],
-                  ),
-                ),
+              _BottomBarItem(
                 onPressed: isLoaded
                     ? () => context.read<CoffeeBloc>().add(
                           NextCoffeeEvent.dislike(image: state.images.first),
                         )
                     : null,
-              ),
-              IconButton(
-                iconSize: 50,
-                icon: const GradientIcon(
-                  icon: Icons.favorite_rounded,
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.green,
-                      Colors.greenAccent,
-                    ],
-                  ),
+                icon: Icons.close_rounded,
+                gradient: const LinearGradient(
+                  colors: [
+                    Colors.red,
+                    Colors.redAccent,
+                  ],
                 ),
+              ),
+              _BottomBarItem(
                 onPressed: isLoaded
                     ? () => context
                         .read<CoffeeBloc>()
                         .add(NextCoffeeEvent.like(image: state.images.first))
                     : null,
-              ),
-              IconButton(
-                iconSize: 30,
-                icon: const GradientIcon.small(
-                  icon: Icons.star_rounded,
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.blue,
-                      Colors.blueAccent,
-                    ],
-                  ),
+                icon: Icons.favorite_rounded,
+                gradient: const LinearGradient(
+                  colors: [
+                    Colors.green,
+                    Colors.greenAccent,
+                  ],
                 ),
+              ),
+              _BottomBarItem.small(
                 onPressed: isLoaded
                     ? () => context.read<CoffeeBloc>().add(
                           NextCoffeeEvent.superLike(
@@ -88,6 +70,13 @@ class HomeBottomBar extends StatelessWidget {
                           ),
                         )
                     : null,
+                icon: Icons.star_rounded,
+                gradient: const LinearGradient(
+                  colors: [
+                    Colors.blue,
+                    Colors.blueAccent,
+                  ],
+                ),
               ),
             ],
           ),
@@ -97,49 +86,144 @@ class HomeBottomBar extends StatelessWidget {
   }
 }
 
-class GradientIcon extends StatelessWidget {
-  const GradientIcon({
-    super.key,
+class _BottomBarItem extends StatelessWidget {
+  const _BottomBarItem({
+    required this.onPressed,
+    required this.gradient,
     required this.icon,
-    this.size = 50,
-    this.gradient,
-  });
-  const GradientIcon.small({
-    super.key,
-    required this.icon,
-    this.size = 30,
-    this.gradient,
-  });
+  }) : size = 50;
 
-  final IconData icon;
+  const _BottomBarItem.small({
+    required this.onPressed,
+    required this.gradient,
+    required this.icon,
+  }) : size = 30;
   final double size;
+  final void Function()? onPressed;
   final Gradient? gradient;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    final shaderGradient = gradient ??
-        const LinearGradient(
-          colors: [
-            Colors.grey,
-            Colors.grey,
-          ],
-        );
-
-    return ShaderMask(
-      child: SizedBox(
-        width: size * 1.2,
-        height: size * 1.2,
-        child: Icon(
-          icon,
-          size: size,
+    return CustomAnimatedButton(
+      onPressed: onPressed,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
           color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              spreadRadius: 5,
+            ),
+          ],
+        ),
+        child: GradientIcon(
+          icon: icon,
+          size: size,
+          gradient: gradient,
         ),
       ),
-      shaderCallback: (Rect bounds) {
-        final rect = Rect.fromLTRB(0, 0, size, size);
-
-        return shaderGradient.createShader(rect);
-      },
     );
   }
 }
+
+/*
+class _BottomBarItem extends StatefulWidget {
+  const _BottomBarItem({
+    required this.onPressed,
+    required this.gradient,
+    required this.icon,
+  }) : size = 50;
+
+  const _BottomBarItem.small({
+    required this.onPressed,
+    required this.gradient,
+    required this.icon,
+  }) : size = 30;
+
+  final double size;
+  final void Function()? onPressed;
+  final Gradient? gradient;
+  final IconData icon;
+
+  @override
+  State<_BottomBarItem> createState() => _BottomBarItemState();
+}
+
+class _BottomBarItemState extends State<_BottomBarItem>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController controller;
+  late double size;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+    size = widget.size;
+  }
+
+  @override
+  void didUpdateWidget(_BottomBarItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.size != widget.size) animateWidget();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  // TODO: Add debounce
+  void animateWidget() {
+    final Animation<double> curve =
+        CurvedAnimation(parent: controller, curve: Curves.easeOut);
+    final tween = Tween<double>(begin: 0.5, end: 1).animate(curve);
+
+    tween.addListener(() => setState(() => size = widget.size * tween.value));
+
+    controller
+      ..reset()
+      ..forward();
+
+    widget.onPressed?.call();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      //onTap: widget.onPressed != null ? animateWidget : null,
+      onTapDown: (_) => setState(() => size = widget.size * 0.5),
+      tap
+      child: Container(
+        width: size + 15,
+        height: size + 15,
+        padding: const EdgeInsets.all(5),
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              spreadRadius: 5,
+            ),
+          ],
+        ),
+        child: GradientIcon(
+          icon: widget.icon,
+          size: size,
+          gradient: widget.gradient,
+        ),
+      ),
+    );
+  }
+}
+*/
