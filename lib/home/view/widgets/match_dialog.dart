@@ -23,7 +23,8 @@ class MatchDialog extends StatelessWidget {
               ),
             ),
             const Text(
-              'You and your match have 24 hours to chat before the match expires.',
+              // TODO: Create random set of messages
+              'Say hi to your new match!',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -40,19 +41,17 @@ class MatchDialog extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      decoration: const BoxDecoration(shape: BoxShape.circle),
-                      clipBehavior: Clip.hardEdge,
-                      child: Image.memory(
-                        coffee.bytes,
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 100,
+                    CircleAvatar(
+                      backgroundColor: Colors.red,
+                      radius: 50,
+                      child: CircleAvatar(
+                        backgroundImage: MemoryImage(coffee.bytes),
+                        radius: 48,
                       ),
                     ),
                     GradientIcon(
                       icon: coffee.isSuperLike ? Icons.star : Icons.favorite,
-                      size: 30,
+                      size: 40,
                       gradient: coffee.isSuperLike
                           ? const LinearGradient(
                               colors: [
@@ -67,14 +66,12 @@ class MatchDialog extends StatelessWidget {
                               ],
                             ),
                     ),
-                    Container(
-                      decoration: const BoxDecoration(shape: BoxShape.circle),
-                      clipBehavior: Clip.hardEdge,
-                      child: Image.network(
-                        AppTheme.avatarUrl,
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 100,
+                    const CircleAvatar(
+                      backgroundColor: Colors.red,
+                      radius: 50,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(AppTheme.avatarUrl),
+                        radius: 48,
                       ),
                     ),
                   ],
