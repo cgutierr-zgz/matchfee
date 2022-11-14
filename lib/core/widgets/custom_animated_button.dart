@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 class CustomAnimatedButton extends StatefulWidget {
@@ -5,10 +7,14 @@ class CustomAnimatedButton extends StatefulWidget {
     super.key,
     this.onPressed,
     required this.child,
+    this.scale = true,
+    this.rotate = false,
   });
 
   final void Function()? onPressed;
   final Widget child;
+  final bool scale;
+  final bool rotate;
 
   @override
   State<CustomAnimatedButton> createState() => _CustomAnimatedButtonState();
@@ -56,14 +62,12 @@ class _CustomAnimatedButtonState extends State<CustomAnimatedButton>
       onTapUp: widget.onPressed == null ? null : (_) => controller.reverse(),
       child: AnimatedBuilder(
         animation: controller,
-        builder: (context, child) => Transform(
-          transform: Matrix4.identity()..scale(animation.value),
-          //..rotate(
-          //  Axis.horizontal,
-          //  animation.value * 0.1,
-          //),
-          //scale: animation.value,
-          child: child,
+        builder: (context, child) => Transform.rotate(
+          angle: widget.rotate ? math.pi * 2 * animation.value : 0,
+          child: Transform.scale(
+            scale: widget.scale ? animation.value : 1,
+            child: child,
+          ),
         ),
         child: widget.child,
       ),

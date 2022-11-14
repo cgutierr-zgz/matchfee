@@ -16,9 +16,10 @@ class HomeBottomBar extends StatelessWidget {
 
         return SafeArea(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              const Spacer(flex: 2),
               _BottomBarItem.small(
+                rotate: true,
                 onPressed: isBackAvailable
                     ? () => context
                         .read<CoffeeBloc>()
@@ -34,6 +35,7 @@ class HomeBottomBar extends StatelessWidget {
                       )
                     : null,
               ),
+              const Spacer(),
               _BottomBarItem(
                 onPressed: isLoaded
                     ? () => context.read<CoffeeBloc>().add(
@@ -48,6 +50,7 @@ class HomeBottomBar extends StatelessWidget {
                   ],
                 ),
               ),
+              const Spacer(),
               _BottomBarItem(
                 onPressed: isLoaded
                     ? () => context
@@ -62,7 +65,9 @@ class HomeBottomBar extends StatelessWidget {
                   ],
                 ),
               ),
+              const Spacer(),
               _BottomBarItem.small(
+                rotate: false,
                 onPressed: isLoaded
                     ? () => context.read<CoffeeBloc>().add(
                           NextCoffeeEvent.superLike(
@@ -78,6 +83,7 @@ class HomeBottomBar extends StatelessWidget {
                   ],
                 ),
               ),
+              const Spacer(flex: 2),
             ],
           ),
         );
@@ -91,21 +97,26 @@ class _BottomBarItem extends StatelessWidget {
     required this.onPressed,
     required this.gradient,
     required this.icon,
-  }) : size = 50;
+  })  : size = 50,
+        rotate = false;
 
   const _BottomBarItem.small({
     required this.onPressed,
     required this.gradient,
     required this.icon,
+    required this.rotate,
   }) : size = 30;
+
   final double size;
   final void Function()? onPressed;
   final Gradient? gradient;
   final IconData icon;
+  final bool rotate;
 
   @override
   Widget build(BuildContext context) {
     return CustomAnimatedButton(
+      rotate: rotate,
       onPressed: onPressed,
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -128,102 +139,3 @@ class _BottomBarItem extends StatelessWidget {
     );
   }
 }
-
-/*
-class _BottomBarItem extends StatefulWidget {
-  const _BottomBarItem({
-    required this.onPressed,
-    required this.gradient,
-    required this.icon,
-  }) : size = 50;
-
-  const _BottomBarItem.small({
-    required this.onPressed,
-    required this.gradient,
-    required this.icon,
-  }) : size = 30;
-
-  final double size;
-  final void Function()? onPressed;
-  final Gradient? gradient;
-  final IconData icon;
-
-  @override
-  State<_BottomBarItem> createState() => _BottomBarItemState();
-}
-
-class _BottomBarItemState extends State<_BottomBarItem>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController controller;
-  late double size;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 150),
-    );
-    size = widget.size;
-  }
-
-  @override
-  void didUpdateWidget(_BottomBarItem oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.size != widget.size) animateWidget();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  // TODO: Add debounce
-  void animateWidget() {
-    final Animation<double> curve =
-        CurvedAnimation(parent: controller, curve: Curves.easeOut);
-    final tween = Tween<double>(begin: 0.5, end: 1).animate(curve);
-
-    tween.addListener(() => setState(() => size = widget.size * tween.value));
-
-    controller
-      ..reset()
-      ..forward();
-
-    widget.onPressed?.call();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      //onTap: widget.onPressed != null ? animateWidget : null,
-      onTapDown: (_) => setState(() => size = widget.size * 0.5),
-      tap
-      child: Container(
-        width: size + 15,
-        height: size + 15,
-        padding: const EdgeInsets.all(5),
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 10,
-              spreadRadius: 5,
-            ),
-          ],
-        ),
-        child: GradientIcon(
-          icon: widget.icon,
-          size: size,
-          gradient: widget.gradient,
-        ),
-      ),
-    );
-  }
-}
-*/
