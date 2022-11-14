@@ -33,10 +33,24 @@ extension BuildContextX on BuildContext {
   /// {@macro size_extension}
   Size get currentSize => MediaQuery.of(this).size;
 
+  /// Push a given widget to the navigator stack
   ///
+  /// Usage:
+  /// ```dart
+  /// context.push(MyCoolPage());
+  /// ```
   void push(Widget widget) => Navigator.of(this).push(
         MaterialPageRoute<dynamic>(builder: (context) => widget),
       );
+
+  /// Pops the current route off the navigator that most tightly encloses the
+  /// given context.
+  ///
+  /// Usage:
+  /// ```dart
+  /// context.pop();
+  /// ```
+  void pop() => Navigator.of(this).pop();
 
   /// Shows a snackbar with the given message and hides the other snackbars.
   ///

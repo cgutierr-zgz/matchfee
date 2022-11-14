@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 /// Themes of the app
 abstract class AppTheme {
   /// Default gold color of the app
-  static const Color goldColor = Color(0xffe6ae42);
+  static const goldColor = Color(0xffe6ae42);
+  static const avatarUrl =
+      'https://avatars.githubusercontent.com/u/18635739?v=4';
 
   /// Light theme of the app
   static ThemeData get lightTheme => ThemeData(

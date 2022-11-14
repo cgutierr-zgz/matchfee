@@ -19,9 +19,7 @@ class ProfilePage extends StatelessWidget {
             const Text('Profile Page'),
             const CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage(
-                'https://avatars.githubusercontent.com/u/18635739?v=4',
-              ),
+              backgroundImage: NetworkImage(AppTheme.avatarUrl),
             ),
             const SocialLinks(),
             const WipeData(),
