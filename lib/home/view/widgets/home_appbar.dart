@@ -13,20 +13,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: const _MatchfeeLogo(),
       leading: IconButton(
         icon: const Icon(Icons.person_rounded),
-        onPressed: () => Navigator.of(context).push(
-          // TODO: Extension 4 this and 4 scafold messenger
-          MaterialPageRoute<dynamic>(
-            builder: (context) => const ProfilePage(),
-          ),
-        ),
+        onPressed: () => context.push(const ProfilePage()),
       ),
       actions: const [_MatchesButton()],
     );
@@ -83,11 +76,7 @@ class _MatchesButton extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.coffee_rounded),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<dynamic>(
-                  builder: (context) => const MatchesPage(),
-                ),
-              ),
+              onPressed: () => context.push(const MatchesPage()),
             ),
             _MatchesBadge(matches: state.length)
           ],

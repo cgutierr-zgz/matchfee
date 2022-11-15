@@ -14,7 +14,7 @@ abstract class ICoffeeRepository {
   Future<void> deleteCoffee(Coffee coffee);
   Future<void> deleteAllCoffees();
   Stream<List<Coffee>> getDeviceCoffees();
-  List<Coffee> directoryUpdates(Directory directory);
+  List<Coffee> getDirectoryUpdates(Directory directory);
 }
 
 class CoffeeRepository implements ICoffeeRepository {
@@ -87,12 +87,12 @@ class CoffeeRepository implements ICoffeeRepository {
     final watcher = DirectoryWatcher(directory.path);
 
     // handles the initial load
-    yield directoryUpdates(directory);
-    yield* watcher.events.map((_) => directoryUpdates(directory));
+    yield getDirectoryUpdates(directory);
+    yield* watcher.events.map((_) => getDirectoryUpdates(directory));
   }
 
   @override
-  List<Coffee> directoryUpdates(Directory directory) {
+  List<Coffee> getDirectoryUpdates(Directory directory) {
     final files = directory.listSync()
       ..sort((a, b) => b.statSync().changed.compareTo(a.statSync().changed));
 

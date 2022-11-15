@@ -6,10 +6,9 @@ import 'package:matchfee/repo.dart';
 part 'coffees_event.dart';
 part 'coffees_state.dart';
 
-class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
-  CoffeeBloc({
-    required CoffeeRepository coffeeRepository,
-  })  : _coffeeRepository = coffeeRepository,
+class CoffeesBloc extends Bloc<CoffeesEvent, CoffeesState> {
+  CoffeesBloc({required CoffeeRepository coffeeRepository})
+      : _coffeeRepository = coffeeRepository,
         super(const CoffeeLoading()) {
     _init();
     on<CoffeeStartEvent>(_onAppStarted);
@@ -36,7 +35,7 @@ class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
 
   void _onAppStarted(
     CoffeeStartEvent event,
-    Emitter<CoffeeState> emit,
+    Emitter<CoffeesState> emit,
   ) {
     if (event.images.isEmpty) emit(CoffeesError(Exception('No images')));
 
@@ -46,7 +45,7 @@ class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
 
   Future<void> _onNextCoffees(
     NextCoffeeEvent event,
-    Emitter<CoffeeState> emit,
+    Emitter<CoffeesState> emit,
   ) async {
     if (photoStack.length > 1) {
       try {
@@ -80,7 +79,7 @@ class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
 
   Future<void> _onPreviousCoffees(
     PreviousCoffeeEvent event,
-    Emitter<CoffeeState> emit,
+    Emitter<CoffeesState> emit,
   ) async {
     if (photoStack.length > 1) {
       // We add the previous photo to the frond and then we
@@ -100,7 +99,7 @@ class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
 
   Future<void> _onError(
     CoffeeErrorEvent event,
-    Emitter<CoffeeState> emit,
+    Emitter<CoffeesState> emit,
   ) async =>
       emit(CoffeesError(event.error));
 }

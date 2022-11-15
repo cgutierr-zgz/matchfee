@@ -8,11 +8,11 @@ class HomeBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CoffeeBloc, CoffeeState>(
+    return BlocBuilder<CoffeesBloc, CoffeesState>(
       builder: (context, state) {
         final isLoaded = state is CoffeesLoaded;
         final isBackAvailable =
-            isLoaded && context.read<CoffeeBloc>().photoToDelete != null;
+            isLoaded && context.read<CoffeesBloc>().photoToDelete != null;
 
         return SafeArea(
           child: Row(
@@ -22,7 +22,7 @@ class HomeBottomBar extends StatelessWidget {
                 rotate: true,
                 onPressed: isBackAvailable
                     ? () => context
-                        .read<CoffeeBloc>()
+                        .read<CoffeesBloc>()
                         .add(const PreviousCoffeeEvent())
                     : null,
                 icon: Icons.replay_rounded,
@@ -38,7 +38,7 @@ class HomeBottomBar extends StatelessWidget {
               const Spacer(),
               _BottomBarItem(
                 onPressed: isLoaded
-                    ? () => context.read<CoffeeBloc>().add(
+                    ? () => context.read<CoffeesBloc>().add(
                           NextCoffeeEvent.dislike(image: state.images.first),
                         )
                     : null,
@@ -54,7 +54,7 @@ class HomeBottomBar extends StatelessWidget {
               _BottomBarItem(
                 onPressed: isLoaded
                     ? () => context
-                        .read<CoffeeBloc>()
+                        .read<CoffeesBloc>()
                         .add(NextCoffeeEvent.like(image: state.images.first))
                     : null,
                 icon: Icons.favorite_rounded,
@@ -69,7 +69,7 @@ class HomeBottomBar extends StatelessWidget {
               _BottomBarItem.small(
                 rotate: false,
                 onPressed: isLoaded
-                    ? () => context.read<CoffeeBloc>().add(
+                    ? () => context.read<CoffeesBloc>().add(
                           NextCoffeeEvent.superLike(image: state.images.first),
                         )
                     : null,

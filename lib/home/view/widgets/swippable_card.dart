@@ -44,23 +44,22 @@ class _SwippableCardState extends State<SwippableCard>
   }
 
   void onPanEnd(DragEndDetails details, CoffeesLoaded state) {
-    print(action);
     switch (action) {
       case _SwipeAction.like:
         setState(() => position = const Offset(500, 0));
         context
-            .read<CoffeeBloc>()
+            .read<CoffeesBloc>()
             .add(NextCoffeeEvent.like(image: state.images.first));
         break;
       case _SwipeAction.superLike:
         setState(() => position = const Offset(0, -1500));
         context
-            .read<CoffeeBloc>()
+            .read<CoffeesBloc>()
             .add(NextCoffeeEvent.superLike(image: state.images.first));
         break;
       case _SwipeAction.disLike:
         setState(() => position = const Offset(-500, 0));
-        context.read<CoffeeBloc>().add(
+        context.read<CoffeesBloc>().add(
               NextCoffeeEvent.dislike(image: state.images.first),
             );
 
@@ -81,7 +80,7 @@ class _SwippableCardState extends State<SwippableCard>
     final width = size.width * 0.9;
     final height = size.height * 0.7;
 
-    return BlocConsumer<CoffeeBloc, CoffeeState>(
+    return BlocConsumer<CoffeesBloc, CoffeesState>(
       listener: (context, state) {
         if (state is CoffeesLoaded) {
           setState(() {
@@ -191,7 +190,7 @@ class _CardView extends StatelessWidget {
   });
 
   final int index;
-  final CoffeeState state;
+  final CoffeesState state;
   final double width;
   final double height;
 
@@ -219,13 +218,11 @@ class _CardView extends StatelessWidget {
           height: height,
           width: width,
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return const Text('error');
-            //return ErrorImage(
-            //  height: height,
-            //  width: double.maxFinite,
-            //);
-          },
+          errorBuilder: (context, error, stackTrace) => Image.asset(
+            width: width,
+            height: height,
+            'assets/images/error.png',
+          ),
           loadingBuilder: (context, child, loadingProgress) {
             if (loadingProgress == null) return child;
             return _PladeholderWidget(
@@ -258,9 +255,11 @@ class _PladeholderWidget extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         if (hasError)
-          const Text(
-            'error',
-          ) //ErrorImage(width: double.maxFinite, height: height)
+          Image.asset(
+            width: width,
+            height: height,
+            'assets/images/error.png',
+          )
         else
           Image.asset(
             width: width,

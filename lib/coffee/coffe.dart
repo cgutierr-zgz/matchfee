@@ -1,2 +1,2 @@
-export 'bloc/coffee_bloc.dart';
+export 'bloc/coffees_bloc.dart';
 export 'domain/coffee.dart';

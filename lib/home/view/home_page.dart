@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
     final coffeeRepository = context.read<CoffeeRepository>();
 
     return BlocProvider(
-      create: (context) => CoffeeBloc(coffeeRepository: coffeeRepository),
+      create: (context) => CoffeesBloc(coffeeRepository: coffeeRepository),
       child: const HomeView(),
     );
   }
@@ -55,7 +55,7 @@ class _HomeViewState extends State<HomeView> {
 
             isFirstTime = false;
           },
-          child: BlocConsumer<CoffeeBloc, CoffeeState>(
+          child: BlocConsumer<CoffeesBloc, CoffeesState>(
             listener: (context, state) {
               if (state is CoffeesError) {
                 context.showSnackbar(state.error.toString(), error: true);
