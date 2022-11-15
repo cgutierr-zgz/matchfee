@@ -198,45 +198,51 @@ void main() {
             when(directory.existsSync).thenReturn(true);
             when(() => file.path).thenReturn(filePath);
             when(file.readAsBytesSync).thenReturn(bytes);
-            when(() => watcher.events).thenAnswer(
+            when(
+              () => watcher.events.map(
+                (_) => [
+                  [
+                    Coffee(path: filePath, bytes: bytes, isSuperLike: true),
+                    Coffee(path: filePath, bytes: bytes, isSuperLike: false),
+                  ],
+                  [
+                    Coffee(path: filePath, bytes: bytes, isSuperLike: true),
+                    Coffee(path: filePath, bytes: bytes, isSuperLike: false),
+                  ],
+                ],
+              ),
+            ).thenAnswer(
               (_) => Stream.fromIterable(
-                [WatchEvent(ChangeType.ADD, filePath)],
+                [
+                  [
+                    [
+                      Coffee(path: filePath, bytes: bytes, isSuperLike: true),
+                      Coffee(path: filePath, bytes: bytes, isSuperLike: false),
+                    ],
+                    [
+                      Coffee(path: filePath, bytes: bytes, isSuperLike: true),
+                      Coffee(path: filePath, bytes: bytes, isSuperLike: false),
+                    ]
+                  ]
+                ],
               ),
             );
 
-            final coffees = repo.getDeviceCoffees();
+            final coffees = await repo.getDeviceCoffees().first;
 
-            expect(await coffees.first, isA<List<Coffee>>());
+            expect(coffees, isA<List<Coffee>>());
 
-            verify(() => directory.listSync()).called(1);
-
-            // Now we add a file
-            when(() => client.get(Uri.parse(url)))
-                .thenAnswer((_) async => Response('image bytes', 200));
-            when(() => file.writeAsBytes(any()))
-                .thenAnswer((_) async => Future.value(File(filePath)));
+            // Add a file to directory
+            when(() => directory.listSync()).thenAnswer((_) => [file]);
             when(file.existsSync).thenReturn(true);
 
-            when(() => directory.listSync()).thenAnswer((_) => [file]);
+            final newCoffees = await repo.getDeviceCoffees().first;
 
-            final image = await repo.saveCoffeeToDevice(
-              url,
-              superLike: false,
-            );
+            expect(newCoffees, isA<List<Coffee>>());
 
-            expect(image, isA<File>());
+            verify(() => directory.listSync()).called(2);
 
-            verify(() => client.get(Uri.parse(url))).called(1);
-            verify(() => file.writeAsBytes(any())).called(1);
-            expect(file.existsSync(), true);
-
-            // Now we should have 1 file
-            when(() => directory.listSync()).thenAnswer((_) => [file]);
-            // wait
-            await Future<void>.delayed(const Duration(seconds: 1));
-            // Now we should wait for the watcher to emit the new file
-
-            // TODO: Figure out how to test the yield* of the watcher
+            // TODO: Figure out how to test yield* on the watcher event stream
           },
           createDirectory: (_) => directory,
           createFile: (_) => file,
