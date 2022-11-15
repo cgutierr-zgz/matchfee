@@ -12,6 +12,7 @@ import 'package:matchfee/repo.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:watcher/watcher.dart';
 
 export 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
@@ -54,4 +55,11 @@ void setUpMatchesCubit() {
   matchesCubit = MatchesCubit(
     coffeeRepository: CoffeeRepository(client: MockClient()),
   );
+}
+
+class MockDirectoryWatcher extends Mock implements DirectoryWatcher {
+  MockDirectoryWatcher(this.path);
+
+  @override
+  final String path;
 }

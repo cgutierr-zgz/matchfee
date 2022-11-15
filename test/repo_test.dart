@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:matchfee/coffee/coffe.dart';
 import 'package:matchfee/repo.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:watcher/watcher.dart';
 
 import 'helpers/helpers.dart';
 
@@ -14,6 +15,7 @@ void main() {
 
   const url = 'https://coffee.alexflipnote.dev/123.jpg';
   const filePath = 'path/to/file';
+  const dirPath = 'path/to/dir';
   final bytes = Uint8List.fromList([1, 2, 3]);
 
   group('Repo Test', () {
@@ -21,12 +23,14 @@ void main() {
     late Client client;
     late File file;
     late Directory directory;
+    late DirectoryWatcher watcher;
 
     setUp(() {
       client = MockClient();
       repo = CoffeeRepository(client: client);
       file = MockFile();
       directory = MockDirectory();
+      watcher = MockDirectoryWatcher(dirPath);
       PathProviderPlatform.instance = FakePathProviderPlatform();
     });
 
@@ -143,33 +147,101 @@ void main() {
       );
     });
 
-    test('deleteAllCoffees deletes all images from the device', () async {});
+    test('deleteAllCoffees deletes all images from the device', () async {
+      //IOOverrides.global = null;
 
-    test('getDeviceCoffees gets all images stored', () async {
       await IOOverrides.runZoned(
         () async {
-          /*when(() => directory.listSync(recursive: true))
-              .thenAnswer((_) => [file]);
-          when(() => file.readAsBytes())
-              .thenAnswer((_) async => Future.value(bytes));
-          when(() => file.path).thenReturn(filePath);
-          when(() => file.existsSync).thenReturn(() => true);
+          when(() => directory.path).thenReturn(dirPath);
+          when(() => directory.listSync()).thenAnswer((_) => [file]);
+          when(file.deleteSync).thenAnswer((_) => Future<void>.value());
+          when(file.existsSync).thenReturn(false);
 
-          final coffees = await repo.getDeviceCoffees().first;
+          await repo.deleteAllCoffees();
 
-          expect(coffees, isA<List<Coffee>>());
-          expect(coffees.length, 1);
-          expect(coffees.first.path, filePath);
-          expect(coffees.first.bytes, bytes);
-          expect(coffees.first.isSuperLike, false);
-
-          verify(() => directory.listSync(recursive: true)).called(1);
-          verify(() => file.readAsBytes()).called(1);
-          verify(() => file.path).called(1);
-          expect(file.existsSync(), true);*/
+          verify(() => directory.listSync()).called(1);
+          verify(file.deleteSync).called(1);
+          expect(file.existsSync(), false);
         },
-        getCurrentDirectory: () => directory,
+        createDirectory: (_) => directory,
       );
+    });
+
+    group('getDeviceCoffees', () {
+      test('gets all images stored', () async {
+        await IOOverrides.runZoned(
+          () async {
+            when(() => directory.path).thenReturn(dirPath);
+            when(() => directory.listSync()).thenAnswer((_) => [file]);
+            when(directory.existsSync).thenReturn(true);
+            when(() => file.path).thenReturn(filePath);
+            when(file.readAsBytesSync).thenReturn(bytes);
+
+            final coffees = await repo.getDeviceCoffees().first;
+
+            expect(coffees, isA<List<Coffee>>());
+            expect(coffees.length, 1);
+
+            verify(() => directory.listSync()).called(1);
+            verify(file.readAsBytesSync).called(1);
+          },
+          createDirectory: (_) => directory,
+          createFile: (_) => file,
+        );
+      });
+      test('gets all images stored as stream', () async {
+        await IOOverrides.runZoned(
+          () async {
+            when(() => directory.path).thenReturn(dirPath);
+            when(() => directory.listSync()).thenAnswer((_) => []);
+            // No files in directory
+            when(directory.existsSync).thenReturn(true);
+            when(() => file.path).thenReturn(filePath);
+            when(file.readAsBytesSync).thenReturn(bytes);
+            when(() => watcher.events).thenAnswer(
+              (_) => Stream.fromIterable(
+                [WatchEvent(ChangeType.ADD, filePath)],
+              ),
+            );
+
+            final coffees = repo.getDeviceCoffees();
+
+            expect(await coffees.first, isA<List<Coffee>>());
+
+            verify(() => directory.listSync()).called(1);
+
+            // Now we add a file
+            when(() => client.get(Uri.parse(url)))
+                .thenAnswer((_) async => Response('image bytes', 200));
+            when(() => file.writeAsBytes(any()))
+                .thenAnswer((_) async => Future.value(File(filePath)));
+            when(file.existsSync).thenReturn(true);
+
+            when(() => directory.listSync()).thenAnswer((_) => [file]);
+
+            final image = await repo.saveCoffeeToDevice(
+              url,
+              superLike: false,
+            );
+
+            expect(image, isA<File>());
+
+            verify(() => client.get(Uri.parse(url))).called(1);
+            verify(() => file.writeAsBytes(any())).called(1);
+            expect(file.existsSync(), true);
+
+            // Now we should have 1 file
+            when(() => directory.listSync()).thenAnswer((_) => [file]);
+            // wait
+            await Future<void>.delayed(const Duration(seconds: 1));
+            // Now we should wait for the watcher to emit the new file
+
+            // TODO: Figure out how to test the yield* of the watcher
+          },
+          createDirectory: (_) => directory,
+          createFile: (_) => file,
+        );
+      });
     });
   });
 }
