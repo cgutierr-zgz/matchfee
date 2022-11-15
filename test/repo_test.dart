@@ -189,6 +189,7 @@ void main() {
           createFile: (_) => file,
         );
       });
+
       test('gets all images stored as stream', () async {
         await IOOverrides.runZoned(
           () async {
