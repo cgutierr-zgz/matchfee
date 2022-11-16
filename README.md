@@ -40,12 +40,12 @@ You can also see the list of liked coffee pictures, and you can also delete them
 
 It has three main features:
 
-#### Coffees Screen (Home screen)
+#### Home screen
 
 Here, the user will see a list of coffee images as a stack of cards.
-He can interact with them by swiping left or right, or clicking on the buttons.
+He can interact with them by swiping left, right, up, or clicking on the buttons.
 
-1. When the user clicks on the Heart button, the coffee image will be added to the Favorites list **and saved to the device**, making use of **HydratedBloc**, and the image will be deleted from the stack.
+1. When the user clicks on the Heart button, the coffee image will be added to the Favorites list **and saved to the device**, and the image will be deleted from the stack.
 2. When the user clicks on the Close button(X), the coffee image will be dismissed, and the Undo button will become available.
 3. If the Undo button is available (Once we dislike a coffee) and is clicked, the coffee image will be added back to the stack.
 3. When the user swipes left or right, the coffee image will be either added to the Favorites list _(Refer to point 1)_, or dismissed _(Refer to point 2)_.
@@ -62,7 +62,7 @@ Here, the user will see two lists.
 2. There's a secont section which is "OPEN CHATS", where, randomly some coffees will start talking to you, and you talk back to them... This is **Random**, u can't actually talk to them, there's just a premade message, some coffees might appear with the blue star, which means that they are super liked.
 
 
-#### Conffeeg Screen
+#### Conffeeg Screen (profile screen)
 
 And another pun 😅
 
@@ -77,46 +77,16 @@ Hope you enjoy it,
 
 _Carlos 💙... 🦄_
 
----
-
-## Things I would have like to do 🤞
-
-1. Add more tests:
-I've never had the chance to do almost any tests in the companies I've worked for, so there's things I still don't know how to test yet.
-There's some parts I don't really know how to test.
-Also, there's tests marked as `skipped` since they just don't work the same way in Github Actions as they do locally.
-Hopefully I'll be able to learn more in VGV :)
-
-2. Add more animations:
-I've added some animations, but I would have like to add more so it looks more polished.
-Didn't wanted it to be an overkill, but I would have like to add more.
-
-3. Improve the swiping animation:
-I've added a simple animation when the user swipes left or right, but I would have like to add a more complex one.
-
-4. Random profile information:
-I would have like to add some random profile information, like name, age, etc.
-
-5. Dark mode:
-Dark mode was easy to implement, I've done it a lot of times, but again, sounded like an overkill for this test.
-
-6. Improve the storage of the images:
-I've used the `path_provider` and `hydrated_bloc` packages to store the images, but I would have like to use a better approach, like a database, or something like that, but I didn't wanted to overcomplicate the test.
-
-_Also, I didn't translated the Settings Page, cause at the end of the day it's just a page with a message, I just hope you like it 💙_
-
----
-
 ## Packages I've Used And Why 📦
 
 1. [flutter_bloc](https://pub.dev/packages/flutter_bloc)
 I've used the flutter implementation of bloc beacuse I'm familiar with it, I've already used it a lot of times, well, basically in all my projects, so I know how to use it and how to implement it.
 
 2. [hydrated_bloc](https://pub.dev/packages/hydrated_bloc)
-I made a small cubit which handles the favorites, and it's hydrated, so it saves the data locally, just like magic ✨
+I made a small cubit which handles the settings, in this case it's only the themeMode, so it can be easily retrieved when the app is opened again.
 
 3. [path_provider](https://pub.dev/packages/path_provider)
-Used to get the path where the data is being stored, so I can write there and read from there.
+Used to get the path where the data is being stored, so I can write and read from there.
 
 4. [http](https://pub.dev/packages/http)
 Used to make the requests to the Coffee API to get the random image.
@@ -124,6 +94,9 @@ I'm more used to [dio](https://pub.dev/packages/dio), but http was more than eno
 
 5. [equtable](https://pub.dev/packages/equatable)
 I didn't thought I would need it, but I ended up using it to compare the states of the blocs correctly, I'm used to it and I love it.
+
+6. [watcher](https://pub.dev/packages/watcher)
+Used to watch the directory where the images are being stored, so I can update the list of coffees when a new image is added or deleted from the directory.
 
 I also like to use [flutter_gen](https://pub.dev/packages/flutter_gen) for the asset generation, to be less Error-Prone, but in this case we had only 3 images, so nevermind.
 

@@ -282,3 +282,5 @@ class _PladeholderWidget extends StatelessWidget {
     );
   }
 }
+
+// TODO: Random profile information for the cards if loaded
