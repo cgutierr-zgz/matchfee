@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -53,7 +54,10 @@ void setUpSettingsCubit() {
 
 void setUpMatchesCubit() {
   matchesCubit = MatchesCubit(
-    coffeeRepository: CoffeeRepository(client: MockClient()),
+    coffeeRepository: CoffeeRepository(
+      client: MockClient(),
+      directoryWatcher: MockDirectoryWatcher(dirPath),
+    ),
   );
 }
 
@@ -63,3 +67,8 @@ class MockDirectoryWatcher extends Mock implements DirectoryWatcher {
   @override
   final String path;
 }
+
+const url = 'https://coffee.alexflipnote.dev/123.jpg';
+const filePath = 'path/to/file';
+const dirPath = 'path/to/dir';
+final bytes = Uint8List.fromList([1, 2, 3]);

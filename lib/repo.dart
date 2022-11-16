@@ -18,9 +18,14 @@ abstract class ICoffeeRepository {
 }
 
 class CoffeeRepository implements ICoffeeRepository {
-  CoffeeRepository({required Client client}) : _client = client;
+  CoffeeRepository({
+    required Client client,
+    required DirectoryWatcher directoryWatcher,
+  })  : _client = client,
+        _directoryWatcher = directoryWatcher;
 
   late final Client _client;
+  late final DirectoryWatcher _directoryWatcher;
   static const String baseUrl = 'https://coffee.alexflipnote.dev/random.json';
 
   @override
@@ -84,11 +89,9 @@ class CoffeeRepository implements ICoffeeRepository {
     final directory = Directory('${appDir.path}/images');
     if (!directory.existsSync()) await directory.create();
 
-    final watcher = DirectoryWatcher(directory.path);
-
     // handles the initial load
     yield getDirectoryUpdates(directory);
-    yield* watcher.events.map((_) => getDirectoryUpdates(directory));
+    yield* _directoryWatcher.events.map((_) => getDirectoryUpdates(directory));
   }
 
   @override

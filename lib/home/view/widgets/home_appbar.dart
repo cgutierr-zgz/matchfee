@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:matchfee/coffee/coffe.dart';
 import 'package:matchfee/core/core.dart';
 import 'package:matchfee/matches/matches.dart';
 import 'package:matchfee/profile/profile.dart';
@@ -70,18 +69,15 @@ class _MatchesButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MatchesCubit, List<Coffee>>(
-      builder: (context, state) {
-        return Stack(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.coffee_rounded),
-              onPressed: () => context.push(const MatchesPage()),
-            ),
-            _MatchesBadge(matches: state.length)
-          ],
-        );
-      },
+    final coffees = context.watch<MatchesCubit>().state;
+    return Stack(
+      children: [
+        IconButton(
+          icon: const Icon(Icons.coffee_rounded),
+          onPressed: () => context.push(const MatchesPage()),
+        ),
+        _MatchesBadge(matches: coffees.length)
+      ],
     );
   }
 }

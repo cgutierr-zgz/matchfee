@@ -42,6 +42,7 @@ class _HomeViewState extends State<HomeView> {
       appBar: const HomeAppBar(),
       body: Center(
         child: BlocListener<MatchesCubit, List<Coffee>>(
+          listenWhen: (previous, current) => previous.length < current.length,
           listener: (context, state) {
             if (state.isNotEmpty && !isFirstTime) {
               showDialog<void>(

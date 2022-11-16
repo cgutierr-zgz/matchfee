@@ -7,18 +7,28 @@ import 'package:matchfee/matches/cubit/matches_cubit.dart';
 import 'package:matchfee/profile/cubit/settings_cubit.dart';
 import 'package:matchfee/repo.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:watcher/watcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final appDirectory = await getApplicationDocumentsDirectory();
 
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
+    storageDirectory: appDirectory,
   );
+
   final client = Client();
+  final directoryWatcher = DirectoryWatcher(
+    appDirectory.path,
+    pollingDelay: const Duration(milliseconds: 200),
+  );
 
   runApp(
     RepositoryProvider(
-      create: (_) => CoffeeRepository(client: client),
+      create: (_) => CoffeeRepository(
+        client: client,
+        directoryWatcher: directoryWatcher,
+      ),
       child: MultiBlocProvider(
         providers: [
           BlocProvider(

@@ -9,11 +9,17 @@ class MatchesCubit extends Cubit<List<Coffee>> {
     required CoffeeRepository coffeeRepository,
   })  : _coffeeRepository = coffeeRepository,
         super([]) {
-    _coffeeSubscription = _coffeeRepository.getDeviceCoffees().listen(emit);
+    _coffeeSubscription = _coffeeRepository.getDeviceCoffees().listen(
+      (event) {
+        print('a');
+        // state
+        emit(event);
+      },
+    );
   }
 
   final CoffeeRepository _coffeeRepository;
-  late StreamSubscription<List<Coffee>> _coffeeSubscription;
+  late final StreamSubscription<List<Coffee>> _coffeeSubscription;
 
   @override
   Future<void> close() async {

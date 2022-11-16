@@ -54,6 +54,7 @@ extension BuildContextX on BuildContext {
     bool error = false,
     IconData? prefixIcon,
     void Function()? onPressed,
+    Duration duration = const Duration(seconds: 1),
   }) =>
       ScaffoldMessenger.of(this)
         ..clearSnackBars()
@@ -61,7 +62,7 @@ extension BuildContextX on BuildContext {
           SnackBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            duration: const Duration(milliseconds: 500),
+            duration: duration,
             content: error
                 ? CustomSnackbar.error(message: message, onPressed: onPressed)
                 : CustomSnackbar(

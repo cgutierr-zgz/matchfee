@@ -17,10 +17,14 @@ extension PumpApp on WidgetTester {
     if (mCubit == null) setUpMatchesCubit();
 
     final client = MockClient();
+    final watcher = MockDirectoryWatcher(dirPath);
 
     return pumpWidget(
       RepositoryProvider(
-        create: (_) => CoffeeRepository(client: client),
+        create: (_) => CoffeeRepository(
+          client: client,
+          directoryWatcher: watcher,
+        ),
         child: MultiBlocProvider(
           providers: [
             BlocProvider.value(value: sCubit ?? settingsCubit),

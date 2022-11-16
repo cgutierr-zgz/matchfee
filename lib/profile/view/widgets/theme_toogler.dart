@@ -7,15 +7,13 @@ class ThemeToogler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsCubit, Settings>(
-      builder: (context, state) {
-        return IconButton(
-          icon: state.themeMode == ThemeMode.dark
-              ? const Icon(Icons.light_mode_rounded)
-              : const Icon(Icons.dark_mode_rounded),
-          onPressed: () => context.read<SettingsCubit>().toggleThemeMode(),
-        );
-      },
+    return IconButton(
+      icon: context.select(
+        (SettingsCubit cubit) => cubit.state.themeMode == ThemeMode.dark
+            ? const Icon(Icons.light_mode_rounded)
+            : const Icon(Icons.dark_mode_rounded),
+      ),
+      onPressed: () => context.read<SettingsCubit>().toggleThemeMode(),
     );
   }
 }

@@ -13,11 +13,6 @@ import 'helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const url = 'https://coffee.alexflipnote.dev/123.jpg';
-  const filePath = 'path/to/file';
-  const dirPath = 'path/to/dir';
-  final bytes = Uint8List.fromList([1, 2, 3]);
-
   group('Repo Test', () {
     late CoffeeRepository repo;
     late Client client;
@@ -27,10 +22,13 @@ void main() {
 
     setUp(() {
       client = MockClient();
-      repo = CoffeeRepository(client: client);
       file = MockFile();
       directory = MockDirectory();
       watcher = MockDirectoryWatcher(dirPath);
+      repo = CoffeeRepository(
+        client: client,
+        directoryWatcher: watcher,
+      );
       PathProviderPlatform.instance = FakePathProviderPlatform();
     });
 
@@ -184,66 +182,8 @@ void main() {
 
             verify(() => directory.listSync()).called(1);
             verify(file.readAsBytesSync).called(1);
-          },
-          createDirectory: (_) => directory,
-          createFile: (_) => file,
-        );
-      });
 
-      test('gets all images stored as stream', () async {
-        await IOOverrides.runZoned(
-          () async {
-            when(() => directory.path).thenReturn(dirPath);
-            when(() => directory.listSync()).thenAnswer((_) => []);
-            // No files in directory
-            when(directory.existsSync).thenReturn(true);
-            when(() => file.path).thenReturn(filePath);
-            when(file.readAsBytesSync).thenReturn(bytes);
-            when(
-              () => watcher.events.map(
-                (_) => [
-                  [
-                    Coffee(path: filePath, bytes: bytes, isSuperLike: true),
-                    Coffee(path: filePath, bytes: bytes, isSuperLike: false),
-                  ],
-                  [
-                    Coffee(path: filePath, bytes: bytes, isSuperLike: true),
-                    Coffee(path: filePath, bytes: bytes, isSuperLike: false),
-                  ],
-                ],
-              ),
-            ).thenAnswer(
-              (_) => Stream.fromIterable(
-                [
-                  [
-                    [
-                      Coffee(path: filePath, bytes: bytes, isSuperLike: true),
-                      Coffee(path: filePath, bytes: bytes, isSuperLike: false),
-                    ],
-                    [
-                      Coffee(path: filePath, bytes: bytes, isSuperLike: true),
-                      Coffee(path: filePath, bytes: bytes, isSuperLike: false),
-                    ]
-                  ]
-                ],
-              ),
-            );
-
-            final coffees = await repo.getDeviceCoffees().first;
-
-            expect(coffees, isA<List<Coffee>>());
-
-            // Add a file to directory
-            when(() => directory.listSync()).thenAnswer((_) => [file]);
-            when(file.existsSync).thenReturn(true);
-
-            final newCoffees = await repo.getDeviceCoffees().first;
-
-            expect(newCoffees, isA<List<Coffee>>());
-
-            verify(() => directory.listSync()).called(2);
-
-            // TODO: Figure out how to test yield* on the watcher event stream
+            // TODO: Verify that stream emits a list of coffees
           },
           createDirectory: (_) => directory,
           createFile: (_) => file,
