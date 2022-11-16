@@ -12,54 +12,15 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      title: const _MatchfeeLogo(),
+    return CustomAppBar(
+      leadTitle: 'Match',
+      trailTitle: 'fee',
+      showAppIcon: true,
       leading: IconButton(
         icon: const Icon(Icons.person_rounded),
         onPressed: () => context.push(const ProfilePage()),
       ),
       actions: const [_MatchesButton()],
-    );
-  }
-}
-
-class _MatchfeeLogo extends StatelessWidget {
-  const _MatchfeeLogo();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.theme;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text.rich(
-          TextSpan(
-            text: 'Match',
-            style: TextStyle(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.bold,
-            ),
-            children: [
-              TextSpan(
-                text: 'fee',
-                style: TextStyle(
-                  color: theme.colorScheme.secondary,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 10),
-        Image.asset(
-          'assets/images/logo.png',
-          height: 40,
-          width: 40,
-        ),
-      ],
     );
   }
 }

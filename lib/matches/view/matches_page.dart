@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matchfee/core/core.dart';
 import 'package:matchfee/matches/cubit/matches_cubit.dart';
 import 'package:matchfee/repo.dart';
 
@@ -12,9 +13,7 @@ class MatchesPage extends StatelessWidget {
     final coffees = context.watch<MatchesCubit>().state;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('matches'),
-      ),
+      appBar: const CustomAppBar(leadTitle: 'Match', trailTitle: 'ees'),
       body: Center(
         child: coffees.isEmpty
             ? const Text('No matches')

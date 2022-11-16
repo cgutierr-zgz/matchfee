@@ -8,32 +8,21 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: const [ThemeToogler()],
-        // TODO: Appbar conffeeg
+      appBar: const CustomAppBar(
+        leadTitle: 'Conf',
+        trailTitle: 'eeg',
+        actions: [ThemeToogler()],
       ),
       body: Center(
         child: Column(
           children: [
             _pun,
-            const Text('Profile Page'),
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(AppTheme.avatarUrl),
-            ),
-            const SocialLinks(),
-            const WipeData(),
-            // TODO: add info about me here
-
-            const Spacer(),
+            Image.asset('assets/images/loading.png', height: 100, width: 100),
             _text,
             const Carlos(),
-            const Spacer(),
-            TextButton(
-              onPressed: () => showLicensePage(context: context),
-              child: const Text('licenses'),
-            )
-          ],
+            const Spacer(flex: 2),
+            const WipeData(),
+          ].joinWith(const SizedBox(height: 20)),
         ).padded(),
       ),
     );

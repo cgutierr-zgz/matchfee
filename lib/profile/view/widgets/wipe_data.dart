@@ -12,18 +12,35 @@ class WipeData extends StatelessWidget {
     final coffeeRepository = context.read<CoffeeRepository>();
     final coffees = context.watch<MatchesCubit>().state;
 
-    if (coffees.isNotEmpty) {
-      return TextButton(
-        onPressed: () => context.showSnackbar(
-          'Are you sure you want to delete all matchees?',
-          error: true,
-          onPressed: coffeeRepository.deleteAllCoffees,
-          duration: const Duration(seconds: 5),
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 300),
+      opacity: coffees.isNotEmpty ? 1 : 0,
+      child: SafeArea(
+        child: Row(
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red.shade700,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onPressed: coffees.isNotEmpty
+                    ? () => context.showSnackbar(
+                          'Are you sure you want to delete all matchees?',
+                          error: true,
+                          onPressed: coffeeRepository.deleteAllCoffees,
+                          duration: const Duration(seconds: 5),
+                        )
+                    : null,
+                child: const Text('Wipe data'),
+              ),
+            ),
+          ],
         ),
-        child: const Text('Wipe data'),
-      );
-    }
-
-    return const SizedBox.shrink();
+      ),
+    );
   }
 }

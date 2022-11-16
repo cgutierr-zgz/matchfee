@@ -42,9 +42,14 @@ class _CustomAnimatedButtonState extends State<CustomAnimatedButton>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // TODO: Add debounce
       onTap: widget.onPressed == null
           ? null
           : Feedback.wrapForTap(

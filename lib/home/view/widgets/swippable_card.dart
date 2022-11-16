@@ -164,6 +164,9 @@ class _SwippableCardState extends State<SwippableCard>
                                     _SwipeAction.superLike) ...[
                                   Colors.blue.withOpacity(0),
                                   Colors.blue.withOpacity(0.5)
+                                ] else ...[
+                                  Colors.white.withOpacity(0),
+                                  Colors.white.withOpacity(0)
                                 ]
                               ],
                               stops: const [0.0, 0.6],

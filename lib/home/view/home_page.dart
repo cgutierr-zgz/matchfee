@@ -62,13 +62,7 @@ class _HomeViewState extends State<HomeView> {
                 context.showSnackbar(state.error.toString(), error: true);
               }
             },
-            builder: (context, state) {
-              return state.when(
-                loading: () => const CircularProgressIndicator(),
-                error: (error) => Text(error.toString()),
-                loaded: (images) => const SwippableCard(),
-              );
-            },
+            builder: (context, state) => const SwippableCard(),
           ),
         ),
       ),
