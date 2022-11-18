@@ -9,8 +9,7 @@ class MatchesCubit extends Cubit<List<Coffee>> {
     required CoffeeRepository coffeeRepository,
   })  : _coffeeRepository = coffeeRepository,
         super([]) {
-    _coffeeSubscription =
-        _coffeeRepository.getDeviceCoffees().listen(emit);
+    _coffeeSubscription = _coffeeRepository.getDeviceCoffees().listen(emit);
   }
 
   final CoffeeRepository _coffeeRepository;
