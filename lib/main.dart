@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honey/honey.dart';
 import 'package:http/http.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:matchfee/app/app.dart';
@@ -9,7 +10,11 @@ import 'package:matchfee/repo.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:watcher/watcher.dart';
 
+const kIsHoney = bool.fromEnvironment('HONEY');
+
 void main() async {
+  if (kIsHoney) HoneyWidgetsBinding.ensureInitialized();
+
   WidgetsFlutterBinding.ensureInitialized();
   final appDirectory = await getApplicationDocumentsDirectory();
 

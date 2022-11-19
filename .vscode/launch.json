@@ -9,6 +9,20 @@
 			"request": "launch",
 			"type": "dart",
 			"program": "lib/main.dart",
+			"args": [
+				"--dart-define",
+				"HONEY=false"
+			]
+		},
+		{
+			"name": "Launch App with Honey",
+			"request": "launch",
+			"type": "dart",
+			"program": "lib/main.dart",
+			"args": [
+				"--dart-define",
+				"HONEY=true"
+			]
 		}
 	]
 }
