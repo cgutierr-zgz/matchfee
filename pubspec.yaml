@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
+  honey: ^0.2.0
   http: ^0.13.5
   hydrated_bloc: ^9.0.0
   path_provider: ^2.0.11
