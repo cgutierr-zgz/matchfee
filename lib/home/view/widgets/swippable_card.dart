@@ -12,8 +12,7 @@ class SwippableCard extends StatefulWidget {
   State<SwippableCard> createState() => _SwippableCardState();
 }
 
-class _SwippableCardState extends State<SwippableCard>
-    with TickerProviderStateMixin {
+class _SwippableCardState extends State<SwippableCard> with TickerProviderStateMixin {
   late Offset position;
   late bool isDragging;
   _SwipeAction? action;
@@ -47,17 +46,13 @@ class _SwippableCardState extends State<SwippableCard>
     switch (action) {
       case _SwipeAction.like:
         setState(() => position += Offset(2 * size.width, 0));
-        context
-            .read<CoffeesBloc>()
-            .add(NextCoffeeEvent.like(image: state.images.first));
+        context.read<CoffeesBloc>().add(NextCoffeeEvent.like(image: state.images.first));
         break;
       case _SwipeAction.superLike:
         // slowly anmiate the position to the top of screen
         setState(() => position += Offset(0, -2 * size.height));
 
-        context
-            .read<CoffeesBloc>()
-            .add(NextCoffeeEvent.superLike(image: state.images.first));
+        context.read<CoffeesBloc>().add(NextCoffeeEvent.superLike(image: state.images.first));
         break;
       case _SwipeAction.disLike:
         setState(() => position -= Offset(2 * size.width, 0));
@@ -108,18 +103,14 @@ class _SwippableCardState extends State<SwippableCard>
                 ),
               ),
             GestureDetector(
-              onPanEnd:
-                  isLoaded ? (details) => onPanEnd(details, state, size) : null,
-              onPanUpdate: (details) =>
-                  isLoaded ? onPanUpdate(details, state) : null,
+              onPanEnd: isLoaded ? (details) => onPanEnd(details, state, size) : null,
+              onPanUpdate: (details) => isLoaded ? onPanUpdate(details, state) : null,
               child: AnimatedRotation(
                 // adds subtle rotation on drag
                 turns: isDragging ? position.dx / 10000 : 0,
                 duration: Duration(milliseconds: isDragging ? 500 : 0),
                 child: AnimatedContainer(
-                  duration: isDragging
-                      ? const Duration(milliseconds: 50)
-                      : Duration.zero,
+                  duration: isDragging ? const Duration(milliseconds: 50) : Duration.zero,
                   transform: Matrix4.identity()
                     ..translate(
                       position.dx,
@@ -134,6 +125,35 @@ class _SwippableCardState extends State<SwippableCard>
                         height: height,
                         width: width,
                       ),
+                      SizedBox(
+                        width: width,
+                        height: height,
+                        child: Column(
+                          children: [
+                            const Text('Maya 19'),
+                            Row(
+                              children: [
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  height: 20,
+                                  width: 20,
+                                ),
+                                const Text('Recently active'),
+                                const SizedBox(width: 10), // SPACER
+                                // Rounded border container circle white
+                                const Icon(Icons.info, size: 15),
+                              ],
+                            ),
+                            const Chip(label: Text('Swag')),
+                            const Chip(label: Text('Coffee')),
+                            const Chip(label: Text('Dancing')),
+                          ],
+                        ),
+                      ),
+                      // TODO(carlito): Refactor the overlay to be a widget
                       AnimatedOpacity(
                         duration: const Duration(milliseconds: 500),
                         opacity: action != null ? 1 : 0,
@@ -160,8 +180,7 @@ class _SwippableCardState extends State<SwippableCard>
                                 ] else if (action == _SwipeAction.disLike) ...[
                                   Colors.red.withOpacity(0),
                                   Colors.red.withOpacity(0.5)
-                                ] else if (action ==
-                                    _SwipeAction.superLike) ...[
+                                ] else if (action == _SwipeAction.superLike) ...[
                                   Colors.blue.withOpacity(0),
                                   Colors.blue.withOpacity(0.5)
                                 ] else ...[
@@ -241,8 +260,7 @@ class _CardView extends StatelessWidget {
     );
   }
 
-  Widget _placeholder(bool hasError) =>
-      _PladeholderWidget(hasError: hasError, height: height, width: width);
+  Widget _placeholder(bool hasError) => _PladeholderWidget(hasError: hasError, height: height, width: width);
 }
 
 class _PladeholderWidget extends StatelessWidget {
@@ -262,18 +280,11 @@ class _PladeholderWidget extends StatelessWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        if (hasError)
-          Image.asset(
-            width: width,
-            height: height,
-            'assets/images/error.png',
-          )
-        else
-          Image.asset(
-            width: width,
-            height: height,
-            'assets/images/loading.png',
-          ),
+        Image.asset(
+          width: width,
+          height: height,
+          hasError ? 'assets/images/error.png' : 'assets/images/loading.png',
+        ),
         Text(
           hasError ? 'Error' : 'Loading...',
           style: theme.textTheme.titleLarge,

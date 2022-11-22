@@ -69,8 +69,9 @@ class CoffeeRepository implements ICoffeeRepository {
   }
 
   @override
-  Future<void> deleteCoffee(Coffee coffee) async =>
-      File(coffee.path).deleteSync();
+  Future<void> deleteCoffee(Coffee coffee) async => File(
+        coffee.path,
+      ).deleteSync();
 
   @override
   Future<void> deleteAllCoffees() async {
@@ -97,7 +98,9 @@ class CoffeeRepository implements ICoffeeRepository {
   @override
   List<Coffee> getDirectoryUpdates(Directory directory) {
     final files = directory.listSync()
-      ..sort((a, b) => b.statSync().changed.compareTo(a.statSync().changed));
+      ..sort(
+        (a, b) => b.statSync().changed.compareTo(a.statSync().changed),
+      );
 
     return files.map((f) {
       final path = f.path;
