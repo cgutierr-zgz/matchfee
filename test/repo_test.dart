@@ -183,7 +183,7 @@ void main() {
             verify(() => directory.listSync()).called(1);
             verify(file.readAsBytesSync).called(1);
 
-            // TODO: Verify that stream emits a list of coffees
+            // TODO(carlito): Verify that stream emits a list of coffees
           },
           createDirectory: (_) => directory,
           createFile: (_) => file,
